@@ -1,4 +1,4 @@
 # Safetybot
  A bot for safety
  
-kjgkgkhfk
+Dit heb ik toegevoegd in mijn eigen branch
