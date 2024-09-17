@@ -1,2 +1,1 @@
-print("hello")
-print("Tom, fathamster.png")
+#Hier gaan we Helmet/No-Helmet programmen!
