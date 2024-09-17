@@ -4,3 +4,6 @@
  The bot wil ensure safety
  Automaticlly
  
+ stephanie
+ en tom
+ 
