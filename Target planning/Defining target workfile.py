@@ -1,7 +1,7 @@
 import json
 
 #Zone ID dictionary
-with open("Safetybot\zone_id.txt", "r") as file:
+with open("Safetybot\zone_id.json", "r") as file:
     zone_id = json.load(file)
 
 #Check lowest credit in zone_id
