@@ -1,37 +1,22 @@
 {
     "Zone 1": {
-        "location": [0, 0],
-        "zone_activity": [],
-        "PPE_necessity": [],
-        "risk_factor": 1,
+        "location": [
+            218,
+            171
+        ],
+        "zone_activity": "Bricks",
+        "PPE_necessity": "yes",
+        "risk_factor": 1.0,
         "credits": 1
     },
     "Zone 2": {
-        "location": [10, 10],
-        "zone_activity": [],
-        "PPE_necessity": [],
-        "risk_factor": 1,
+        "location": [
+            209,
+            141
+        ],
+        "zone_activity": "Bricks",
+        "PPE_necessity": "no",
+        "risk_factor": 1.0,
         "credits": 2
-    },
-    "Zone 3": {
-        "location": [5, 5],
-        "zone_activity": [],
-        "PPE_necessity": [],
-        "risk_factor": 1,
-        "credits": 3
-    },
-    "Zone 4": {
-        "location": [1, 1],
-        "zone_activity": [],
-        "PPE_necessity": [],
-        "risk_factor": 1,
-        "credits": 4
-    },
-    "Zone 5": {
-        "location": [9, 9],
-        "zone_activity": [],
-        "PPE_necessity": [],
-        "risk_factor": 1,
-        "credits": 5
     }
-}{'Zone 6': {'location': [459, 24], 'zone_activity': 'bricklaying', 'PPE_necessity': 'Helmet, shoes, gloves', 'risk_factor': 0.7, 'credits': 1}}
+}

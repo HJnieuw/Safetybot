@@ -3,6 +3,10 @@ from tkinter import filedialog
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
+import json
+
+# Set the specific path for the zone_id.txt file
+ZONE_ID_FILE_PATH = "Safetybot\zone_id.txt"  # Change this path to your desired location
 
 # Initialize the main application window
 class ZoneApp:
@@ -10,7 +14,7 @@ class ZoneApp:
         self.root = root
         self.root.title("Zone Coordinate Picker")
         
-        self.zone_id = {}
+        self.zone_id = self.load_existing_data()
 
         # Load image button
         self.load_button = tk.Button(root, text="Load Image", command=self.load_image)
@@ -45,9 +49,15 @@ class ZoneApp:
         self.submit_button = tk.Button(root, text="Submit Zone Details", command=self.submit_details)
         self.submit_button.pack()
 
-        # Load button
-        self.load_data_button = tk.Button(root, text="Load Data", command=self.load_data)
-        self.load_data_button.pack()
+    def load_existing_data(self):
+        # Load existing data from the specified file
+        if os.path.exists(ZONE_ID_FILE_PATH):
+            with open(ZONE_ID_FILE_PATH, 'r') as file:
+                try:
+                    return json.load(file)  # Load existing data as a dictionary
+                except json.JSONDecodeError:
+                    return {}  # Return empty if there is a decode error
+        return {}  # Return empty if file doesn't exist
 
     def load_image(self):
         # Load an image file
@@ -71,33 +81,35 @@ class ZoneApp:
 
     def submit_details(self):
         # Get details from entries and store them
-        zone_name = self.zone_name_entry.get()
-        zone_activity = self.zone_activity_entry.get()
-        ppe_necessity = self.ppe_entry.get()
-        risk_factor = self.risk_factor_entry.get()
+        zone_name = self.zone_name_entry.get().strip()
+        zone_activity = self.zone_activity_entry.get().strip()
+        ppe_necessity = self.ppe_entry.get().strip()
+        risk_factor = self.risk_factor_entry.get().strip()
 
-        # Prepare the data to be saved
-        zone_data = {zone_name: {"location": [self.x, self.y],"zone_activity": zone_activity,"PPE_necessity": ppe_necessity,"risk_factor": float(risk_factor),"credits": 1}}
+        # Check if zone name is already present
+        if zone_name in self.zone_id:
+            messagebox.showwarning("Warning", "Zone name already exists! Please choose a different name.")
+            return
 
-        # Append the data to zone_id.txt
-        with open('Safetybot\zone_id.txt', 'a') as file:
-            file.write(f"{zone_data}\n")
+        # Prepare the data to be saved in a structured format
+        zone_data = {
+            "location": [self.x, self.y],
+            "zone_activity": zone_activity,  # Changed to a single value instead of a list
+            "PPE_necessity": ppe_necessity,  # Changed to a single value instead of a list
+            "risk_factor": float(risk_factor),  # Convert to float for storage
+            "credits": len(self.zone_id) + 1  # Increment credits based on existing zones
+        }
+
+        # Add the new zone data to the dictionary
+        self.zone_id[zone_name] = zone_data
+
+        # Write all zone data back to the specified file
+        with open(ZONE_ID_FILE_PATH, 'w') as file:
+            json.dump(self.zone_id, file, indent=4)  # Write in JSON format
 
         # Print the stored data
         print("Zone details stored successfully:")
-        print(zone_data)
-
-    def load_data(self):
-        # Load the zone_id data from zone_id.txt
-        if os.path.exists('zone_id.txt'):
-            with open('zone_id.txt', 'r') as file:
-                data = file.readlines()
-            messagebox.showinfo("Success", "Zone data loaded successfully!")
-            print("Loaded Zone Data:")
-            for line in data:
-                print(line.strip())  # Print each line without the newline character
-        else:
-            messagebox.showwarning("Warning", "No saved data found!")
+        print(self.zone_id)
 
 # Create the main window
 root = tk.Tk()
