@@ -34,4 +34,4 @@
         "risk_factor": 1,
         "credits": 5
     }
-}
+}{'Zone 6': {'location': [459, 24], 'zone_activity': 'bricklaying', 'PPE_necessity': 'Helmet, shoes, gloves', 'risk_factor': 0.7, 'credits': 1}}
