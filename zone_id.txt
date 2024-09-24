@@ -1,0 +1,37 @@
+{
+    "Zone 1": {
+        "location": [0, 0],
+        "zone_activity": [],
+        "PPE_necessity": [],
+        "risk_factor": 1,
+        "credits": 1
+    },
+    "Zone 2": {
+        "location": [10, 10],
+        "zone_activity": [],
+        "PPE_necessity": [],
+        "risk_factor": 1,
+        "credits": 2
+    },
+    "Zone 3": {
+        "location": [5, 5],
+        "zone_activity": [],
+        "PPE_necessity": [],
+        "risk_factor": 1,
+        "credits": 3
+    },
+    "Zone 4": {
+        "location": [1, 1],
+        "zone_activity": [],
+        "PPE_necessity": [],
+        "risk_factor": 1,
+        "credits": 4
+    },
+    "Zone 5": {
+        "location": [9, 9],
+        "zone_activity": [],
+        "PPE_necessity": [],
+        "risk_factor": 1,
+        "credits": 5
+    }
+}
