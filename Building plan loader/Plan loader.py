@@ -12,6 +12,8 @@ class ZoneApp:
 
         self.zone_id = {}
         self.x, self.y = None, None  # Initialize coordinates
+        self.zone_dot = None  # To store the current zone dot ID on canvas
+        self.zone_text = None  # To store the current zone name text ID on canvas
 
         # Create frames for better layout
         self.frame_top = tk.Frame(root)
@@ -86,6 +88,30 @@ class ZoneApp:
         # Get coordinates when the canvas is clicked
         self.x, self.y = event.x, event.y  # Store coordinates for later use
         self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")  # Update the label
+        
+        # Draw a dot at the clicked location
+        self.draw_zone_dot()
+
+    def draw_zone_dot(self):
+        # Remove previous dot and text if they exist
+        if self.zone_dot:
+            self.canvas.delete(self.zone_dot)
+        if self.zone_text:
+            self.canvas.delete(self.zone_text)
+
+        # Draw a new dot at the current coordinates
+        radius = 5
+        self.zone_dot = self.canvas.create_oval(
+            self.x - radius, self.y - radius, self.x + radius, self.y + radius,
+            fill="red", outline="black"
+        )
+
+        # Draw the zone name text slightly below the dot
+        zone_name = self.zone_name_entry.get().strip()
+        if zone_name:
+            self.zone_text = self.canvas.create_text(
+                self.x, self.y + 10, text=zone_name, fill="black", anchor=tk.N
+            )
 
     def submit_details(self):
         # Get details from entries and validate
@@ -96,6 +122,10 @@ class ZoneApp:
 
         if self.x is None or self.y is None:
             messagebox.showwarning("Warning", "Please click on the image to select coordinates.")
+            return
+
+        if not zone_name:
+            messagebox.showerror("Error", "Zone name cannot be empty.")
             return
 
         try:
@@ -162,6 +192,9 @@ class ZoneApp:
             self.risk_factor_entry.insert(0, zone_details["risk_factor"])
             self.x, self.y = zone_details["location"]
             self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
+            
+            # Draw the dot on the loaded coordinates and show the zone name
+            self.draw_zone_dot()
 
     def edit_zone(self):
         # Edit the selected zone
@@ -189,6 +222,12 @@ class ZoneApp:
         self.risk_factor_entry.delete(0, tk.END)
         self.coord_label.config(text="Coordinates: (x, y)")
         self.x, self.y = None, None  # Reset coordinates
+        
+        # Clear the dot and text from canvas
+        if self.zone_dot:
+            self.canvas.delete(self.zone_dot)
+        if self.zone_text:
+            self.canvas.delete(self.zone_text)
 
 # Create the main window
 root = tk.Tk()

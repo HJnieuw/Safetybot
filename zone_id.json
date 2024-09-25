@@ -1,1 +1,22 @@
-{}
+{
+    "Zone 1": {
+        "location": [
+            659,
+            281
+        ],
+        "zone_activity": "Bricklaying",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1.0,
+        "credits": 1
+    },
+    "Zone 2": {
+        "location": [
+            474,
+            29
+        ],
+        "zone_activity": "Bricklaying",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 0.9,
+        "credits": 1
+    }
+}
