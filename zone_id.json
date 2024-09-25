@@ -11,12 +11,22 @@
     },
     "Zone 2": {
         "location": [
-            474,
-            29
+            214,
+            306
         ],
         "zone_activity": "Bricklaying",
         "PPE_necessity": "Helmet",
         "risk_factor": 0.9,
+        "credits": 1
+    },
+    "Zone 3": {
+        "location": [
+            420,
+            184
+        ],
+        "zone_activity": "Timberframing",
+        "PPE_necessity": "Helmet, gloves",
+        "risk_factor": 0.8,
         "credits": 1
     }
 }
