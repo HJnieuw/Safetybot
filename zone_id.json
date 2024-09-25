@@ -6,7 +6,7 @@
         ],
         "zone_activity": "Bricklaying",
         "PPE_necessity": "Helmet",
-        "risk_factor": 1.0,
+        "risk_factor": 0.5,
         "credits": 1
     },
     "Zone 2": {
@@ -16,8 +16,8 @@
         ],
         "zone_activity": "Bricklaying",
         "PPE_necessity": "Helmet",
-        "risk_factor": 0.9,
-        "credits": 1
+        "risk_factor": 1.0,
+        "credits": 2
     },
     "Zone 3": {
         "location": [
@@ -26,7 +26,27 @@
         ],
         "zone_activity": "Timberframing",
         "PPE_necessity": "Helmet, gloves",
-        "risk_factor": 0.8,
-        "credits": 1
+        "risk_factor": 1.0,
+        "credits": 3
+    },
+    "Zone 4": {
+        "location": [
+            214,
+            189
+        ],
+        "zone_activity": "Bricks",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1.0,
+        "credits": 4
+    },
+    "Zone 5": {
+        "location": [
+            229,
+            319
+        ],
+        "zone_activity": "brick",
+        "PPE_necessity": "no",
+        "risk_factor": 1.0,
+        "credits": 5
     }
 }
