@@ -1,0 +1,15 @@
+train: dir\
+val: dir\
+test: dir\
+
+nc: 4 # number of classes
+names: # list of class names
+  [
+    'helmet',
+    'head',
+    'person',
+    'hammer' 
+  ]
+
+
+  
