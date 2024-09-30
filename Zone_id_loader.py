@@ -134,13 +134,19 @@ class ZoneApp:
             messagebox.showerror("Error", "Risk factor must be a number.")
             return
 
+        if zone_name not in self.zone_id: # New zone
+            credits = len(self.zone_id) + 1
+        else:
+            credits = self.zone_id[zone_name].get("credits", 1) # Keep current credits if zone exists
+
+
         # Prepare the data to be saved
         zone_data = {
             "location": [self.x, self.y],
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
-            "credits": 1
+            "credits": credits
         }
 
         self.zone_id[zone_name] = zone_data
