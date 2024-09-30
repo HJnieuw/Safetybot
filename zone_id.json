@@ -18,5 +18,25 @@
         "PPE_necessity": "Goggles, Safety Shoes",
         "risk_factor": 1.0,
         "credits": 2
+    },
+    "Zone 3": {
+        "location": [
+            420,
+            184
+        ],
+        "zone_activity": "Timberframing",
+        "PPE_necessity": "Helmet, gloves",
+        "risk_factor": 0.0,
+        "credits": 3
+    },
+    "Zone 4": {
+        "location": [
+            214,
+            189
+        ],
+        "zone_activity": "Bricks",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1,
+        "credits": 4
     }
 }
