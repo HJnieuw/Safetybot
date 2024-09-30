@@ -194,7 +194,8 @@ class ZoneApp:
             return
 
         if zone_name not in self.zone_id:  # New zone
-            credits = len(self.zone_id) + 1
+                # Count only zones, excluding the 'image_path'
+                credits = sum(1 for key in self.zone_id if key != "image_path")
         else:
             credits = self.zone_id[zone_name].get("credits", 1)  # Keep current credits if zone exists
 
