@@ -27,5 +27,5 @@ detected_hazards = {
 updated_json = update_risk_factor(zone_id, detected_hazards)
 
 #  Update json file
-with open("Safetybot/zone_id.json", "w") as file:
+with open("Safetybot\zone_id.json", "w") as file:
     json.dump(updated_json, file, indent=4)
