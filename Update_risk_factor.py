@@ -16,16 +16,15 @@ with open("Safetybot\zone_id.json", "r") as file:
 
 # Example hazards input (zone and number of detected hazards)
 detected_hazards = {
-    "Zone 1": 0,  # 3 hazards detected in Zone 1
-    "Zone 3": 0,  # 2 hazards detected in Zone 3
-    "Zone 5": 0   # 1 hazard detected in Zone 5
+    "Zone 1": 1,  
+    "Zone 2": 2,  
+    "Zone 3": 3,  
+    "Zone 4": 4,  
+    "Zone 5": 5
 }
 
 # Update risk factors based on detected hazards
 updated_json = update_risk_factor(zone_id, detected_hazards)
-
-# Print the updated JSON structure
-print(json.dumps(updated_json, indent=4))
 
 #  Update json file
 with open("Safetybot/zone_id.json", "w") as file:

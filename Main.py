@@ -13,15 +13,14 @@ def display_menu():
     return input("Please select an option (1-8): ")
 
 while True:
-    # Optionally run the external script for target definition
-    runpy.run_path('Safetybot/Defining_target.py')
-
     # Display the menu and get the user's choice
     option_number = display_menu()
 
     # Process the user's input
     if option_number == '1':
-        print("Robot status: [Status info here]")
+        runpy.run_path('Safetybot/Defining_target.py')
+        #runpy.run_path(Hazard check)
+        runpy.run_path('Safetybot/Update_risk_factor.py')
 
     elif option_number == '2':
         print("Starting robot...")
