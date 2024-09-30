@@ -48,5 +48,15 @@
         "PPE_necessity": "no",
         "risk_factor": 0.0,
         "credits": 5
+    },
+    "Zone 6": {
+        "location": [
+            414,
+            184
+        ],
+        "zone_activity": "Helmet",
+        "PPE_necessity": "Bricks",
+        "risk_factor": 1.0,
+        "credits": 6
     }
 }
