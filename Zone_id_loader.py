@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, simpledialog, ttk
 from PIL import Image, ImageTk
 import os
 import json
@@ -16,6 +16,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
+        self.max_width = 800  # Set a maximum width for the image
+        self.max_height = 600  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)
@@ -35,18 +37,22 @@ class ZoneApp:
         self.coord_label = tk.Label(self.frame_bottom, text="Coordinates: (x, y)")
         self.coord_label.pack()
 
-        # Zone name, activity, PPE, risk factor inputs
+        # Zone details entry with dropdown for activities
         tk.Label(self.frame_bottom, text="Zone Name:").pack()
         self.zone_name_entry = tk.Entry(self.frame_bottom, width=30)
         self.zone_name_entry.pack()
 
         tk.Label(self.frame_bottom, text="Activity:").pack()
-        self.zone_activity_entry = tk.Entry(self.frame_bottom, width=30)
-        self.zone_activity_entry.pack()
+        self.activity_combobox = ttk.Combobox(self.frame_bottom, width=27)
+        self.activity_combobox['values'] = ['Welding', 'Brick laying', 'Carpentry']  # Example activities
+        self.activity_combobox.pack()
 
         tk.Label(self.frame_bottom, text="PPE Necessary:").pack()
-        self.ppe_entry = tk.Entry(self.frame_bottom, width=30)
-        self.ppe_entry.pack()
+        self.ppe_button = tk.Button(self.frame_bottom, text="Select PPE", command=self.select_ppe)
+        self.ppe_button.pack()
+
+        self.ppe_display_label = tk.Label(self.frame_bottom, text="Selected PPE: None")
+        self.ppe_display_label.pack()
 
         tk.Label(self.frame_bottom, text="Risk Factor:").pack()
         self.risk_factor_entry = tk.Entry(self.frame_bottom, width=30)
@@ -56,6 +62,10 @@ class ZoneApp:
         self.submit_button = tk.Button(self.frame_bottom, text="Submit Zone Details", command=self.submit_details)
         self.submit_button.pack(pady=5)
 
+        # Delete button
+        self.delete_button = tk.Button(self.frame_bottom, text="Delete Selected Zone", command=self.delete_zone)
+        self.delete_button.pack(pady=5)
+
         # Listbox to display zones
         self.zone_listbox = tk.Listbox(self.frame_bottom, width=50, height=10)
         self.zone_listbox.pack(pady=5)
@@ -64,12 +74,19 @@ class ZoneApp:
         # Initialize empty zone data
         self.load_data()
 
+        # To hold selected PPE items
+        self.selected_ppe = []
+
     def load_image(self):
         # Load an image file
         self.image_path = filedialog.askopenfilename()
         if self.image_path:
             print(f"Image path loaded: {self.image_path}")
             self.image = Image.open(self.image_path)
+
+            # Resize image if it's too large
+            self.image = self.resize_image(self.image)
+
             self.tk_image = ImageTk.PhotoImage(self.image)
 
             # Adjust the canvas size to the image size
@@ -78,6 +95,25 @@ class ZoneApp:
 
             # Bind the click event to get coordinates
             self.canvas.bind("<Button-1>", self.get_coordinates)
+
+    def resize_image(self, image):
+        # Scale the image down if it's larger than the max width or height
+        original_width, original_height = image.size
+        aspect_ratio = original_width / original_height
+
+        # Determine new width and height, keeping aspect ratio
+        if original_width > self.max_width or original_height > self.max_height:
+            if aspect_ratio > 1:
+                # Image is wider than tall
+                new_width = self.max_width
+                new_height = int(self.max_width / aspect_ratio)
+            else:
+                # Image is taller than wide
+                new_height = self.max_height
+                new_width = int(self.max_height * aspect_ratio)
+            return image.resize((new_width, new_height), Image.ANTIALIAS)
+        else:
+            return image
 
     def get_coordinates(self, event):
         # Get coordinates when the canvas is clicked
@@ -106,11 +142,43 @@ class ZoneApp:
                 self.x, self.y + 10, text=zone_name, fill="black", anchor=tk.N
             )
 
+    def select_ppe(self):
+        # Open a new window to select multiple PPE items
+        ppe_window = tk.Toplevel(self.root)
+        ppe_window.title("Select PPE")
+
+        # Sample PPE items
+        ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes']
+        self.ppe_var = tk.Variable(value=self.selected_ppe)
+
+        # Create a listbox for PPE selection
+        self.ppe_listbox = tk.Listbox(ppe_window, selectmode=tk.MULTIPLE)
+        for item in ppe_items:
+            self.ppe_listbox.insert(tk.END, item)
+        self.ppe_listbox.pack(padx=10, pady=10)
+
+        # Select previously chosen items
+        for ppe in self.selected_ppe:
+            if ppe in ppe_items:
+                index = ppe_items.index(ppe)
+                self.ppe_listbox.select_set(index)
+
+        # Button to confirm selection
+        confirm_button = tk.Button(ppe_window, text="Confirm", command=lambda: self.confirm_ppe_selection(ppe_window))
+        confirm_button.pack(pady=5)
+
+    def confirm_ppe_selection(self, window):
+        # Get selected PPE items and update the label
+        selected_indices = self.ppe_listbox.curselection()
+        self.selected_ppe = [self.ppe_listbox.get(i) for i in selected_indices]
+        self.ppe_display_label.config(text=f"Selected PPE: {', '.join(self.selected_ppe) if self.selected_ppe else 'None'}")
+        window.destroy()  # Close the PPE selection window
+
     def submit_details(self):
         # Get details from entries
         zone_name = self.zone_name_entry.get().strip()
-        zone_activity = self.zone_activity_entry.get().strip()
-        ppe_necessity = self.ppe_entry.get().strip()
+        zone_activity = self.activity_combobox.get().strip()
+        ppe_necessity = ', '.join(self.selected_ppe)  # Join selected PPE for saving
         risk_factor = self.risk_factor_entry.get().strip()
 
         if self.x is None or self.y is None:
@@ -127,7 +195,10 @@ class ZoneApp:
             messagebox.showerror("Error", "Risk factor must be a number.")
             return
 
-        credits = len(self.zone_id) + 1
+        if zone_name not in self.zone_id:  # New zone
+            credits = len(self.zone_id) + 1
+        else:
+            credits = self.zone_id[zone_name].get("credits", 1)  # Keep current credits if zone exists
 
         # Prepare the data to be saved
         zone_data = {
@@ -149,53 +220,94 @@ class ZoneApp:
         self.save_data()
         self.clear_fields()
 
-    def load_data(self):
-        # Load the zone data from the JSON file
-        file_path = os.path.join('zone_id.json')
-        if os.path.exists(file_path):
-            with open(file_path, 'r') as file:
-                self.zone_id = json.load(file)
-                self.image_path = self.zone_id.get("image_path")  # Load the image path
-            self.update_zone_listbox()
-            messagebox.showinfo("Success", "Zone data loaded successfully!")
-        else:
-            messagebox.showwarning("Warning", "No saved data found!")
-
-    def save_data(self):
-        # Save the zone data to the JSON file
-        file_path = os.path.join('zone_id.json')
-        with open(file_path, 'w') as file:
-            json.dump(self.zone_id, file, indent=4)
-
-    def update_zone_listbox(self):
-        # Update the listbox with current zone names
-        self.zone_listbox.delete(0, tk.END)
-        for zone_name in self.zone_id.keys():
-            if zone_name != "image_path":  # Don't display image_path in the listbox
-                self.zone_listbox.insert(tk.END, zone_name)
+    def delete_zone(self):
+        # Delete the selected zone
+        selected_zone = self.zone_listbox.get(tk.ACTIVE)
+        if selected_zone in self.zone_id:
+            del self.zone_id[selected_zone]  # Remove the zone from the dictionary
+            self.update_zone_listbox()  # Update the Listbox display
+            self.save_data()  # Save the updated data
+            self.clear_fields()  # Clear the input fields
+            messagebox.showinfo("Info", f"Zone '{selected_zone}' has been deleted.")
 
     def load_selected_zone(self, event):
-        # Load details of the selected zone into the entry fields
-        selected_index = self.zone_listbox.curselection()
-        if selected_index:
-            zone_name = self.zone_listbox.get(selected_index)
-            zone_details = self.zone_id[zone_name]
+        # Load zone details when selected from the Listbox
+        try:
+            selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
+        except tk.TclError:
+            return
+
+        if selected_zone in self.zone_id:
+            zone_data = self.zone_id[selected_zone]
 
             self.zone_name_entry.delete(0, tk.END)
-            self.zone_name_entry.insert(0, zone_name)
-            self.zone_activity_entry.delete(0, tk.END)
-            self.zone_activity_entry.insert(0, zone_details["zone_activity"])
-            self.ppe_entry.delete(0, tk.END)
-            self.ppe_entry.insert(0, zone_details["PPE_necessity"])
-            self.risk_factor_entry.delete(0, tk.END)
-            self.risk_factor_entry.insert(0, zone_details["risk_factor"])
-            self.x, self.y = zone_details["location"]
-            self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
+            self.zone_name_entry.insert(0, selected_zone)
 
-            # Draw the dot on the loaded coordinates and show the zone name
+            self.activity_combobox.set(zone_data.get("zone_activity", ""))
+
+            self.selected_ppe = zone_data.get("PPE_necessity", "").split(", ")
+            self.ppe_display_label.config(text=f"Selected PPE: {', '.join(self.selected_ppe) if self.selected_ppe else 'None'}")
+
+            self.risk_factor_entry.delete(0, tk.END)
+            self.risk_factor_entry.insert(0, zone_data.get("risk_factor", ""))
+
+            self.x, self.y = zone_data["location"]
+            self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
             self.draw_zone_dot()
 
-# Run the application
-root = tk.Tk()
-app = ZoneApp(root)
-root.mainloop()
+    def update_zone_listbox(self):
+        # Update Listbox with zone names
+        self.zone_listbox.delete(0, tk.END)
+        for zone in self.zone_id:
+            if zone != "image_path":  # Exclude the image path key
+                self.zone_listbox.insert(tk.END, zone)
+
+    def save_data(self):
+        # Save the zone data to a JSON file
+        with open("Safetybot\zone_id.json", "w") as json_file:
+            json.dump(self.zone_id, json_file, indent=4)
+
+    def load_data(self):
+        # Load the zone data from a JSON file
+        if os.path.exists("Safetybot\zone_id.json"):
+            with open("Safetybot\zone_id.json", "r") as json_file:
+                self.zone_id = json.load(json_file)
+                image_path = self.zone_id.get("image_path")
+
+                if image_path and os.path.exists(image_path):
+                    # Reload the image if path exists
+                    self.image_path = image_path
+                    self.image = Image.open(self.image_path)
+
+                    # Resize image if it's too large
+                    self.image = self.resize_image(self.image)
+
+                    self.tk_image = ImageTk.PhotoImage(self.image)
+                    self.canvas.config(width=self.image.width, height=self.image.height)
+                    self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
+
+                    self.canvas.bind("<Button-1>", self.get_coordinates)
+
+            self.update_zone_listbox()
+
+    def clear_fields(self):
+        # Clear all input fields and reset state
+        self.zone_name_entry.delete(0, tk.END)
+        self.activity_combobox.set('')
+        self.ppe_display_label.config(text="Selected PPE: None")
+        self.selected_ppe = []
+        self.risk_factor_entry.delete(0, tk.END)
+        self.coord_label.config(text="Coordinates: (x, y)")
+        self.x, self.y = None, None
+
+        if self.zone_dot:
+            self.canvas.delete(self.zone_dot)
+        if self.zone_text:
+            self.canvas.delete(self.zone_text)
+        self.zone_dot = None
+        self.zone_text = None
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ZoneApp(root)
+    root.mainloop()
