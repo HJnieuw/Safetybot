@@ -16,9 +16,9 @@ with open("Safetybot\zone_id.json", "r") as file:
 
 # Example hazards input (zone and number of detected hazards)
 detected_hazards = {
-    "Zone 1": 3,  # 3 hazards detected in Zone 1
-    "Zone 3": 2,  # 2 hazards detected in Zone 3
-    "Zone 5": 1   # 1 hazard detected in Zone 5
+    "Zone 1": 0,  # 3 hazards detected in Zone 1
+    "Zone 3": 0,  # 2 hazards detected in Zone 3
+    "Zone 5": 0   # 1 hazard detected in Zone 5
 }
 
 # Update risk factors based on detected hazards
