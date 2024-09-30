@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 import os
 import json
 
+#Hidde is een sukkel
+
 class ZoneApp:
     def __init__(self, root):
         self.root = root
