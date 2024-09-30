@@ -14,6 +14,10 @@ image_path = zone_data.get("image_path")
 if not image_path:
     raise FileNotFoundError("Image path not found in the zone data")
 
+# Extract the coordinates of the zones from the JSON data
+points = [tuple(zone_data[zone]['location']) for zone in zone_data if zone != 'image_path']
+
+
 img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
 if img is None:
@@ -31,30 +35,11 @@ eroded = cv2.erode(thresholded, kernel, iterations=1)
 dilated = cv2.dilate(eroded, kernel, iterations=2)
 
 # Display the cleaned-up image
-plt.imshow(dilated, cmap='gray', vmin=0, vmax=255)
-plt.title('Cleaned-up Image (Thick walls only)')
-
-print("Click multiple points, double-click to finish")
-
-clicks = plt.ginput(0)  
-plt.close()
-
-print(f"Clicked points: {clicks}")
-
-# Convert clicked points to (row, col) format
-points = [(int(click[1]), int(click[0])) for click in clicks]  
-
-print(f"Selected points: {points}")
+#plt.imshow(dilated, cmap='gray', vmin=0, vmax=255)
+#plt.title('Cleaned-up Image (Thick walls only)')
 
 # Convert the cleaned-up image into a binary matrix (0 = walkable, 1 = wall)
 floorplan = (dilated == 255).astype(int)
-
-plt.imshow(floorplan, cmap='gray', vmin=0, vmax=1)
-for i, point in enumerate(points):
-    plt.scatter(point[1], point[0], label=f"Point {i+1}")
-plt.title('Floorplan with Multiple Points')
-plt.legend()
-plt.show()
 
 # Create the graph and add diagonal movement with cost
 G = nx.Graph()
@@ -79,6 +64,7 @@ def astar_with_partial_path(graph, start, goal):
         return path, list(nx.shortest_path(graph, source=start, target=goal))  # Track visited nodes
     except nx.NetworkXNoPath:
         return None, []
+    
 # Greedy approach to finding the shortest path between multiple points
 def greedy_path(graph, points):
     total_path = []
