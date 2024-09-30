@@ -38,15 +38,5 @@
         "PPE_necessity": "Helmet",
         "risk_factor": 1,
         "credits": 4
-    },
-    "Zone 5": {
-        "location": [
-            229,
-            319
-        ],
-        "zone_activity": "brick",
-        "PPE_necessity": "no",
-        "risk_factor": 0.0,
-        "credits": 5
     }
 }
