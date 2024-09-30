@@ -1,42 +1,13 @@
 {
     "Zone 1": {
         "location": [
-            247,
-            176
+            420,
+            254
         ],
-        "zone_activity": "Welding",
-        "PPE_necessity": "Gloves, Helmet, Goggles",
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 1
     },
-    "Zone 2": {
-        "location": [
-            220,
-            316
-        ],
-        "zone_activity": "Brick laying",
-        "PPE_necessity": "Goggles, Safety Shoes",
-        "risk_factor": 1.0,
-        "credits": 2
-    },
-    "Zone 3": {
-        "location": [
-            420,
-            184
-        ],
-        "zone_activity": "Timberframing",
-        "PPE_necessity": "Helmet, gloves",
-        "risk_factor": 0.0,
-        "credits": 3
-    },
-    "Zone 4": {
-        "location": [
-            214,
-            189
-        ],
-        "zone_activity": "Bricks",
-        "PPE_necessity": "Helmet",
-        "risk_factor": 1,
-        "credits": 4
-    }
+    "image_path": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Afbeeldingen/Plattegrond 1 100.jpg"
 }
