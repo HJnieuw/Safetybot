@@ -1,0 +1,13 @@
+{
+    "Zone 1": {
+        "location": [
+            420,
+            254
+        ],
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 1
+    },
+    "image_path": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Afbeeldingen/Plattegrond 1 100.jpg"
+}
