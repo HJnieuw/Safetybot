@@ -8,7 +8,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 0,
-        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+        "floorplan": "plattegrond1100.jpg"
     },
     "2": {
         "location": [
@@ -19,7 +19,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 1,
-        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+        "floorplan": "plattegrond1100.jpg"
     },
     "3": {
         "location": [
@@ -30,7 +30,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+        "floorplan": "plattegrond1100.jpg"
     },
     "Zone 1": {
         "location": [
@@ -41,7 +41,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 3,
-        "floorplan": "Plattegrond\fathamster.png"
+        "floorplan": "fathamster.png"
     },
     "Zone 2": {
         "location": [
@@ -52,7 +52,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 4,
-        "floorplan": "Plattegrond\fathamster.png"
+        "floorplan": "fathamster.png"
     },
     "Zone 3": {
         "location": [
@@ -63,6 +63,6 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 5,
-        "floorplan": "Plattegrond\fathamster.png"
+        "floorplan": "fathamster.png"
     }
 }
