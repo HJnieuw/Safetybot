@@ -69,7 +69,7 @@ class ZoneApp:
         self.zone_listbox.pack(pady=5)
         self.zone_listbox.bind('<<ListboxSelect>>', self.load_selected_zone)
 
-        # Initialize empty zone data
+
         self.load_data()
 
         # To hold selected PPE items
@@ -195,6 +195,7 @@ class ZoneApp:
 
         if zone_name not in self.zone_id:  # New zone
             credits = sum(1 for key in self.zone_id)
+            credits = sum(1 for key in self.zone_id)
         else:
             credits = self.zone_id[zone_name].get("credits", 1)  # Keep current credits if zone exists
 
@@ -208,6 +209,7 @@ class ZoneApp:
             "floorplan": "floorplan"
         }
 
+        # Save the zone data
         # Save the zone data
         self.zone_id[zone_name] = zone_data
 
@@ -258,12 +260,12 @@ class ZoneApp:
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Zone_id.json", "w") as json_file:
+        with open("Safetybot\Zone_id.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        json_file_path = "Zone_id.json"
+        json_file_path = os.path.join("Safetybot\Zone_id.json")
         if os.path.exists(json_file_path):
             with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
