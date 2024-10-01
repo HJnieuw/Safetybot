@@ -107,14 +107,15 @@ class ZoneApp:
         if original_width > self.max_width or original_height > self.max_height:
             if aspect_ratio > 1:
                 # Image is wider than tall
-                new_width = self.max_width
-                new_height = int(self.max_width / aspect_ratio)
+                self.new_width = self.max_width
+                self.new_height = int(self.max_width / aspect_ratio)
             else:
                 # Image is taller than wide
-                new_height = self.max_height
-                new_width = int(self.max_height * aspect_ratio)
-            return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                self.new_height = self.max_height
+                self.new_width = int(self.max_height * aspect_ratio)
+            return image.resize((self.new_width, self.new_height), Image.Resampling.LANCZOS)
         else:
+            self.new_width, self.new_height = original_width, original_height
             return image
 
     def get_coordinates(self, event):
@@ -204,7 +205,7 @@ class ZoneApp:
 
         # Prepare the data to be saved
         zone_data = {
-            "location": [self.x, self.y],
+            "location": [self.x, self.new_height - self.y],
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
