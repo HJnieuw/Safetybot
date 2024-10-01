@@ -1,68 +1,80 @@
 {
-    "1": {
+    "Head 1": {
         "location": [
-            268,
-            152
+            75,
+            51
         ],
-        "zone_activity": "Carpentry",
-        "PPE_necessity": "Safety Shoes",
+        "zone_activity": "Welding",
+        "PPE_necessity": "Gloves",
         "risk_factor": 1.0,
         "credits": 0,
-        "floorplan": "plattegrond1100.jpg"
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     },
-    "2": {
+    "Head 2": {
         "location": [
-            268,
-            152
+            114,
+            55
         ],
-        "zone_activity": "Carpentry",
-        "PPE_necessity": "Safety Shoes",
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Mask",
         "risk_factor": 1.0,
         "credits": 1,
-        "floorplan": "plattegrond1100.jpg"
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     },
-    "3": {
+    "Head 3": {
         "location": [
-            268,
-            152
+            121,
+            22
         ],
         "zone_activity": "Carpentry",
-        "PPE_necessity": "Safety Shoes",
+        "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "plattegrond1100.jpg"
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     },
-    "Zone 1": {
+    "PP": {
         "location": [
-            245,
-            226
+            77,
+            168
+        ],
+        "zone_activity": "Welding",
+        "PPE_necessity": "Gloves, Helmet, Goggles, Mask, Safety Shoes, Respirator",
+        "risk_factor": 0.1,
+        "credits": 3,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Cafe": {
+        "location": [
+            262,
+            272
         ],
         "zone_activity": "Brick laying",
-        "PPE_necessity": "Safety Shoes",
-        "risk_factor": 1.0,
-        "credits": 3,
-        "floorplan": "fathamster.png"
-    },
-    "Zone 2": {
-        "location": [
-            41,
-            60
-        ],
-        "zone_activity": "Carpentry",
-        "PPE_necessity": "Safety Shoes",
+        "PPE_necessity": "Helmet, Safety Shoes",
         "risk_factor": 1.0,
         "credits": 4,
-        "floorplan": "fathamster.png"
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     },
-    "Zone 3": {
+    "Berging": {
         "location": [
-            277,
-            118
+            127,
+            201
         ],
-        "zone_activity": "Brick laying",
-        "PPE_necessity": "Safety Shoes",
+        "zone_activity": "Welding",
+        "PPE_necessity": "Mask",
         "risk_factor": 1.0,
         "credits": 5,
-        "floorplan": "fathamster.png"
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     }
 }

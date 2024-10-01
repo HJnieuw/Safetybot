@@ -97,7 +97,7 @@ class ZoneApp:
 
             # Bind the click event to get coordinates
             self.canvas.bind("<Button-1>", self.get_coordinates)
-
+      
     def resize_image(self, image):
         # Scale the image down if it's larger than the max width or height
         original_width, original_height = image.size
@@ -150,7 +150,7 @@ class ZoneApp:
         ppe_window.title("Select PPE")
 
         # Sample PPE items
-        ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes']
+        ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes', 'Respirator']
         self.ppe_var = tk.Variable(value=self.selected_ppe)
 
         # Create a listbox for PPE selection
@@ -209,7 +209,9 @@ class ZoneApp:
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
             "credits": credits,
-            "floorplan": self.image_path
+            "floorplan": self.image_path,
+            "amount of hazards": 0,
+            "hazard type": []
         }
 
         # Save the zone data
@@ -229,12 +231,10 @@ class ZoneApp:
             self.clear_fields()  # Clear the input fields
             messagebox.showinfo("Info", f"Zone '{selected_zone}' has been deleted.")
 
-    def load_selected_zone(self, event):
+    def load_selected_zone(self, zone):
         # Load zone details when selected from the Listbox
-        try:
-            selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
-        except tk.TclError:
-            return
+        selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
+
 
         if selected_zone in self.zone_id:
             zone_data = self.zone_id[selected_zone]
@@ -250,10 +250,9 @@ class ZoneApp:
             self.risk_factor_entry.delete(0, tk.END)
             self.risk_factor_entry.insert(0, zone_data.get("risk_factor", ""))
 
-            self.image_path = zone_data["floorplan"]
+            self.image_path = zone_data.get("floorplan", "")
             self.load_image(self.image_path)
-            self.resize_image(self.image_path)
-            
+                        
             self.x, self.y = zone_data["location"]
             self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
             self.draw_zone_dot()
