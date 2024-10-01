@@ -14,8 +14,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
-        self.max_width = 800  # Set a maximum width for the image
-        self.max_height = 600  # Set a maximum height for the image
+        self.max_width = 500  # Set a maximum width for the image
+        self.max_height = 300  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)
@@ -75,9 +75,13 @@ class ZoneApp:
         # To hold selected PPE items
         self.selected_ppe = []
 
-    def load_image(self):
+    def load_image(self, image_path=None):
         # Load an image file
-        self.image_path = filedialog.askopenfilename()
+        if image_path is None:  # If no path is provided, ask for a file
+            self.image_path = filedialog.askopenfilename()
+        else:  # Use the provided image path
+            self.image_path = image_path
+        
         if self.image_path:
             print(f"Image path loaded: {self.image_path}")
             self.image = Image.open(self.image_path)
@@ -93,7 +97,7 @@ class ZoneApp:
 
             # Bind the click event to get coordinates
             self.canvas.bind("<Button-1>", self.get_coordinates)
-
+      
     def resize_image(self, image):
         # Scale the image down if it's larger than the max width or height
         original_width, original_height = image.size
@@ -109,7 +113,7 @@ class ZoneApp:
                 # Image is taller than wide
                 new_height = self.max_height
                 new_width = int(self.max_height * aspect_ratio)
-            return image.resize((new_width, new_height), Image.ANTIALIAS)
+            return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
         else:
             return image
 
@@ -146,7 +150,7 @@ class ZoneApp:
         ppe_window.title("Select PPE")
 
         # Sample PPE items
-        ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes']
+        ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes', 'Respirator']
         self.ppe_var = tk.Variable(value=self.selected_ppe)
 
         # Create a listbox for PPE selection
@@ -194,7 +198,7 @@ class ZoneApp:
             return
 
         if zone_name not in self.zone_id:  # New zone
-            credits = len(self.zone_id) + 1
+            credits = sum(1 for key in self.zone_id)
         else:
             credits = self.zone_id[zone_name].get("credits", 1)  # Keep current credits if zone exists
 
@@ -204,15 +208,14 @@ class ZoneApp:
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
-            "credits": credits
+            "credits": credits,
+            "floorplan": self.image_path,
+            "amount of hazards": 0,
+            "hazard type": []
         }
 
-        # Save the zone data and image path
+        # Save the zone data
         self.zone_id[zone_name] = zone_data
-
-        if self.image_path:  # Ensure that the image path is not None
-            print(f"Saving image path: {self.image_path}")  # Debugging
-            self.zone_id["image_path"] = self.image_path
 
         self.update_zone_listbox()
         self.save_data()
@@ -228,12 +231,10 @@ class ZoneApp:
             self.clear_fields()  # Clear the input fields
             messagebox.showinfo("Info", f"Zone '{selected_zone}' has been deleted.")
 
-    def load_selected_zone(self, event):
+    def load_selected_zone(self, zone):
         # Load zone details when selected from the Listbox
-        try:
-            selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
-        except tk.TclError:
-            return
+        selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
+
 
         if selected_zone in self.zone_id:
             zone_data = self.zone_id[selected_zone]
@@ -249,6 +250,9 @@ class ZoneApp:
             self.risk_factor_entry.delete(0, tk.END)
             self.risk_factor_entry.insert(0, zone_data.get("risk_factor", ""))
 
+            self.image_path = zone_data.get("floorplan", "")
+            self.load_image(self.image_path)
+                        
             self.x, self.y = zone_data["location"]
             self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
             self.draw_zone_dot()
@@ -257,35 +261,19 @@ class ZoneApp:
         # Update Listbox with zone names
         self.zone_listbox.delete(0, tk.END)
         for zone in self.zone_id:
-            if zone != "image_path":  # Exclude the image path key
-                self.zone_listbox.insert(tk.END, zone)
+            self.zone_listbox.insert(tk.END, zone)
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Safetybot\zone_id.json", "w") as json_file:
+        with open("Zone_id.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        if os.path.exists("Safetybot\zone_id.json"):
-            with open("Safetybot\zone_id.json", "r") as json_file:
+        json_file_path = "Zone_id.json"
+        if os.path.exists(json_file_path):
+            with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
-                image_path = self.zone_id.get("image_path")
-
-                if image_path and os.path.exists(image_path):
-                    # Reload the image if path exists
-                    self.image_path = image_path
-                    self.image = Image.open(self.image_path)
-
-                    # Resize image if it's too large
-                    self.image = self.resize_image(self.image)
-
-                    self.tk_image = ImageTk.PhotoImage(self.image)
-                    self.canvas.config(width=self.image.width, height=self.image.height)
-                    self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
-
-                    self.canvas.bind("<Button-1>", self.get_coordinates)
-
             self.update_zone_listbox()
 
     def clear_fields(self):
@@ -305,7 +293,6 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = ZoneApp(root)
-    root.mainloop()
+root = tk.Tk()
+app = ZoneApp(root)
+root.mainloop()

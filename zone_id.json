@@ -1,13 +1,80 @@
 {
-    "Zone 1": {
+    "Head 1": {
         "location": [
-            420,
-            254
+            75,
+            51
+        ],
+        "zone_activity": "Welding",
+        "PPE_necessity": "Gloves",
+        "risk_factor": 1.0,
+        "credits": 0,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Head 2": {
+        "location": [
+            114,
+            55
+        ],
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Mask",
+        "risk_factor": 1.0,
+        "credits": 1,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Head 3": {
+        "location": [
+            121,
+            22
         ],
         "zone_activity": "Carpentry",
-        "PPE_necessity": "Safety Shoes",
+        "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
-        "credits": 1
+        "credits": 2,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
     },
-    "image_path": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Afbeeldingen/Plattegrond 1 100.jpg"
+    "PP": {
+        "location": [
+            77,
+            168
+        ],
+        "zone_activity": "Welding",
+        "PPE_necessity": "Gloves, Helmet, Goggles, Mask, Safety Shoes, Respirator",
+        "risk_factor": 0.1,
+        "credits": 3,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Cafe": {
+        "location": [
+            262,
+            272
+        ],
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Helmet, Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 4,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Berging": {
+        "location": [
+            127,
+            201
+        ],
+        "zone_activity": "Welding",
+        "PPE_necessity": "Mask",
+        "risk_factor": 1.0,
+        "credits": 5,
+        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    }
 }
