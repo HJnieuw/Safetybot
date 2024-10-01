@@ -5,7 +5,7 @@ import os
 import json
 
 class ZoneApp:
-    def _init_(self, root):
+    def __init__(self, root):
         self.root = root
         self.root.title("Zone Coordinate Picker")
 
@@ -69,7 +69,7 @@ class ZoneApp:
         self.zone_listbox.pack(pady=5)
         self.zone_listbox.bind('<<ListboxSelect>>', self.load_selected_zone)
 
-
+        # Initialize empty zone data
         self.load_data()
 
         # To hold selected PPE items
@@ -107,14 +107,15 @@ class ZoneApp:
         if original_width > self.max_width or original_height > self.max_height:
             if aspect_ratio > 1:
                 # Image is wider than tall
-                new_width = self.max_width
-                new_height = int(self.max_width / aspect_ratio)
+                self.new_width = self.max_width
+                self.new_height = int(self.max_width / aspect_ratio)
             else:
                 # Image is taller than wide
-                new_height = self.max_height
-                new_width = int(self.max_height * aspect_ratio)
-            return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                self.new_height = self.max_height
+                self.new_width = int(self.max_height * aspect_ratio)
+            return image.resize((self.new_width, self.new_height), Image.Resampling.LANCZOS)
         else:
+            self.new_width, self.new_height = original_width, original_height
             return image
 
     def get_coordinates(self, event):
@@ -204,7 +205,7 @@ class ZoneApp:
 
         # Prepare the data to be saved
         zone_data = {
-            "location": [self.x, self.y],
+            "location": [self.x, self.new_height - self.y],
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
@@ -265,12 +266,12 @@ class ZoneApp:
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Zone_id.json", "w") as json_file:
+        with open("zone_id.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        json_file_path = "Zone_id.json"
+        json_file_path = "zone_id.json"
         if os.path.exists(json_file_path):
             with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
