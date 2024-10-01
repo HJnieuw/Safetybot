@@ -6,16 +6,16 @@ import itertools
 import json
 
 # Load zone data from JSON file
-with open(r'C:\Users\Barte van der Zijden\Documents\Master Building Tech\Core\Robot1\Safetybot\zone_id.json', 'r') as file:
+with open('zone_id.json', 'r') as file:
     zone_data = json.load(file)
 
 # Load the image path from the JSON file
-image_path = zone_data.get("image_path")
+image_path = zone_data.get("floorplan")
 if not image_path:
     raise FileNotFoundError("Image path not found in the zone data")
 
 # Extract the coordinates of the zones from the JSON data
-points = [tuple(zone_data[zone]['location']) for zone in zone_data if zone != 'image_path']
+points = [tuple(zone_data[zone]['location']) for zone in zone_data]
 
 
 img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
