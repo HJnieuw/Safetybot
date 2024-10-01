@@ -5,7 +5,7 @@ import os
 import json
 
 class ZoneApp:
-    def __init__(self, root):
+    def _init_(self, root):
         self.root = root
         self.root.title("Zone Coordinate Picker")
 
@@ -69,7 +69,7 @@ class ZoneApp:
         self.zone_listbox.pack(pady=5)
         self.zone_listbox.bind('<<ListboxSelect>>', self.load_selected_zone)
 
-        # Initialize empty zone data
+
         self.load_data()
 
         # To hold selected PPE items
