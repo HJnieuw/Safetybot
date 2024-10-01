@@ -1,3 +1,24 @@
 {
-    
+    "1": {
+        "location": [
+            319,
+            482
+        ],
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 0,
+        "floorplan": "floorplan"
+    },
+    "2": {
+        "location": [
+            221,
+            308
+        ],
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Goggles",
+        "risk_factor": 1.0,
+        "credits": 1,
+        "floorplan": "floorplan"
+    }
 }

@@ -258,12 +258,12 @@ class ZoneApp:
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Safetybot\Zone_id.json", "w") as json_file:
+        with open("Zone_id.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        json_file_path = os.path.join("Safetybot\Zone_id.json")
+        json_file_path = "Zone_id.json"
         if os.path.exists(json_file_path):
             with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
