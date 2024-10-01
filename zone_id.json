@@ -1,24 +1,68 @@
 {
     "1": {
         "location": [
-            319,
-            482
+            268,
+            152
+        ],
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 0,
+        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+    },
+    "2": {
+        "location": [
+            268,
+            152
+        ],
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 1,
+        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+    },
+    "3": {
+        "location": [
+            268,
+            152
+        ],
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 2,
+        "floorplan": "Plattegronden\plattegrond 1 100.PNG"
+    },
+    "Zone 1": {
+        "location": [
+            245,
+            226
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
-        "credits": 0,
-        "floorplan": "floorplan"
+        "credits": 3,
+        "floorplan": "Plattegrond\fathamster.png"
     },
-    "2": {
+    "Zone 2": {
         "location": [
-            221,
-            308
+            41,
+            60
+        ],
+        "zone_activity": "Carpentry",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 4,
+        "floorplan": "Plattegrond\fathamster.png"
+    },
+    "Zone 3": {
+        "location": [
+            277,
+            118
         ],
         "zone_activity": "Brick laying",
-        "PPE_necessity": "Goggles",
+        "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
-        "credits": 1,
-        "floorplan": "floorplan"
+        "credits": 5,
+        "floorplan": "Plattegrond\fathamster.png"
     }
 }

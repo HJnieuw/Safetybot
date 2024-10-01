@@ -14,8 +14,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
-        self.max_width = 800  # Set a maximum width for the image
-        self.max_height = 600  # Set a maximum height for the image
+        self.max_width = 500  # Set a maximum width for the image
+        self.max_height = 300  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)
@@ -75,9 +75,13 @@ class ZoneApp:
         # To hold selected PPE items
         self.selected_ppe = []
 
-    def load_image(self):
+    def load_image(self, image_path=None):
         # Load an image file
-        self.image_path = filedialog.askopenfilename()
+        if image_path is None:  # If no path is provided, ask for a file
+            self.image_path = filedialog.askopenfilename()
+        else:  # Use the provided image path
+            self.image_path = image_path
+        
         if self.image_path:
             print(f"Image path loaded: {self.image_path}")
             self.image = Image.open(self.image_path)
@@ -109,7 +113,7 @@ class ZoneApp:
                 # Image is taller than wide
                 new_height = self.max_height
                 new_width = int(self.max_height * aspect_ratio)
-            return image.resize((new_width, new_height), Image.ANTIALIAS)
+            return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
         else:
             return image
 
@@ -246,6 +250,10 @@ class ZoneApp:
             self.risk_factor_entry.delete(0, tk.END)
             self.risk_factor_entry.insert(0, zone_data.get("risk_factor", ""))
 
+            self.image_path = zone_data["floorplan"]
+            self.load_image(self.image_path)
+            self.resize_image(self.image_path)
+            
             self.x, self.y = zone_data["location"]
             self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
             self.draw_zone_dot()
@@ -286,7 +294,6 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = ZoneApp(root)
-    root.mainloop()
+root = tk.Tk()
+app = ZoneApp(root)
+root.mainloop()
