@@ -2,21 +2,19 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
-import itertools
 import json
 
 # Load zone data from JSON file
-with open(r'C:\Users\Barte van der Zijden\Documents\Master Building Tech\Core\Robot1\Safetybot\zone_id.json', 'r') as file:
+with open(r"zone_id.json") as file:
     zone_data = json.load(file)
 
 # Load the image path from the JSON file
-image_path = zone_data.get("image_path")
-if not image_path:
-    raise FileNotFoundError("Image path not found in the zone data")
+image_path = zone_data['Head 1']['floorplan']
+print(f"Image path: {image_path}")
+
 
 # Extract the coordinates of the zones from the JSON data
-points = [tuple(zone_data[zone]['location']) for zone in zone_data if zone != 'image_path']
-
+points = [tuple(zone_data[zone]['location']) for zone in zone_data]
 
 img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
@@ -25,6 +23,15 @@ if img is None:
     exit()
 
 print(f"Image shape: {img.shape}")  # Debugging step
+
+fig, ax = plt.subplots()
+ax.imshow(img, cmap='gray')
+ax.invert_yaxis() 
+for i, point in enumerate(points):
+    ax.scatter(point[1], point[0], color="red", marker="o", s=100, label=f"Point {i+1}")
+plt.title('Floorplan with Points from JSON')
+plt.legend()
+plt.show()
 
 thresholded = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
 
@@ -103,6 +110,7 @@ best_path, best_visited = greedy_path(G, points)
 # Visualize the optimal path or the best visited nodes
 fig, ax = plt.subplots()
 ax.imshow(floorplan, cmap=plt.cm.binary)
+ax.invert_yaxis()
 
 # Plot the optimal path if found
 if best_path:
@@ -115,4 +123,3 @@ for i, point in enumerate(points):
 
 plt.legend()
 plt.show()
-

@@ -8,7 +8,7 @@
         "PPE_necessity": "Gloves",
         "risk_factor": 1.0,
         "credits": 0,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -21,7 +21,7 @@
         "PPE_necessity": "Mask",
         "risk_factor": 1.0,
         "credits": 1,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -34,7 +34,7 @@
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -47,7 +47,7 @@
         "PPE_necessity": "Gloves, Helmet, Goggles, Mask, Safety Shoes, Respirator",
         "risk_factor": 0.1,
         "credits": 3,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Voorpagina.jpg",
+        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -60,7 +60,7 @@
         "PPE_necessity": "Helmet, Safety Shoes",
         "risk_factor": 1.0,
         "credits": 4,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "floorplan": "Plattegrond1100.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -73,7 +73,7 @@
         "PPE_necessity": "Mask",
         "risk_factor": 1.0,
         "credits": 5,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond1100.jpg",
+        "floorplan": "Plattegrond1100.jpg",
         "amount of hazards": 0,
         "hazard type": []
     }
