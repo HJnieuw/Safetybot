@@ -205,7 +205,7 @@ class ZoneApp:
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
             "credits": credits,
-            "floorplan": "floorplan"
+            "floorplan": self.image_path
         }
 
         # Save the zone data
