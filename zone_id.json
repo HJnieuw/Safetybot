@@ -1,5 +1,5 @@
 {
-    "Head 1": {
+    "Zone 1": {
         "location": [
             75,
             51
@@ -8,11 +8,11 @@
         "PPE_necessity": "Gloves",
         "risk_factor": 1.0,
         "credits": 0,
-        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
+        "floorplan": "Voorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "Head 2": {
+    "Zone 2": {
         "location": [
             114,
             55
@@ -21,11 +21,11 @@
         "PPE_necessity": "Mask",
         "risk_factor": 1.0,
         "credits": 1,
-        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
+        "floorplan": "Voorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "Head 3": {
+    "Zone 3": {
         "location": [
             121,
             22
@@ -34,11 +34,11 @@
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
+        "floorplan": "Voorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "PP": {
+    "Zone 4": {
         "location": [
             77,
             168
@@ -47,11 +47,11 @@
         "PPE_necessity": "Gloves, Helmet, Goggles, Mask, Safety Shoes, Respirator",
         "risk_factor": 0.1,
         "credits": 3,
-        "floorplan": "Platt_test_1.pngVoorpagina.jpg",
+        "floorplan": "Voorpagina.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "Cafe": {
+    "Zone 5": {
         "location": [
             262,
             272
