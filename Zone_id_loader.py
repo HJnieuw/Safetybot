@@ -4,10 +4,8 @@ from PIL import Image, ImageTk
 import os
 import json
 
-#Hidde is een sukkel
-
 class ZoneApp:
-    def __init__(self, root):
+    def _init_(self, root):
         self.root = root
         self.root.title("Zone Coordinate Picker")
 
@@ -196,7 +194,7 @@ class ZoneApp:
             return
 
         if zone_name not in self.zone_id:  # New zone
-            credits = len(self.zone_id) + 1
+            credits = sum(1 for key in self.zone_id)
         else:
             credits = self.zone_id[zone_name].get("credits", 1)  # Keep current credits if zone exists
 
@@ -206,15 +204,12 @@ class ZoneApp:
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
-            "credits": credits
+            "credits": credits,
+            "floorplan": "floorplan"
         }
 
-        # Save the zone data and image path
+        # Save the zone data
         self.zone_id[zone_name] = zone_data
-
-        if self.image_path:  # Ensure that the image path is not None
-            print(f"Saving image path: {self.image_path}")  # Debugging
-            self.zone_id["image_path"] = self.image_path
 
         self.update_zone_listbox()
         self.save_data()
@@ -259,35 +254,19 @@ class ZoneApp:
         # Update Listbox with zone names
         self.zone_listbox.delete(0, tk.END)
         for zone in self.zone_id:
-            if zone != "image_path":  # Exclude the image path key
-                self.zone_listbox.insert(tk.END, zone)
+            self.zone_listbox.insert(tk.END, zone)
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Safetybot\zone_id.json", "w") as json_file:
+        with open("Zone_id.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        if os.path.exists("Safetybot\zone_id.json"):
-            with open("Safetybot\zone_id.json", "r") as json_file:
+        json_file_path = "Zone_id.json"
+        if os.path.exists(json_file_path):
+            with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
-                image_path = self.zone_id.get("image_path")
-
-                if image_path and os.path.exists(image_path):
-                    # Reload the image if path exists
-                    self.image_path = image_path
-                    self.image = Image.open(self.image_path)
-
-                    # Resize image if it's too large
-                    self.image = self.resize_image(self.image)
-
-                    self.tk_image = ImageTk.PhotoImage(self.image)
-                    self.canvas.config(width=self.image.width, height=self.image.height)
-                    self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
-
-                    self.canvas.bind("<Button-1>", self.get_coordinates)
-
             self.update_zone_listbox()
 
     def clear_fields(self):
