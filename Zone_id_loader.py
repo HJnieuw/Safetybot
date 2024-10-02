@@ -14,8 +14,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
-        self.max_width = 500  # Set a maximum width for the image
-        self.max_height = 300  # Set a maximum height for the image
+        self.max_width = 600  # Set a maximum width for the image
+        self.max_height = 600  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)

@@ -1,12 +1,12 @@
 {
     "Zone 1": {
         "location": [
-            141,
-            347
+            212,
+            273
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
-        "risk_factor": 1.0,
+        "risk_factor": 0.8,
         "credits": 0,
         "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
@@ -14,12 +14,12 @@
     },
     "Zone 2": {
         "location": [
-            134,
-            127
+            403,
+            271
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
-        "risk_factor": 1.0,
+        "risk_factor": 0.6,
         "credits": 1,
         "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
@@ -27,26 +27,13 @@
     },
     "Zone 3": {
         "location": [
-            282,
-            400
+            313,
+            390
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "Plattegrond.jpg",
-        "amount of hazards": 0,
-        "hazard type": []
-    },
-    "Zone 4": {
-        "location": [
-            415,
-            65
-        ],
-        "zone_activity": "Welding",
-        "PPE_necessity": "Helmet, Goggles, Mask, Respirator",
-        "risk_factor": 1.0,
-        "credits": 3,
         "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
