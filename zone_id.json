@@ -1,79 +1,53 @@
 {
-    "Head 1": {
+    "Zone 1": {
         "location": [
-            75,
-            51
-        ],
-        "zone_activity": "Welding",
-        "PPE_necessity": "Gloves",
-        "risk_factor": 1.0,
-        "credits": 0,
-        "floorplan": "Voorpagina.jpg",
-        "amount of hazards": 0,
-        "hazard type": []
-    },
-    "Head 2": {
-        "location": [
-            114,
-            55
+            141,
+            347
         ],
         "zone_activity": "Brick laying",
-        "PPE_necessity": "Mask",
+        "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
-        "credits": 1,
-        "floorplan": "Voorpagina.jpg",
+        "credits": 0,
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "Head 3": {
+    "Zone 2": {
         "location": [
-            121,
-            22
+            134,
+            127
         ],
-        "zone_activity": "Carpentry",
+        "zone_activity": "Brick laying",
+        "PPE_necessity": "Safety Shoes",
+        "risk_factor": 1.0,
+        "credits": 1,
+        "floorplan": "Plattegrond.jpg",
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Zone 3": {
+        "location": [
+            282,
+            400
+        ],
+        "zone_activity": "Brick laying",
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "Voorpagina.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
-    "PP": {
+    "Zone 4": {
         "location": [
-            77,
-            168
+            415,
+            65
         ],
         "zone_activity": "Welding",
-        "PPE_necessity": "Gloves, Helmet, Goggles, Mask, Safety Shoes, Respirator",
-        "risk_factor": 0.1,
+        "PPE_necessity": "Helmet, Goggles, Mask, Respirator",
+        "risk_factor": 1.0,
         "credits": 3,
-        "floorplan": "Voorpagina.jpg",
-        "amount of hazards": 0,
-        "hazard type": []
-    },
-    "Cafe": {
-        "location": [
-            262,
-            272
-        ],
-        "zone_activity": "Brick laying",
-        "PPE_necessity": "Helmet, Safety Shoes",
-        "risk_factor": 1.0,
-        "credits": 4,
-        "floorplan": "Plattegrond1100.jpg",
-        "amount of hazards": 0,
-        "hazard type": []
-    },
-    "Berging": {
-        "location": [
-            127,
-            201
-        ],
-        "zone_activity": "Welding",
-        "PPE_necessity": "Mask",
-        "risk_factor": 1.0,
-        "credits": 5,
-        "floorplan": "Plattegrond1100.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     }
