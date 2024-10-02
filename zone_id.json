@@ -8,7 +8,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 0,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -21,7 +21,7 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 1.0,
         "credits": 1,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -34,7 +34,7 @@
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
@@ -47,7 +47,7 @@
         "PPE_necessity": "Helmet, Goggles, Mask, Respirator",
         "risk_factor": 1.0,
         "credits": 3,
-        "floorplan": "C:/Users/HJnie/Documents/TU student/BT 2024-2025/CORE/Scripts/Safetybot/Plattegrond.jpg",
+        "floorplan": "Plattegrond.jpg",
         "amount of hazards": 0,
         "hazard type": []
     }
