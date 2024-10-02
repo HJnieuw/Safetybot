@@ -205,7 +205,7 @@ class ZoneApp:
 
         # Prepare the data to be saved
         zone_data = {
-            "location": [self.x, self.new_height - self.y],
+            "location": [self.x, self.y],
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,
