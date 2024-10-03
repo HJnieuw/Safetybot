@@ -26,8 +26,10 @@ def init_bandit(n):
     # returning the initial values of the true mean reward, the estimated reward and the number of times each arm is selected
     return q_star, Q, N
 
+bandit_arms = 5 # amount of bandit arms
+
 # Initialize bandit problem with 5 arms
-q_star, _, _ = init_bandit(8)
+q_star, _, _ = init_bandit(bandit_arms)
 
 # Plot normal distributions centered at true mean rewards for first arm
 x = np.linspace(q_star[0]-4, q_star[0]+4, 100)
@@ -37,7 +39,7 @@ plt.plot(x, y)
 # Show plot
 plt.show()
 
-q_star, Q, N = init_bandit(8)
+q_star, Q, N = init_bandit(bandit_arms)
 
 def select_action(Q, epsilon):
     """
@@ -100,10 +102,10 @@ def run_bandit(n, num_steps, epsilon):
 
     return rewards, optimal
 
-n = np.random.choice([8, 10])
-num_steps = 500
-epsilons = [0.1, 0.15, 0.05, 0]
-num_runs = 500
+n = bandit_arms #np.random.choice([8, 10])
+num_steps = 1000
+epsilons = [0.1, 0.05, 0]
+num_runs = 2000
 
 avg_rewards = np.zeros((len(epsilons), num_steps))
 avg_optimal = np.zeros((len(epsilons), num_steps))
