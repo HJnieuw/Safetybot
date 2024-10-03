@@ -1,0 +1,7 @@
+train: /Users/tombo/Documents/CORE/Safetybot/data_hammer/images/train
+val: /Users/tombo/Documents/CORE/Safetybot/data_hammer/images/val
+test: /Users/tombo/Documents/CORE/Safetybot/data_hammer/images/test
+
+nc: 1 # Number of classes
+names: # List of class names
+  ['hammer']

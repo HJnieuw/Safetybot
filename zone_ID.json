@@ -1,0 +1,65 @@
+{
+    "Zone 1": {
+        "location": [
+            659,
+            281
+        ],
+        "zone_activity": "Bricklaying",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1.0,
+        "credits": 1,
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Zone 2": {
+        "location": [
+            214,
+            306
+        ],
+        "zone_activity": "Bricklaying",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1,
+        "credits": 2,
+        "amount of hazards": 6,
+        "hazard type": [
+            "3 head(s) detected without helmet(s) at 2024-10-02 16:05:07",
+            "3 head(s) detected without helmet(s) at 2024-10-02 16:44:33"
+        ]
+    },
+    "Zone 3": {
+        "location": [
+            420,
+            184
+        ],
+        "zone_activity": "Timberframing",
+        "PPE_necessity": "Helmet, gloves",
+        "risk_factor": 0.0,
+        "credits": 3,
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Zone 4": {
+        "location": [
+            214,
+            189
+        ],
+        "zone_activity": "Bricks",
+        "PPE_necessity": "Helmet",
+        "risk_factor": 1,
+        "credits": 4,
+        "amount of hazards": 0,
+        "hazard type": []
+    },
+    "Zone 5": {
+        "location": [
+            229,
+            319
+        ],
+        "zone_activity": "brick",
+        "PPE_necessity": "no",
+        "risk_factor": 0.0,
+        "credits": 5,
+        "amount of hazards": 0,
+        "hazard type": []
+    }
+}

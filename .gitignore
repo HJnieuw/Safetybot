@@ -1,3 +1,7 @@
+data_hammer
+data_helmet_nohelmet
+runs/detect
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
