@@ -14,8 +14,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
-        self.max_width = 600  # Set a maximum width for the image
-        self.max_height = 600  # Set a maximum height for the image
+        self.max_width = 300  # Set a maximum width for the image
+        self.max_height = 300  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)
@@ -99,29 +99,40 @@ class ZoneApp:
             self.canvas.bind("<Button-1>", self.get_coordinates)
       
     def resize_image(self, image):
-        # Scale the image down if it's larger than the max width or height
         original_width, original_height = image.size
         aspect_ratio = original_width / original_height
 
-        # Determine new width and height, keeping aspect ratio
         if original_width > self.max_width or original_height > self.max_height:
             if aspect_ratio > 1:
-                # Image is wider than tall
                 self.new_width = self.max_width
                 self.new_height = int(self.max_width / aspect_ratio)
             else:
-                # Image is taller than wide
                 self.new_height = self.max_height
                 self.new_width = int(self.max_height * aspect_ratio)
+
+            # Calculate the scaling factor for future use
+            self.scale_factor_x = original_width / self.new_width
+            self.scale_factor_y = original_height / self.new_height
+
             return image.resize((self.new_width, self.new_height), Image.Resampling.LANCZOS)
         else:
             self.new_width, self.new_height = original_width, original_height
+            self.scale_factor_x = 1
+            self.scale_factor_y = 1  # No scaling if the image fits within max dimensions
             return image
 
     def get_coordinates(self, event):
-        # Get coordinates when the canvas is clicked
-        self.x, self.y = event.x, event.y  # Store coordinates for later use
-        self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")  # Update the label
+        # Get coordinates relative to the resized image
+        self.x, self.y = event.x, event.y
+
+        # Convert the coordinates back to the original image size using the scaling factor
+        self.x_full = int(self.x * self.scale_factor_x)
+        self.y_full = int(self.y * self.scale_factor_y)
+
+        # Display coordinates (in original image size) in the label
+        self.coord_label.config(text=f"Coordinates: ({self.x_full}, {self.y_full})")
+
+        # Draw the dot on the resized image for visual feedback
         self.draw_zone_dot()
 
     def draw_zone_dot(self):
@@ -232,10 +243,8 @@ class ZoneApp:
             self.clear_fields()  # Clear the input fields
             messagebox.showinfo("Info", f"Zone '{selected_zone}' has been deleted.")
 
-    def load_selected_zone(self, zone):
-        # Load zone details when selected from the Listbox
+    def load_selected_zone(self, event):
         selected_zone = self.zone_listbox.get(self.zone_listbox.curselection())
-
 
         if selected_zone in self.zone_id:
             zone_data = self.zone_id[selected_zone]
@@ -253,9 +262,18 @@ class ZoneApp:
 
             self.image_path = zone_data.get("floorplan", "")
             self.load_image(self.image_path)
-                        
-            self.x, self.y = zone_data["location"]
-            self.coord_label.config(text=f"Coordinates: ({self.x}, {self.y})")
+
+            # Retrieve full-size coordinates
+            self.x_full, self.y_full = zone_data["location"]
+
+            # Convert full-size coordinates to resized image coordinates using the scaling factor
+            self.x = int(self.x_full / self.scale_factor_x)
+            self.y = int(self.y_full / self.scale_factor_y)
+
+            # Update the label to show the original coordinates
+            self.coord_label.config(text=f"Coordinates: ({self.x_full}, {self.y_full})")
+
+            # Draw the dot on the resized image
             self.draw_zone_dot()
 
     def update_zone_listbox(self):

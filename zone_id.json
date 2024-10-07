@@ -1,8 +1,8 @@
 {
     "Zone 1": {
         "location": [
-            212,
-            273
+            209,
+            276
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
@@ -14,8 +14,8 @@
     },
     "Zone 2": {
         "location": [
-            403,
-            271
+            397,
+            278
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
@@ -28,7 +28,7 @@
     "Zone 3": {
         "location": [
             313,
-            390
+            395
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Respirator",
