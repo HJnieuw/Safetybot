@@ -14,8 +14,8 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
         self.image_path = None  # Store the image path
-        self.max_width = 300  # Set a maximum width for the image
-        self.max_height = 300  # Set a maximum height for the image
+        self.max_width = 400  # Set a maximum width for the image
+        self.max_height = 400  # Set a maximum height for the image
 
         # Create frames for layout
         self.frame_top = tk.Frame(root)
@@ -216,7 +216,7 @@ class ZoneApp:
 
         # Prepare the data to be saved
         zone_data = {
-            "location": [self.x, self.y],
+            "location": [self.x_full, self.y_full],
             "zone_activity": zone_activity,
             "PPE_necessity": ppe_necessity,
             "risk_factor": risk_factor_float,

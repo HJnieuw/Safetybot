@@ -8,33 +8,33 @@
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 0.8,
         "credits": 0,
-        "floorplan": "Plattegrond.jpg",
+        "floorplan": "construction_site_bk.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
     "Zone 2": {
         "location": [
-            397,
-            278
+            659,
+            551
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Safety Shoes",
         "risk_factor": 0.6,
         "credits": 1,
-        "floorplan": "Plattegrond.jpg",
+        "floorplan": "construction_site_bk.jpg",
         "amount of hazards": 0,
         "hazard type": []
     },
     "Zone 3": {
         "location": [
-            313,
-            395
+            1050,
+            404
         ],
         "zone_activity": "Brick laying",
         "PPE_necessity": "Respirator",
         "risk_factor": 1.0,
         "credits": 2,
-        "floorplan": "Plattegrond.jpg",
+        "floorplan": "construction_site_bk.jpg",
         "amount of hazards": 0,
         "hazard type": []
     }
