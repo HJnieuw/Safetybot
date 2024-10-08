@@ -312,6 +312,9 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
 
-root = tk.Tk()
-app = ZoneApp(root)
-root.mainloop()
+
+# To prevent auto-launching the app when imported as a module
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ZoneApp(root)
+    root.mainloop()
