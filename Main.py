@@ -1,56 +1,92 @@
-import runpy
+# Scripts
+import Zone_id_loader as Zil
 
-def display_menu():
-    print("\n=== Robot Menu ===")
-    print("1. Robot status")
-    print("2. Start robot")
-    print("3. Stop robot")
-    print("4. Pause robot")
-    print("5. Change zone_ID")
-    print("6. Show zone information")
-    print("7. Import new site plan")
-    print("8. Exit")
-    return input("Please select an option (1-8): ")
+# Packages
+import tkinter as tk
+import Zone_id_loader as Zil
+import os
+import json
 
-while True:
-    # Display the menu and get the user's choice
-    option_number = display_menu()
+class RobotApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Robot Control Panel")
 
-    # Process the user's input
-    if option_number == '1':
-        zone_id = 'Zone_id.json'
+        # Create the label
+        self.label = tk.Label(root, text="=== Robot Control Panel ===", font=("Arial", 16))
+        self.label.pack(pady=10)
 
-        # Check if the JSON file contains any zones
-        if id(zone_id):
-            runpy.run_path('Defining_target.py')
-            # runpy.run_path(Hazard check)  # Uncomment and define if needed
-            runpy.run_path('Update_risk_factor.py')
+        # Create buttons for each menu option
+        self.button_status = tk.Button(root, text="Robot Status", command=self.robot_status, width=30)
+        self.button_status.pack(pady=5)
+
+        self.button_start = tk.Button(root, text="Start Robot", command=self.start_robot, width=30)
+        self.button_start.pack(pady=5)
+
+        self.button_stop = tk.Button(root, text="Stop Robot", command=self.stop_robot, width=30)
+        self.button_stop.pack(pady=5)
+
+        self.button_pause = tk.Button(root, text="Pause Robot", command=self.pause_robot, width=30)
+        self.button_pause.pack(pady=5)
+
+        self.button_change_zone = tk.Button(root, text="Change Zone_ID", command=self.change_zone, width=30)
+        self.button_change_zone.pack(pady=5)
+
+        self.button_show_info = tk.Button(root, text="Show Zone Information", command=self.show_zone_information, width=30)
+        self.button_show_info.pack(pady=5)
+
+        self.button_import_plan = tk.Button(root, text="Import New Site Plan", command=self.import_site_plan, width=30)
+        self.button_import_plan.pack(pady=5)
+
+        self.button_exit = tk.Button(root, text="Exit", command=root.quit, width=30)
+        self.button_exit.pack(pady=5)
+
+        # Text area for showing status and information
+        self.info_area = tk.Text(root, height=10, width=50, state=tk.DISABLED)
+        self.info_area.pack(pady=10)
+
+    def robot_status(self):
+        self.display_message("Robot Status: [Status details go here]")
+
+    def start_robot(self):
+        self.display_message("Robot started.")
+
+    def stop_robot(self):
+        self.display_message("Robot stopped.")
+
+    def pause_robot(self):
+        self.display_message("Robot paused.")
+
+    def change_zone(self):
+        self.display_message("Change Zone_ID: [Zone change details go here]")
+
+    def show_zone_information(self):
+        zone_id_file = 'Zone_id.json'
+        if os.path.exists(zone_id_file) and os.path.getsize(zone_id_file) > 0:
+            with open(zone_id_file, 'r') as file:
+                data = json.load(file)
+                zone_info = "\n=== Zone Information ===\n"
+                for zone, details in data.items():
+                    zone_info += f"Zone: {zone}\nDetails: {details}\n\n"
+                self.display_message(zone_info)
         else:
-            print("No zones available. Please update the zone file.")
+            self.display_message("No zone data available. Please update the zone file.")
 
-    elif option_number == '2':
-        print("Starting robot...")
-        # Add functionality to start the robot here
+    def import_site_plan(self):
+        new_window = tk.Toplevel(self.root)
+        app = Zil.ZoneApp(new_window)
 
-    elif option_number == '3':
-        print("Stopping robot...")
-        break  # Exiting the loop
+    def display_message(self, message):
+        self.info_area.config(state=tk.NORMAL)
+        self.info_area.delete(1.0, tk.END)  # Clear previous content
+        self.info_area.insert(tk.END, message)
+        self.info_area.config(state=tk.DISABLED)
 
-    elif option_number == '4':
-        print("Pausing robot...")
-        # Add functionality to pause the robot here
+# Create the main Tkinter window
+root = tk.Tk()
 
-    elif option_number == '6':
-        print("Showing zone information...")
-        runpy.run_path('Zone_id_loader.py')
+# Create an instance of RobotApp
+app = RobotApp(root)
 
-    elif option_number == '7':
-        print("Importing new site plan...")
-        runpy.run_path('Zone_id_loader.py')
-
-    elif option_number == '8':
-        print("Exiting the program...")
-        break  # Exiting the loop
-
-    else:
-        print(f"The input '{option_number}' is not valid. Please choose a valid option from the menu.")
+# Start the Tkinter main loop
+root.mainloop()
