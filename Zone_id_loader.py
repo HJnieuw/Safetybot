@@ -312,7 +312,6 @@ class ZoneApp:
         self.zone_dot = None
         self.zone_text = None
 
-
 class ZoneOverview:
     def __init__(self, root):
         self.root = root
@@ -414,11 +413,11 @@ class ZoneOverview:
         )
 
         # Bind the larger clickable area to show zone information on click
-        self.canvas.tag_bind(clickable_area, "<Button-1>", lambda event: self.show_zone_info(zone_data))
+        self.canvas.tag_bind(clickable_area, "<Button-1>", lambda event: self.show_zone_info(zone_data, zone_name))
 
-    def show_zone_info(self, zone_data):
+    def show_zone_info(self, zone_data, zone_name):
         """ Display zone information in the dedicated info area. """
-        self.zone_name_label.config(text=f"Zone Name: {zone_data.get('name', 'N/A')}")
+        self.zone_name_label.config(text=f"Zone Name: {zone_name}")  # Use zone_name directly
         self.risk_factor_label.config(text=f"Risk Factor: {zone_data.get('risk_factor', 'N/A')}")
         self.ppe_label.config(text=f"PPE Necessity: {zone_data.get('PPE_necessity', 'N/A')}")
         self.location_label.config(text=f"Location: {zone_data.get('location', 'N/A')}")
@@ -458,151 +457,6 @@ class ZoneOverview:
                 first_zone_data = list(self.zone_id.values())[0]
                 self.load_image(first_zone_data.get("floorplan", ""))
 
-
-
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Zone Coordinate Picker")
-
-        self.zone_id = {}
-        self.image_path = None  # Store the image path
-        self.max_width = 400  # Set a maximum width for the image
-        self.max_height = 400  # Set a maximum height for the image
-        self.scale_factor_x, self.scale_factor_y = 1, 1  # Initialize scale factors
-
-        # Create frames for layout
-        self.frame_top = tk.Frame(root)
-        self.frame_top.pack(pady=10)
-
-        # Canvas for displaying the image
-        self.canvas = tk.Canvas(self.frame_top)
-        self.canvas.grid(row=0, column=0)
-
-        # Frame for displaying zone information
-        self.info_frame = tk.Frame(self.frame_top, padx=10)
-        self.info_frame.grid(row=0, column=1, sticky="n")
-
-        # Create labels for zone information
-        self.zone_name_label = tk.Label(self.info_frame, text="Zone Name: N/A")
-        self.zone_name_label.pack(anchor=tk.W)
-
-        self.risk_factor_label = tk.Label(self.info_frame, text="Risk Factor: N/A")
-        self.risk_factor_label.pack(anchor=tk.W)
-
-        self.ppe_label = tk.Label(self.info_frame, text="PPE Necessity: N/A")
-        self.ppe_label.pack(anchor=tk.W)
-
-        self.location_label = tk.Label(self.info_frame, text="Location: N/A")
-        self.location_label.pack(anchor=tk.W)
-
-        self.activity_label = tk.Label(self.info_frame, text="Activity: N/A")
-        self.activity_label.pack(anchor=tk.W)
-
-        # Load zone data on startup
-        self.load_data()
-
-    def load_image(self, image_path=None):
-        # Load an image file
-        if image_path is None:  # If no path is provided, ask for a file
-            self.image_path = filedialog.askopenfilename()
-        else:  # Use the provided image path
-            self.image_path = image_path
-
-        if self.image_path:
-            try:
-                self.image = Image.open(self.image_path)
-
-                # Resize image if it's too large
-                self.image = self.resize_image(self.image)
-
-                self.tk_image = ImageTk.PhotoImage(self.image)
-
-                # Adjust the canvas size to the image size
-                self.canvas.config(width=self.image.width, height=self.image.height)
-                self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
-
-                # Draw all zones on the canvas
-                self.draw_all_zones()
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to load image: {e}")
-
-    def draw_all_zones(self):
-        for zone_name, zone_data in self.zone_id.items():
-            # Retrieve coordinates and draw dot for each zone
-            x_full, y_full = zone_data["location"]
-
-            # Convert full-size coordinates to resized image coordinates using the scaling factor
-            x_resized = int(x_full / self.scale_factor_x)
-            y_resized = int(y_full / self.scale_factor_y)
-
-            # Draw the zone dot and bind click event
-            self.draw_zone_dot(x_resized, y_resized, zone_name, zone_data)
-
-    def draw_zone_dot(self, x, y, zone_name, zone_data):
-        # Draw a dot at the given coordinates
-        radius = 5
-        zone_dot = self.canvas.create_oval(
-            x - radius, y - radius, x + radius, y + radius,
-            fill="red", outline="black"
-        )
-
-        # Draw an invisible clickable area around the dot
-        clickable_radius = 15  # This will define the clickable area radius
-        clickable_area = self.canvas.create_oval(
-            x - clickable_radius, y - clickable_radius, 
-            x + clickable_radius, y + clickable_radius,
-            fill="", outline=""  # Transparent fill and outline
-        )
-
-        # Draw the zone name text slightly below the dot
-        self.canvas.create_text(
-            x, y + 10, text=zone_name, fill="black", anchor=tk.N
-        )
-
-        # Bind the larger clickable area to show zone information on click
-        self.canvas.tag_bind(clickable_area, "<Button-1>", lambda event: self.show_zone_info(zone_data))
-        
-    def show_zone_info(self, zone_data):
-        """ Display zone information in the dedicated info area. """
-        self.zone_name_label.config(text=f"Zone Name: {zone_data.get('name', 'N/A')}")
-        self.risk_factor_label.config(text=f"Risk Factor: {zone_data.get('risk_factor', 'N/A')}")
-        self.ppe_label.config(text=f"PPE Necessity: {zone_data.get('PPE_necessity', 'N/A')}")
-        self.location_label.config(text=f"Location: {zone_data.get('location', 'N/A')}")
-        self.activity_label.config(text=f"Activity: {zone_data.get('zone_activity', 'N/A')}")
-
-    def resize_image(self, image):
-        original_width, original_height = image.size
-        aspect_ratio = original_width / original_height
-
-        if original_width > self.max_width or original_height > self.max_height:
-            if aspect_ratio > 1:
-                new_width = self.max_width
-                new_height = int(self.max_width / aspect_ratio)
-            else:
-                new_height = self.max_height
-                new_width = int(self.max_height * aspect_ratio)
-
-            # Calculate the scaling factor for future use
-            self.scale_factor_x = original_width / new_width
-            self.scale_factor_y = original_height / new_height
-
-            return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
-        else:
-            self.scale_factor_x = 1
-            self.scale_factor_y = 1  # No scaling if the image fits within max dimensions
-            return image
-
-    def load_data(self):
-        # Load the zone data from a JSON file
-        json_file_path = "Zone_id.json"
-        if os.path.exists(json_file_path):
-            with open(json_file_path, "r") as json_file:
-                self.zone_id = json.load(json_file)
-
-            # Load the image path from the first zone for demonstration purposes
-            if self.zone_id:
-                first_zone_data = list(self.zone_id.values())[0]
-                self.load_image(first_zone_data.get("floorplan", ""))
 
 # To prevent auto-launching the app when imported as a module
 if __name__ == "__main__":
