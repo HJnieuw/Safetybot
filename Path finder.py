@@ -11,8 +11,8 @@ with open('zone_id.json', 'r') as file:
 
 # Load the image path from the JSON file
 image_path = 'Plattegrond.jpg'
-#if not image_path:
-#    raise FileNotFoundError("Image path not found in the zone data")
+if not image_path:
+    raise FileNotFoundError("Image path not found in the zone data")
 
 # Extract the coordinates of the zones from the JSON data
 points = [tuple(zone_data[zone]['location'][::-1]) for zone in zone_data]  # Flips (x, y) to (y, x)

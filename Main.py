@@ -1,11 +1,10 @@
-# Scripts
-import Zone_id_loader as Zil
-
-# Packages
+# Importing packages
 import tkinter as tk
+
+# Importing modules
 import Zone_id_loader as Zil
-import os
-import json
+import Dashboard as db  # Assuming this contains the ConstructionHazardVisualizer
+
 
 class RobotApp:
     def __init__(self, root):
@@ -13,40 +12,34 @@ class RobotApp:
         self.root.title("Robot Control Panel")
 
         # Create the label
-        self.label = tk.Label(root, text="=== Robot Control Panel ===", font=("Arial", 16))
+        self.label = tk.Label(root, text="Robot Control Panel", font=("Arial", 16))
         self.label.pack(pady=10)
 
         # Create buttons for each menu option
-        self.button_status = tk.Button(root, text="Robot Status", command=self.robot_status, width=30)
-        self.button_status.pack(pady=5)
-
-        self.button_start = tk.Button(root, text="Start Robot", command=self.start_robot, width=30)
-        self.button_start.pack(pady=5)
-
-        self.button_stop = tk.Button(root, text="Stop Robot", command=self.stop_robot, width=30)
-        self.button_stop.pack(pady=5)
-
-        self.button_pause = tk.Button(root, text="Pause Robot", command=self.pause_robot, width=30)
-        self.button_pause.pack(pady=5)
-
-        self.button_change_zone = tk.Button(root, text="Change Zone_ID", command=self.change_zone, width=30)
-        self.button_change_zone.pack(pady=5)
-
-        self.button_show_info = tk.Button(root, text="Show Zone Information", command=self.show_zone_information, width=30)
-        self.button_show_info.pack(pady=5)
-
-        self.button_import_plan = tk.Button(root, text="Import New Site Plan", command=self.import_site_plan, width=30)
-        self.button_import_plan.pack(pady=5)
-
-        self.button_exit = tk.Button(root, text="Exit", command=root.quit, width=30)
-        self.button_exit.pack(pady=5)
+        self.create_buttons()
 
         # Text area for showing status and information
         self.info_area = tk.Text(root, height=10, width=50, state=tk.DISABLED)
         self.info_area.pack(pady=10)
 
+    def create_buttons(self):
+        button_options = [
+            ("Robot Status", self.robot_status),
+            ("Start Robot", self.start_robot),
+            ("Stop Robot", self.stop_robot),
+            ("Pause Robot", self.pause_robot),
+            ("Show Zone Hazards", self.show_hazards),
+            ("Show Zone Information", self.show_zone_information),
+            ("Import New Site Plan", self.import_site_plan),
+            ("Exit", self.root.quit)
+        ]
+
+        for (text, command) in button_options:
+            button = tk.Button(self.root, text=text, command=command, width=30)
+            button.pack(pady=5)
+
     def robot_status(self):
-        self.display_message("Robot Status: [Status details go here]")
+        self.display_message("Robot Status: The robot is active and can still operate for 119 minutes.")
 
     def start_robot(self):
         self.display_message("Robot started.")
@@ -57,20 +50,14 @@ class RobotApp:
     def pause_robot(self):
         self.display_message("Robot paused.")
 
-    def change_zone(self):
-        self.display_message("Change Zone_ID: [Zone change details go here]")
+    def show_hazards(self):
+        # Create an instance of ConstructionHazardVisualizer and draw the visualization
+        visualizer = db.ConstructionHazardVisualizer()
+        visualizer.draw()  # Call draw on the instance
 
     def show_zone_information(self):
-        zone_id_file = 'Zone_id.json'
-        if os.path.exists(zone_id_file) and os.path.getsize(zone_id_file) > 0:
-            with open(zone_id_file, 'r') as file:
-                data = json.load(file)
-                zone_info = "\n=== Zone Information ===\n"
-                for zone, details in data.items():
-                    zone_info += f"Zone: {zone}\nDetails: {details}\n\n"
-                self.display_message(zone_info)
-        else:
-            self.display_message("No zone data available. Please update the zone file.")
+        new_window = tk.Toplevel(self.root)
+        app = Zil.ZoneOverview(new_window)
 
     def import_site_plan(self):
         new_window = tk.Toplevel(self.root)
@@ -83,10 +70,7 @@ class RobotApp:
         self.info_area.config(state=tk.DISABLED)
 
 # Create the main Tkinter window
-root = tk.Tk()
-
-# Create an instance of RobotApp
-app = RobotApp(root)
-
-# Start the Tkinter main loop
-root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = RobotApp(root)
+    root.mainloop()

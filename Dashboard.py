@@ -5,124 +5,137 @@ import numpy as np
 import matplotlib as mpl
 from matplotlib.ticker import MaxNLocator  # Import MaxNLocator for integer Y-axis ticks
 
-# Define the variables for the JSON file
-json_file = "zone_ID.json"
-#output_image = "annotated_construction_site_bk.jpg"
+class ConstructionHazardVisualizer:
+    def __init__(self):
+        self.json_file = "zone_id.json"  # Hardcoded path to the JSON file
+        self.zone_data = self.load_zone_data()
+        self.max_hazards = self.get_max_hazards()
+        self.fig, (self.ax1, self.ax2) = plt.subplots(1, 2, figsize=(12, 9), gridspec_kw={'width_ratios': [2, 1]})
+        self.construction_site = self.load_image()
+        self.cid = None
 
-# Function to generate shades of color from light coral to dark red based on hazard count
-def get_red_color(hazard_count, max_hazards):
-    normalized_value = hazard_count / max_hazards if max_hazards > 0 else 0
-    r = 1 - (normalized_value * 0.5)  # Red value decreases slightly
-    g = 0.5 - (normalized_value * 0.5)
-    b = 0.5 - (normalized_value * 0.5)
-    return (r, g, b, 0.6)  # Adding transparency with alpha = 0.6
+    # Function to load the zone data from the JSON file
+    def load_zone_data(self):
+        with open(self.json_file, 'r') as f:
+            return json.load(f)
 
-# Function to handle no hazards
-def display_no_hazards_message(zone_name):
-    ax2.cla()
-    ax2.text(0.5, 0.5, f'No hazards in {zone_name}', color='black', fontsize=16, ha='center', va='center')
-    ax2.set_xticks([])  
-    ax2.set_yticks([])  
-    ax2.set_title(f'')
-    plt.draw()
+    # Function to get the maximum number of hazards to scale the colors
+    def get_max_hazards(self):
+        return max(round(info['amount of hazards']) for info in self.zone_data.values())
 
-# Function to create the bar chart for a specific zone
-def create_bar_chart_for_zone(zone_name):
-    zone = zone_data.get(zone_name)
-    helmet_hazard_count, hammer_hazard_count = 0, 0
-    for hazard in zone['hazard type']:
-        if 'Head detected without helmet' in hazard: #HIER DE BEWOORDING NIET GOED
-            helmet_hazard_count += 1
-        if 'loose hammer' in hazard:
-            hammer_hazard_count += 1
+    # Function to load the image using the floorplan path from the JSON
+    def load_image(self):
+        first_zone = list(self.zone_data.values())[0]  # Get the first zone's data
+        construction_site = first_zone["floorplan"]  # Extract the floorplan path from the JSON
+        img = cv2.imread(construction_site)
+        return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    ax2.cla()
+    # Function to generate shades of color from light coral to dark red based on hazard count
+    def get_red_color(self, hazard_count):
+        normalized_value = hazard_count / self.max_hazards if self.max_hazards > 0 else 0
+        r = 1 - (normalized_value * 0.5)  # Red value decreases slightly
+        g = 0.5 - (normalized_value * 0.5)
+        b = 0.5 - (normalized_value * 0.5)
+        return (r, g, b, 0.6)  # Adding transparency with alpha = 0.6
 
-    if helmet_hazard_count == 0 and hammer_hazard_count == 0:
-        ax2.text(0.5, 0.5, f'No hazards in {zone_name}', color='black', fontsize=16, ha='center', va='center')
-        ax2.axis('off')
-    else:
-        labels = ['Helmet Hazards', 'Loose Hammer Hazards']
-        sizes = [helmet_hazard_count, hammer_hazard_count]
-        ax2.bar(labels, sizes, color=['darkred', 'lightcoral'])
-        ax2.set_ylabel('Amount of Hazards')
-        ax2.set_title(f'Hazard Distribution in {zone_name}')
-        ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-        ax2.axis('on')
+    # Function to display no hazards message
+    def display_no_hazards_message(self, zone_name):
+        self.ax2.cla()
+        self.ax2.text(0.5, 0.5, f'No hazards in {zone_name}', color='black', fontsize=16, ha='center', va='center')
+        self.ax2.set_xticks([])  
+        self.ax2.set_yticks([])  
+        self.ax2.set_title(f'')
+        plt.draw()
 
-    plt.draw()
+    # Function to create the bar chart for a specific zone
+    def create_bar_chart_for_zone(self, zone_name):
+        zone = self.zone_data.get(zone_name)
+        helmet_hazard_count, hammer_hazard_count = 0, 0
+        for hazard in zone['hazard type']:
+            if 'Head detected without helmet' in hazard:  # Adjust wording here
+                helmet_hazard_count += 1
+            if 'loose hammer' in hazard:
+                hammer_hazard_count += 1
 
-# Event handler for clicking on a zone in the heatmap
-def on_click(event):
-    if event.inaxes == ax1:
-        x_click, y_click = event.xdata, event.ydata
-        for zone_name, info in zone_data.items():
-            x_zone, y_zone = info['location']
-            if np.hypot(x_click - x_zone, y_click - y_zone) < 50:  # Threshold for detecting the click
-                create_bar_chart_for_zone(zone_name)
+        self.ax2.cla()
 
-# Load the zone data from the JSON file
-with open(json_file, 'r') as f:
-    zone_data = json.load(f)
+        if helmet_hazard_count == 0 and hammer_hazard_count == 0:
+            self.ax2.text(0.5, 0.5, f'No hazards in {zone_name}', color='black', fontsize=16, ha='center', va='center')
+            self.ax2.axis('off')
+        else:
+            labels = ['Helmet Hazards', 'Loose Hammer Hazards']
+            sizes = [helmet_hazard_count, hammer_hazard_count]
+            self.ax2.bar(labels, sizes, color=['darkred', 'lightcoral'])
+            self.ax2.set_ylabel('Amount of Hazards')
+            self.ax2.set_title(f'Hazard Distribution in {zone_name}')
+            self.ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+            self.ax2.axis('on')
 
-# Use the floorplan from the first zone to load the image
-first_zone = list(zone_data.values())[0]  # Get the first zone's data
-construction_site = first_zone["floorplan"]  # Extract the floorplan path from the JSON
+        plt.draw()
 
-# Load the image using the floorplan path from the JSON
-img = cv2.imread(construction_site)
-img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # Event handler for clicking on a zone in the heatmap
+    def on_click(self, event):
+        if event.inaxes == self.ax1:
+            x_click, y_click = event.xdata, event.ydata
+            for zone_name, info in self.zone_data.items():
+                x_zone, y_zone = info['location']
+                if np.hypot(x_click - x_zone, y_click - y_zone) < 50:  # Threshold for detecting the click
+                    self.create_bar_chart_for_zone(zone_name)
 
-# Get the maximum number of hazards to scale the colors
-max_hazards = max(round(info['amount of hazards']) for info in zone_data.values())
+    # Function to draw the initial visualizations
+    def draw(self):
+        # Subplot 1: Heatmap on construction site plan
+        self.ax1.imshow(self.construction_site)
 
-# Set up the figure with two subplots
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 9), gridspec_kw={'width_ratios': [2, 1]})
+        # Plot the heatmap markers
+        for zone, info in self.zone_data.items():
+            x, y = info['location']
+            hazards = round(info['amount of hazards'])
 
-# Subplot 1: Heatmap on construction site plan
-ax1.imshow(img_rgb)
+            if hazards > 0:  # Only plot zones with 1 or more hazards
+                color = self.get_red_color(hazards)
+                size = 100 + hazards * 300
+                self.ax1.scatter(x, y, s=size, c=[color])
 
-# Plot the heatmap markers
-for zone, info in zone_data.items():
-    x, y = info['location']
-    hazards = round(info['amount of hazards'])  
+            # Plot the black dot and add text labels
+            self.ax1.scatter(x, y, s=30, c='black')
+            self.ax1.text(x + 40, y + 25, f'{zone}', color='black', fontsize=10, ha='center')
 
-    if hazards > 0:  # Only plot zones with 1 or more hazards
-        color = get_red_color(hazards, max_hazards)
-        size = 100 + hazards * 300
-        ax1.scatter(x, y, s=size, c=[color])
-    
-    # Plot the black dot and add text labels
-    ax1.scatter(x , y , s=30, c='black') 
-    ax1.text(x + 40, y + 25, f'{zone}', color='black', fontsize=10, ha='center')
+        # Create the color legend for the heatmap
+        cmap = mpl.colors.LinearSegmentedColormap.from_list("", ["lightcoral", "darkred"])
+        norm = mpl.colors.Normalize(vmin=1, vmax=self.max_hazards)
+        cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=self.ax1, shrink=0.5)
 
-# Create the color legend for the heatmap
-cmap = mpl.colors.LinearSegmentedColormap.from_list("", ["lightcoral", "darkred"])
-norm = mpl.colors.Normalize(vmin=1, vmax=max_hazards)
-cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax1, shrink=0.5)
+        # Modify the color bar to show whole numbers only
+        cbar.set_ticks([i for i in range(1, self.max_hazards + 1)])
+        cbar.set_ticklabels([str(i) for i in range(1, self.max_hazards + 1)])
 
-# Modify the color bar to show whole numbers only
-cbar.set_ticks([i for i in range(1, max_hazards + 1)])
-cbar.set_ticklabels([str(i) for i in range(1, max_hazards + 1)])
+        cbar.set_label('Amount of Hazards', fontsize=10, rotation=90, labelpad=1)
+        cbar.ax.yaxis.set_label_position('left')
 
-cbar.set_label('Amount of Hazards', fontsize=10, rotation=90, labelpad=1)
-cbar.ax.yaxis.set_label_position('left')
+        self.ax1.set_title('Amount of Hazards per Zone')
+        self.ax1.axis('off')
 
-ax1.set_title('Amount of Hazards per Zone')
-ax1.axis('off')
+        # Adjust the bar chart subplot to have a fixed height
+        self.ax2.set_ylim(0, self.max_hazards)
+        self.ax2.set_aspect(aspect='auto')
+        self.ax2.set_title("Click on a zone to view hazard details")
+        self.ax2.axis("off")
 
-# Adjust the bar chart subplot to have a fixed height
-ax2.set_ylim(0, max_hazards) 
-ax2.set_aspect(aspect='auto')  
-ax2.set_title("Click on a zone to view hazard details")
-ax2.axis("off")
+        # Connect the click event to the heatmap
+        self.cid = self.fig.canvas.mpl_connect('button_press_event', self.on_click)
 
-# Connect the click event to the heatmap
-cid = fig.canvas.mpl_connect('button_press_event', on_click)
+        # Adjust layout to avoid overlapping and ensure equal sizing
+        plt.subplots_adjust(left=0.05, right=0.95, wspace=0.3)
+        plt.show()
 
-# Adjust layout to avoid overlapping and ensure equal sizing
-plt.subplots_adjust(left=0.05, right=0.95, wspace=0.3)
-plt.show()
+    # Function to disconnect the click event if needed
+    def disconnect_click_event(self):
+        if self.cid is not None:
+            self.fig.canvas.mpl_disconnect(self.cid)
+            self.cid = None
 
-# Save the annotated image to a file
-#plt.savefig(output_image, bbox_inches='tight', pad_inches=0.1)
+
+if __name__ == "__main__":
+    visualizer = ConstructionHazardVisualizer()
+    visualizer.draw()
