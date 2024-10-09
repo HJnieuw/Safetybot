@@ -53,7 +53,7 @@ class RRT:
         self.robot_radius = robot_radius
         
         # Load and process the image to identify obstacles
-        self.obstacle_list = self.get_obstacle_list("Plattegrond.jpg")
+        self.obstacle_list = self.get_obstacle_list("constr1uction_site_bk.jpg")
 
     def get_obstacle_list(self, image_path):
         """Load the image, downsample, binarize it, and return a list of obstacles based on black areas."""
@@ -159,7 +159,7 @@ class RRT:
         plt.clf()
 
         # Load and display the image
-        img = Image.open("Plattegrond.jpg")  # Replace with the path to your image
+        img = Image.open("construction_site_bk.jpg")  # Replace with the path to your image
         plt.imshow(img)
 
         if rnd is not None:
