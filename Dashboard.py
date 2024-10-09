@@ -7,10 +7,11 @@ from matplotlib.ticker import MaxNLocator  # Import MaxNLocator for integer Y-ax
 
 class ConstructionHazardVisualizer:
     def __init__(self):
-        self.json_file = "zone_id.json"  # Hardcoded path to the JSON file
+        self.json_file = "zone_ID.json"  # Hardcoded path to the JSON file
         self.zone_data = self.load_zone_data()
         self.max_hazards = self.get_max_hazards()
-        self.fig, (self.ax1, self.ax2) = plt.subplots(1, 2, figsize=(12, 9), gridspec_kw={'width_ratios': [2, 1]})
+        # Adjusted figsize to reduce the height (width remains the same)
+        self.fig, (self.ax1, self.ax2) = plt.subplots(1, 2, figsize=(12, 6), gridspec_kw={'width_ratios': [6, 5]})
         self.construction_site = self.load_image()
         self.cid = None
 
@@ -21,7 +22,7 @@ class ConstructionHazardVisualizer:
 
     # Function to get the maximum number of hazards to scale the colors
     def get_max_hazards(self):
-        return max(round(info['amount of hazards']) for info in self.zone_data.values())
+        return max(round(info['amount_of_hazards']) for info in self.zone_data.values())
 
     # Function to load the image using the floorplan path from the JSON
     def load_image(self):
@@ -51,10 +52,12 @@ class ConstructionHazardVisualizer:
     def create_bar_chart_for_zone(self, zone_name):
         zone = self.zone_data.get(zone_name)
         helmet_hazard_count, hammer_hazard_count = 0, 0
-        for hazard in zone['hazard type']:
-            if 'Head detected without helmet' in hazard:  # Adjust wording here
+        
+        # Adjust the string matching for both helmet and hammer hazards
+        for hazard in zone['hazard_type']:
+            if 'person is not wearing their helmet' in hazard:  # Adjusted for the correct phrase
                 helmet_hazard_count += 1
-            if 'loose hammer' in hazard:
+            if 'loose hammer detected' in hazard:  # Adjusted for the correct phrase
                 hammer_hazard_count += 1
 
         self.ax2.cla()
@@ -90,7 +93,7 @@ class ConstructionHazardVisualizer:
         # Plot the heatmap markers
         for zone, info in self.zone_data.items():
             x, y = info['location']
-            hazards = round(info['amount of hazards'])
+            hazards = round(info['amount_of_hazards'])
 
             if hazards > 0:  # Only plot zones with 1 or more hazards
                 color = self.get_red_color(hazards)
@@ -99,16 +102,23 @@ class ConstructionHazardVisualizer:
 
             # Plot the black dot and add text labels
             self.ax1.scatter(x, y, s=30, c='black')
-            self.ax1.text(x + 40, y + 25, f'{zone}', color='black', fontsize=10, ha='center')
+            self.ax1.text(x + 40, y + 40, f'{zone}', color='black', fontsize=10, ha='center')
 
         # Create the color legend for the heatmap
         cmap = mpl.colors.LinearSegmentedColormap.from_list("", ["lightcoral", "darkred"])
         norm = mpl.colors.Normalize(vmin=1, vmax=self.max_hazards)
         cbar = plt.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), ax=self.ax1, shrink=0.5)
 
-        # Modify the color bar to show whole numbers only
-        cbar.set_ticks([i for i in range(1, self.max_hazards + 1)])
-        cbar.set_ticklabels([str(i) for i in range(1, self.max_hazards + 1)])
+        # Calculate evenly spaced ticks
+        num_ticks = 5  # Set the desired number of ticks (you can adjust this)
+        ticks = np.linspace(1, self.max_hazards, num_ticks).astype(int)  # Evenly spaced ticks
+
+        # Set ticks and labels
+        cbar.set_ticks(ticks)
+        cbar.set_ticklabels([str(i) for i in ticks])
+
+        cbar.set_label('Amount of Hazards', fontsize=10, rotation=90, labelpad=1)
+        cbar.ax.yaxis.set_label_position('left')
 
         cbar.set_label('Amount of Hazards', fontsize=10, rotation=90, labelpad=1)
         cbar.ax.yaxis.set_label_position('left')

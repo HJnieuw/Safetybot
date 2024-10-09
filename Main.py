@@ -40,14 +40,9 @@ class RobotApp:
     def robot_status(self):
         self.display_message("Robot Status: The robot is active and can still operate for 119 minutes.")
 
-    def start_robot(self):
-        self.display_message("Robot started.")
-
-    def stop_robot(self):
-        self.display_message("Robot stopped.")
-
-    def pause_robot(self):
-        self.display_message("Robot paused.")
+    def start_scan(self):
+        self.display_message("Scan zone.")
+        
 
     def show_hazards(self):
         # Create an instance of ConstructionHazardVisualizer and draw the visualization

@@ -36,7 +36,7 @@ class ZoneApp:
         self.coord_label.pack()
 
         # Zone details entry with dropdown for activities
-        tk.Label(self.frame_bottom, text="Zone Name:").pack()
+        tk.Label(self.frame_bottom, text="Zone ... :").pack()
         self.zone_name_entry = tk.Entry(self.frame_bottom, width=30)
         self.zone_name_entry.pack()
 
@@ -45,11 +45,11 @@ class ZoneApp:
         self.activity_combobox['values'] = ['Welding', 'Brick laying', 'Carpentry']  # Example activities
         self.activity_combobox.pack()
 
-        tk.Label(self.frame_bottom, text="PPE Necessary:").pack()
-        self.ppe_button = tk.Button(self.frame_bottom, text="Select PPE", command=self.select_ppe)
+        tk.Label(self.frame_bottom).pack()
+        self.ppe_button = tk.Button(self.frame_bottom, text="Select required PPE", command=self.select_ppe)
         self.ppe_button.pack()
 
-        self.ppe_display_label = tk.Label(self.frame_bottom, text="Selected PPE: None")
+        self.ppe_display_label = tk.Label(self.frame_bottom, text="")
         self.ppe_display_label.pack()
 
         tk.Label(self.frame_bottom, text="Risk Factor:").pack()
@@ -146,7 +146,7 @@ class ZoneApp:
         radius = 5
         self.zone_dot = self.canvas.create_oval(
             self.x - radius, self.y - radius, self.x + radius, self.y + radius,
-            fill="red", outline="black"
+            fill="darkred", outline="black"
         )
 
         # Draw the zone name text slightly below the dot
@@ -159,7 +159,7 @@ class ZoneApp:
     def select_ppe(self):
         # Open a new window to select multiple PPE items
         ppe_window = tk.Toplevel(self.root)
-        ppe_window.title("Select PPE")
+        ppe_window.title("Select required PPE")
 
         # Sample PPE items
         ppe_items = ['Gloves', 'Helmet', 'Goggles', 'Mask', 'Safety Shoes', 'Respirator']
@@ -185,14 +185,14 @@ class ZoneApp:
         # Get selected PPE items and update the label
         selected_indices = self.ppe_listbox.curselection()
         self.selected_ppe = [self.ppe_listbox.get(i) for i in selected_indices]
-        self.ppe_display_label.config(text=f"Selected PPE: {', '.join(self.selected_ppe) if self.selected_ppe else 'None'}")
+        self.ppe_display_label.config(text=f"{', '.join(self.selected_ppe) if self.selected_ppe else ''}")
         window.destroy()  # Close the PPE selection window
 
     def submit_details(self):
         # Get details from entries
         zone_name = self.zone_name_entry.get().strip()
         zone_activity = self.activity_combobox.get().strip()
-        ppe_necessity = ', '.join(self.selected_ppe)  # Join selected PPE for saving
+        required_PPE = ', '.join(self.selected_ppe)  # Join selected PPE for saving
         risk_factor = self.risk_factor_entry.get().strip()
 
         if self.x is None or self.y is None:
@@ -218,12 +218,12 @@ class ZoneApp:
         zone_data = {
             "location": [self.x_full, self.y_full],
             "zone_activity": zone_activity,
-            "PPE_necessity": ppe_necessity,
+            "required_PPE": required_PPE,
             "risk_factor": risk_factor_float,
             "credits": credits,
             "floorplan": self.image_path,
-            "amount of hazards": 0,
-            "hazard type": []
+            "amount_of_hazards": 0,
+            "hazard_type": []
         }
 
         # Save the zone data
@@ -254,8 +254,8 @@ class ZoneApp:
 
             self.activity_combobox.set(zone_data.get("zone_activity", ""))
 
-            self.selected_ppe = zone_data.get("PPE_necessity", "").split(", ")
-            self.ppe_display_label.config(text=f"Selected PPE: {', '.join(self.selected_ppe) if self.selected_ppe else 'None'}")
+            self.selected_ppe = zone_data.get("required_PPE", "").split(", ")
+            self.ppe_display_label.config(text=f"{', '.join(self.selected_ppe) if self.selected_ppe else ''}")
 
             self.risk_factor_entry.delete(0, tk.END)
             self.risk_factor_entry.insert(0, zone_data.get("risk_factor", ""))
@@ -284,12 +284,12 @@ class ZoneApp:
 
     def save_data(self):
         # Save the zone data to a JSON file
-        with open("Zone_id.json", "w") as json_file:
+        with open("zone_ID.json", "w") as json_file:
             json.dump(self.zone_id, json_file, indent=4)
 
     def load_data(self):
         # Load the zone data from a JSON file
-        json_file_path = "Zone_id.json"
+        json_file_path = "zone_ID.json"
         if os.path.exists(json_file_path):
             with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
@@ -299,7 +299,7 @@ class ZoneApp:
         # Clear all input fields and reset state
         self.zone_name_entry.delete(0, tk.END)
         self.activity_combobox.set('')
-        self.ppe_display_label.config(text="Selected PPE: None")
+        self.ppe_display_label.config(text="")
         self.selected_ppe = []
         self.risk_factor_entry.delete(0, tk.END)
         self.coord_label.config(text="Coordinates: (x, y)")
@@ -419,7 +419,7 @@ class ZoneOverview:
         """ Display zone information in the dedicated info area. """
         self.zone_name_label.config(text=f"Zone Name: {zone_name}")  # Use zone_name directly
         self.risk_factor_label.config(text=f"Risk Factor: {zone_data.get('risk_factor', 'N/A')}")
-        self.ppe_label.config(text=f"PPE Necessity: {zone_data.get('PPE_necessity', 'N/A')}")
+        self.ppe_label.config(text=f"PPE Necessity: {zone_data.get('required_PPE', 'N/A')}")
         self.location_label.config(text=f"Location: {zone_data.get('location', 'N/A')}")
         self.activity_label.config(text=f"Activity: {zone_data.get('zone_activity', 'N/A')}")
 
@@ -447,7 +447,7 @@ class ZoneOverview:
 
     def load_data(self):
         # Load the zone data from a JSON file
-        json_file_path = "Zone_id.json"
+        json_file_path = "zone_ID.json"
         if os.path.exists(json_file_path):
             with open(json_file_path, "r") as json_file:
                 self.zone_id = json.load(json_file)
