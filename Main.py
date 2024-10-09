@@ -5,7 +5,6 @@ import tkinter as tk
 import Zone_id_loader as Zil
 import Dashboard as db  # Assuming this contains the ConstructionHazardVisualizer
 
-
 class RobotApp:
     def __init__(self, root):
         self.root = root
