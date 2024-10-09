@@ -10,7 +10,7 @@ with open('zone_id.json', 'r') as file:
     zone_data = json.load(file)
 
 # Load the image path from the JSON file
-image_path = 'construction_site_bk.jpg'
+image_path = 'construction_site_bk_test.jpg'
 if not image_path:
     raise FileNotFoundError("Image path not found in the zone data")
 

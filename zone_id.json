@@ -66,45 +66,5 @@
             "1 loose hammer detected at 2024-10-09 12:43:29",
             "1 loose hammer detected at 2024-10-09 12:43:30"
         ]
-    },
-    "Zone 3": {
-        "location": [
-            793,
-            671
-        ],
-        "zone_activity": "Carpentry",
-        "required_PPE": "Mask",
-        "risk_factor": 1.0,
-        "credits": 1,
-        "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 14,
-        "hazard_type": [
-            "1 loose hammer detected at 2024-10-09 11:26:27",
-            "1 loose hammer detected at 2024-10-09 11:26:27",
-            "2 loose hammers detected at 2024-10-09 12:44:28",
-            "1 loose hammer detected at 2024-10-09 12:44:30",
-            "1 loose hammer detected at 2024-10-09 12:44:31",
-            "1 loose hammer detected at 2024-10-09 12:44:32",
-            "1 loose hammer detected at 2024-10-09 12:44:32",
-            "1 loose hammer detected at 2024-10-09 12:44:33",
-            "1 loose hammer detected at 2024-10-09 12:44:33",
-            "1 loose hammer detected at 2024-10-09 12:44:34",
-            "1 loose hammer detected at 2024-10-09 12:44:34",
-            "1 loose hammer detected at 2024-10-09 12:44:35",
-            "1 loose hammer detected at 2024-10-09 12:44:35"
-        ]
-    },
-    "Zone 4": {
-        "location": [
-            2281,
-            845
-        ],
-        "zone_activity": "Brick laying",
-        "required_PPE": "Gloves, Helmet, Mask",
-        "risk_factor": 1.0,
-        "credits": 3,
-        "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 0,
-        "hazard_type": []
     }
 }
