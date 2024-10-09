@@ -5,11 +5,11 @@ import os
 from datetime import datetime  
 
 # Load both YOLO models 
-model1 = YOLO('/Users/tombo/Documents/CORE/Safetybot/trained models/yolov8n_helmets_heads.pt')  # Model for helmets and heads
-model2 = YOLO('/Users/tombo/Documents/CORE/Safetybot/trained models/yolov8n_hammer.pt')  # Model for hammers
+model1 = YOLO('/Users/tombo/Documents/CORE/Safetybot/best_helmet.pt')  # Model for helmets and heads
+model2 = YOLO('/Users/tombo/Documents/CORE/Safetybot/best_hammer.pt')  # Model for hammers
 
 # Load the image only once
-image_path = "/Users/tombo/Documents/CORE/Safetybot/photo:video/IMG_7691.jpeg"
+image_path = "/Users/tombo/Documents/CORE/Safetybot/terras.jpeg"
 image = cv2.imread(image_path)  # Load the image
 
 # Use both models to predict on the image
@@ -47,7 +47,7 @@ for box in results1[0].boxes:
     
     if class_name == 'helmet':
         helmet_boxes.append(box_coords)  # Save bounding box for helmet
-    elif class_name == 'head':
+    elif class_name == 'no_helmet':
         head_boxes.append(box_coords)  # Save bounding box for head
 
 # Process results from model 2 (hammers)
@@ -87,7 +87,7 @@ with open(zone_ID, 'r') as f:
     zone_data = json.load(f)
 
 # zone of hazards (DIT MOET AANPASBAAR WORDEN)
-zone_name = "Zone 2"  
+zone_name = "Zone 1"  
 
 # 2: Add hazard information to zone_ID (Append new hazards instead of overwriting)
 if zone_name in zone_data:

@@ -1,17 +1,19 @@
 from ultralytics import YOLO
+import os
 
-model = YOLO('yolov8n.pt')
+# Load your trained YOLO model
+model = YOLO('/Users/tombo/Documents/CORE/Safetybot/best_helmet.pt')
 
+# Path to the image
+image_path = "/Users/tombo/Documents/CORE/Safetybot/terras.jpeg"
+
+# Run the prediction
 results = model.predict(
-    source = "/Users/tombo/Documents/CORE/Safetybot/IMG_7691.jpeg",
-    conf = 0.25,
-    save = True
+    source=image_path,  # Correct path
+    conf=0.25,
+    save=True
 )
 
-# # print for image
-# print(results)
-# results[0].show()
-
-# # Save the result to custom directory
-# results.save(save_dir="/path/to/custom/directory")
-
+# Print the results
+print(results)
+results[0].show()
