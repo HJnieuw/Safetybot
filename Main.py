@@ -24,9 +24,6 @@ class RobotApp:
     def create_buttons(self):
         button_options = [
             ("Robot Status", self.robot_status),
-            ("Start Robot", self.start_robot),
-            ("Stop Robot", self.stop_robot),
-            ("Pause Robot", self.pause_robot),
             ("Show Zone Hazards", self.show_hazards),
             ("Show Zone Information", self.show_zone_information),
             ("Import New Site Plan", self.import_site_plan),
