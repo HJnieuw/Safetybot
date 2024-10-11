@@ -1,37 +1,16 @@
 {
     "Zone 1": {
         "location": [
-            462,
-            1376
+            339,
+            1501
         ],
-        "zone_activity": "Welding",
-        "required_PPE": "Helmet",
+        "zone_activity": "Carpentry",
+        "required_PPE": "Helmet, Goggles, Mask",
         "risk_factor": 1.0,
         "credits": 1,
         "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 19,
-        "hazard_type": [
-            "1 person is not wearing their helmet at 2024-10-09 11:25:52",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:52",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:52",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:53",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:54",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:54",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 loose hammer detected at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:55",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:56",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:56",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:56",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:56",
-            "1 person is not wearing their helmet at 2024-10-09 11:25:56"
-        ]
+        "amount_of_hazards": 0,
+        "hazard_type": []
     },
     "Zone 2": {
         "location": [
