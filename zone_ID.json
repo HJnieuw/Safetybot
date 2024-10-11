@@ -9,8 +9,14 @@
         "risk_factor": 1.0,
         "credits": 1,
         "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 0,
-        "hazard_type": []
+        "amount of hazards": 0,
+        "hazard type": [],
+        "amount_of_hazards": 3,
+        "hazard_type": [
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-10 18:12:41",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-11 12:00:41",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-11 12:00:41"
+        ]
     },
     "Zone 2": {
         "location": [
@@ -18,21 +24,16 @@
             152
         ],
         "zone_activity": "Carpentry",
-        "required_PPE": "Helmet, Goggles",
+        "required_PPE": [
+            "Helmet, Goggles"
+        ],
         "risk_factor": 1.0,
         "credits": 1,
         "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 254,
+        "amount_of_hazards": 2,
         "hazard_type": [
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:42",
-            "1 loose hammer detected at 2024-10-09 14:26:43",
-            "1 loose hammer detected at 2024-10-09 14:26:43",
-            "1 loose hammer detected at 2024-10-09 14:26:43"
+            "Person without helmet detected, ID: 2, at 2024-10-10 11:58:01",
+            "Person without helmet detected, ID: 1, at 2024-10-10 13:54:45"
         ]
     },
     "Zone 3": {
@@ -40,15 +41,14 @@
             668,
             580
         ],
-        "zone_activity": "Carpentry",
+        "zone_activity": [
+            "Carpentry"
+        ],
         "required_PPE": "Mask",
         "risk_factor": 1.0,
         "credits": 1,
         "floorplan": "construction_site_bk.jpg",
-        "amount_of_hazards": 2,
-        "hazard_type": [
-            "1 loose hammer detected at 2024-10-09 11:26:27",
-            "1 loose hammer detected at 2024-10-09 11:26:27"
-        ]
+        "amount_of_hazards": 0,
+        "hazard_type": []
     }
 }

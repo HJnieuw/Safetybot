@@ -8,7 +8,7 @@ ZONE_ID_FILE = 'zone_ID.json'   # Path to the ZONE ID JSON file
 ZONE_NAME = "Zone 1"            # Name of the current zone, needs to be automated
 
 # Load trained YOLO model
-model = YOLO('best_helmet.pt')  # Path to the trained model
+model = YOLO('best_helmet.pt')
 
 def load_json(path):
     """Load JSON data from the given file path"""
@@ -128,14 +128,7 @@ def main():
         
         # YOLO detection and tracking
         if "Helmet" in required_PPE:
-            results = model.track(
-                source=frame, 
-                conf=0.6, 
-                persist=True, 
-                save=False,
-                tracker= 'bytetrack_helmet.yaml',
-                verbose= False
-            )
+            results = model.track(source=frame, conf=0.6, persist=True, save=False)
         else:
             results = None
         
@@ -171,3 +164,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
