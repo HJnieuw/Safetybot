@@ -1,18 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import RRTstar_algorithm as RRT
 
 # Create a graph
 G = nx.Graph()
-
-# Add edges with distances (weights)
-edges_with_distances = [
-    (0, 1), (0, 5), (0, 4), 
-    (1, 2), 
-    (2, 3), 
-    (3, 4), 
-    (4, 5)
-]
-G.add_weighted_edges_from(edges_with_distances)
 
 # Assign real-world coordinates for each node (e.g., from a floorplan)
 node_positions = {
@@ -23,6 +14,16 @@ node_positions = {
     4:(874.371376,633.788766),
     5:(1406.389376,698.344388)
 }
+
+# Add edges with distances (weights)
+edges_with_distances = [
+    (0, 1), (0, 5), (0, 4), 
+    (1, 2), 
+    (2, 3), 
+    (3, 4), 
+    (4, 5)
+]
+G.add_weighted_edges_from(edges_with_distances)
 
 # Draw the graph using the real-world positions
 plt.figure(figsize=(10, 10))

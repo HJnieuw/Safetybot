@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 import cv2
 import random
 import math
+import nodelist
 
 # Parameters for RRT*
 MAX_ITER = 10000
 GOAL_RADIUS = 10
-STEP_SIZE = 5  # Small step size for improved accuracy
+STEP_SIZE = 10  # Small step size for improved accuracy
 SEARCH_RADIUS = 20
 
 # Read and preprocess the image
@@ -19,8 +20,8 @@ _, binary_map = cv2.threshold(floor_plan, 200, 255, cv2.THRESH_BINARY_INV)
 binary_map = binary_map // 255  # Convert to binary (1 for obstacles, 0 for free space)
 
 # Define the start (A) and goal (B) points
-start = (630.064973, 955.012783)  # approximate coordinates for point A
-goal = (874.371376,633.788766)  # approximate coordinates for point B
+start = nodelist.nodes[0]  # approximate coordinates for point A
+goal = nodelist.nodes[1]  # approximate coordinates for point B
 
 # RRT* Node class
 class Node:
@@ -147,12 +148,24 @@ def rrt_star_with_smoothing(start, goal, binary_map, max_iter=MAX_ITER, smooth=T
 # Run the combined RRT* with smoothing enabled
 tree, smoothed_path = rrt_star_with_smoothing(start, goal, binary_map, smooth=True)
 
+# Calculate the length of the smoothed path
+def calculate_path_length(path):
+    length = 0.0
+    for i in range(1, len(path)):
+        length += np.linalg.norm(np.array(path[i]) - np.array(path[i-1]))
+    return length
+
+# Calculate the length of the sample path
+length_of_smooth_path = calculate_path_length(smoothed_path)
+print(length_of_smooth_path)
+
 # Plot the result with both original and smoothed paths
 plt.figure(figsize=(10, 10))  # Increase figure size for larger output
 plt.imshow(binary_map, cmap='gray_r')  # Invert the output colors by using 'gray_r'
 for node in tree:
     if node.parent:
         plt.plot([node.point[0], node.parent.point[0]], [node.point[1], node.parent.point[1]], 'b-', linewidth=0.5)
+
 # Plot the smoothed path
 plt.plot([p[0] for p in smoothed_path], [p[1] for p in smoothed_path], 'g-', linewidth=2, label="Smoothed Path")
 plt.scatter(start[0], start[1], color='green', label="Start", s=50)
