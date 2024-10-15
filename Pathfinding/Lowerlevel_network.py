@@ -7,7 +7,7 @@ import nodelist
 
 # Parameters for RRT*
 MAX_ITER = 10000
-GOAL_RADIUS = 10
+GOAL_RADIUS = 20
 STEP_SIZE = 5  # Small step size for improved accuracy
 SEARCH_RADIUS = 20
 
@@ -20,7 +20,7 @@ _, binary_map = cv2.threshold(floor_plan, 200, 255, cv2.THRESH_BINARY_INV)
 binary_map = binary_map // 255  # Convert to binary (1 for obstacles, 0 for free space)
 
 # Define the start (A) and goal (B) points
-start = nodelist.nodes[3]  # approximate coordinates for point A
+start = nodelist.nodes[20]  # approximate coordinates for point A
 goal = nodelist.nodes[13]  # approximate coordinates for point B
 
 # RRT* Node class

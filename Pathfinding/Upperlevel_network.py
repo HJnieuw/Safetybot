@@ -1,28 +1,21 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import nodelist
 
 # Create a graph
 G = nx.Graph()
 
 # Assign real-world coordinates for each node (e.g., from a floorplan)
-node_positions = {
-    0:(630.064973,955.012783),
-    1:(592.017066,857.289924),
-    2:(592.017066,828.95015),
-    3:(772.034676,705.314416),
-    4:(874.371376,633.788766),
-    5:(1406.389376,698.344388)
-}
+node_positions = nodelist.nodes
 
 # Add edges with distances (weights)
-edges_with_distances = [
-    (0, 1, 1), (0, 5, 1), (0, 4, 1), 
-    (1, 2, 1), 
-    (2, 3, 1), 
-    (3, 4, 1), 
-    (4, 5, 1 )
-]
+edges_with_distances = []
+
+for node, connections in nodelist.connections_list:
+    for connection in connections:
+        if isinstance(connection, tuple):  # Check if it's a tuple (node, weight)
+            edges_with_distances.append((node, connection[0], connection[1]))
+
 G.add_weighted_edges_from(edges_with_distances)
 
 # Draw the graph using the real-world positions
