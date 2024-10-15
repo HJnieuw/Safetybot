@@ -8,7 +8,7 @@ import nodelist
 # Parameters for RRT*
 MAX_ITER = 10000
 GOAL_RADIUS = 10
-STEP_SIZE = 10  # Small step size for improved accuracy
+STEP_SIZE = 5  # Small step size for improved accuracy
 SEARCH_RADIUS = 20
 
 # Read and preprocess the image
@@ -20,8 +20,8 @@ _, binary_map = cv2.threshold(floor_plan, 200, 255, cv2.THRESH_BINARY_INV)
 binary_map = binary_map // 255  # Convert to binary (1 for obstacles, 0 for free space)
 
 # Define the start (A) and goal (B) points
-start = nodelist.nodes[8]  # approximate coordinates for point A
-goal = nodelist.nodes[9]  # approximate coordinates for point B
+start = nodelist.nodes[3]  # approximate coordinates for point A
+goal = nodelist.nodes[13]  # approximate coordinates for point B
 
 # RRT* Node class
 class Node:
@@ -44,7 +44,7 @@ def nearest(tree, point):
 
 # Check if a path between two points is collision-free
 def is_collision_free(p1, p2, binary_map):
-    num_points = int(distance(p1, p2) / 2)  # Check for collisions at intervals
+    num_points = int(distance(p1, p2) / 1.5)  # Check for collisions at intervals, reduce division for more checks
     for i in range(num_points):
         u = i / num_points
         x = int(p1[0] * (1 - u) + p2[0] * u)

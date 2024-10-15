@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import Lowerlevel_network as RRT
+
 
 # Create a graph
 G = nx.Graph()
@@ -17,11 +17,11 @@ node_positions = {
 
 # Add edges with distances (weights)
 edges_with_distances = [
-    (0, 1), (0, 5), (0, 4), 
-    (1, 2), 
-    (2, 3), 
-    (3, 4), 
-    (4, 5)
+    (0, 1, 1), (0, 5, 1), (0, 4, 1), 
+    (1, 2, 1), 
+    (2, 3, 1), 
+    (3, 4, 1), 
+    (4, 5, 1 )
 ]
 G.add_weighted_edges_from(edges_with_distances)
 
