@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import RRTstar_algorithm as RRT
+import Lowerlevel_network as RRT
 
 # Create a graph
 G = nx.Graph()

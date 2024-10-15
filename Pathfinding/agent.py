@@ -2,7 +2,8 @@ import numpy as np
 import bandit as bd
 
 # Select an environment to use
-env = bd.BanditTwoArmedHighHighFixed()
+env = bd.CustomBanditzones()
+
 
 # Define a list of fixed epsilon values
 epsilon_values = [1.0, 0.5, 0.1, 0.05, 0.01]

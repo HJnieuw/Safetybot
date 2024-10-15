@@ -2,6 +2,7 @@ import numpy as np
 import gym
 from gym import spaces
 from gym.utils import seeding
+import json
 
 
 class BanditEnv(gym.Env):
@@ -59,30 +60,44 @@ class BanditEnv(gym.Env):
     def render(self, mode='human', close=False):
         pass
 
+class CustomBanditzones(BanditEnv):
+    def __init__(self):
+        # Load the zone_id data and store it as an instance variable
+        with open("zone_ID.json", "r") as file:
+            self.zone_id = json.load(file)  # Instance variable
+
+        # Extract risk_factor values from each zone in the instance variable
+        p_dist = [zone["risk_factor"] for zone in self.zone_id.values()]
+        
+        # Create r_dist as a list of ones, with length equal to the number of zones
+        r_dist = [1] * len(self.zone_id)
+
+        # Initialize the parent class (BanditEnv) with p_dist and r_dist
+        BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
+
+        # Print the distributions for verification
+        print("p_dist:", p_dist)
+        print("r_dist:", r_dist)
 
 class BanditTwoArmedDeterministicFixed(BanditEnv):
     """Simplest case where one bandit always pays, and the other always doesn't"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.3, 0.8, 0.1], r_dist=[1,1,1])
 
-
 class BanditTwoArmedHighLowFixed(BanditEnv):
     """Stochastic version with a large difference between which bandit pays out of two choices"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.8, 0.2], r_dist=[1, 1])
-
 
 class BanditTwoArmedHighHighFixed(BanditEnv):
     """Stochastic version with a small difference between which bandit pays where both are good"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.8, 0.9], r_dist=[1, 1])
 
-
 class BanditTwoArmedLowLowFixed(BanditEnv):
     """Stochastic version with a small difference between which bandit pays where both are bad"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.1, 0.2], r_dist=[1, 1])
-
 
 class BanditTenArmedRandomFixed(BanditEnv):
     """10 armed bandit with random probabilities assigned to payouts"""
@@ -91,7 +106,6 @@ class BanditTenArmedRandomFixed(BanditEnv):
         r_dist = np.full(bandits, 1)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
-
 class BanditTenArmedUniformDistributedReward(BanditEnv):
     """10 armed bandit with that always pays out with a reward selected from a uniform distribution"""
     def __init__(self, bandits=10):
@@ -99,14 +113,12 @@ class BanditTenArmedUniformDistributedReward(BanditEnv):
         r_dist = np.random.uniform(size=bandits)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
-
 class BanditTenArmedRandomRandom(BanditEnv):
     """10 armed bandit with random probabilities assigned to both payouts and rewards"""
     def __init__(self, bandits=10):
         p_dist = np.random.uniform(size=bandits)
         r_dist = np.random.uniform(size=bandits)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
-
 
 class BanditTenArmedGaussian(BanditEnv):
     """
@@ -125,8 +137,3 @@ class BanditTenArmedGaussian(BanditEnv):
             r_dist.append([np.random.normal(0, 1), 1])
 
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
-
-
-
-
-

@@ -20,8 +20,8 @@ _, binary_map = cv2.threshold(floor_plan, 200, 255, cv2.THRESH_BINARY_INV)
 binary_map = binary_map // 255  # Convert to binary (1 for obstacles, 0 for free space)
 
 # Define the start (A) and goal (B) points
-start = nodelist.nodes[0]  # approximate coordinates for point A
-goal = nodelist.nodes[1]  # approximate coordinates for point B
+start = nodelist.nodes[8]  # approximate coordinates for point A
+goal = nodelist.nodes[9]  # approximate coordinates for point B
 
 # RRT* Node class
 class Node:
