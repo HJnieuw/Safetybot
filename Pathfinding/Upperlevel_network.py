@@ -1,30 +1,32 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import nodelist
+import Pathfinding.BIM_mockup as BIM_mockup
 
 # Create a graph
 G = nx.Graph()
 
-# Assign real-world coordinates for each node (e.g., from a floorplan)
-node_positions = nodelist.nodes
+# Add nodes
+for node_id in BIM_mockup.nodes:
+    G.add_node(node_id)
 
-# Add edges with distances (weights)
-edges_with_distances = []
+# Add connections (ignore missing weights)
+for node, connections in BIM_mockup.connections_list:
+    for conn in connections:
+        if len(conn) > 1:  # Ignore connections with missing weights
+            target_node, weight = conn
+            G.add_edge(node, target_node, weight=weight)
 
-for node, connections in nodelist.connections_list:
-    for connection in connections:
-        if isinstance(connection, tuple):  # Check if it's a tuple (node, weight)
-            edges_with_distances.append((node, connection[0], connection[1]))
+# Draw the graph
+plt.figure(figsize=(10, 7))
+pos = nx.spring_layout(G)  # Position nodes using spring layout (ignores real coordinates)
 
-G.add_weighted_edges_from(edges_with_distances)
+# Draw nodes and edges
+nx.draw_networkx_nodes(G, pos, node_size=300)
+nx.draw_networkx_edges(G, pos, alpha=0.5)
+nx.draw_networkx_labels(G, pos, font_size=10)
+nx.draw_networkx_edge_labels(G, pos, edge_labels={(u, v): f'{d["weight"]}' for u, v, d in G.edges(data=True)})
 
-# Draw the graph using the real-world positions
-plt.figure(figsize=(10, 10))
-nx.draw_networkx(G, pos=node_positions, with_labels=True, node_color='skyblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')
-
-# Draw the edge labels (distances)
-edge_labels = nx.get_edge_attributes(G, 'weight')
-nx.draw_networkx_edge_labels(G, pos=node_positions, edge_labels=edge_labels)
-
-# Display the graph
+plt.title("Graph Representation of Nodes and Connections")
+plt.axis('off')
 plt.show()
+
