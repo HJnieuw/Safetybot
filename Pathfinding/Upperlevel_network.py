@@ -16,6 +16,9 @@ for node, connections in BIM_mockup.connections_list:
             target_node, weight = conn
             G.add_edge(node, target_node, weight=weight)
 
+''''
+
+
 # Draw the graph
 plt.figure(figsize=(10, 7))
 pos = nx.spring_layout(G)  # Position nodes using spring layout (ignores real coordinates)
@@ -30,6 +33,7 @@ plt.title("Graph Representation of Nodes and Connections")
 plt.axis('off')
 plt.show()
 
+'''''
 
 # Define the source and target nodes
 source_node = 5  
