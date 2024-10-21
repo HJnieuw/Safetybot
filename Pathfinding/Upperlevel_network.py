@@ -16,9 +16,8 @@ for node, connections in BIM_mockup.connections_list:
             target_node, weight = conn
             G.add_edge(node, target_node, weight=weight)
 
+
 ''''
-
-
 # Draw the graph
 plt.figure(figsize=(10, 7))
 pos = nx.spring_layout(G)  # Position nodes using spring layout (ignores real coordinates)
@@ -32,13 +31,11 @@ nx.draw_networkx_edge_labels(G, pos, edge_labels={(u, v): f'{d["weight"]}' for u
 plt.title("Graph Representation of Nodes and Connections")
 plt.axis('off')
 plt.show()
-
 '''''
 
+
 # Define the source and target nodes
-source_node = 5  
+source_node = 10  
 target_node = 0  
 shortest_path = nx.shortest_path(G, source=source_node, target=target_node, weight='weight')
 print(shortest_path)
-
-
