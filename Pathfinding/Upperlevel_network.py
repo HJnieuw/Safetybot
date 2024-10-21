@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import Pathfinding.BIM_mockup as BIM_mockup
+import BIM_mockup as BIM_mockup
 
 # Create a graph
 G = nx.Graph()
@@ -29,4 +29,12 @@ nx.draw_networkx_edge_labels(G, pos, edge_labels={(u, v): f'{d["weight"]}' for u
 plt.title("Graph Representation of Nodes and Connections")
 plt.axis('off')
 plt.show()
+
+
+# Define the source and target nodes
+source_node = 5  
+target_node = 0  
+shortest_path = nx.shortest_path(G, source=source_node, target=target_node, weight='weight')
+print(shortest_path)
+
 

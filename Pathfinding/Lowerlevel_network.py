@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 import random
 import math
-import Pathfinding.BIM_mockup as BIM_mockup
+import BIM_mockup as BIM_mockup
 
 # Parameters for RRT*
 MAX_ITER = 10000
