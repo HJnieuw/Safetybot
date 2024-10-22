@@ -86,7 +86,7 @@ if __name__ == "__main__":
     # Set up the environment and parameters
     env = bd.CustomBanditzones()
     epsilon_values = [0.3, 0.2, 0.1, 0.05]
-    n_steps = 10000
+    n_steps = 1000
 
     # Create an instance of the EpsilonGreedyBandit class
     bandit = EpsilonGreedyBandit(env, epsilon_values, n_steps)
