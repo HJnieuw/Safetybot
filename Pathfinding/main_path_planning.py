@@ -33,12 +33,27 @@ def calc_schedule(epsilon):
 # Pass the best epsilon value to calc_schedule
 calc_schedule(epsilon)
 
+def Upperlevel_network():    
+    # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup
+    analyzer = UN.GraphAnalyzer(BIM.nodes, BIM.connections_list)
+
+    # Define source and target nodes
+    source_node = BIM.nodes[1]  
+    target_node = BIM.nodes[5]
+
+    # Find the shortest path
+    shortest_path = analyzer.find_shortest_path(source_node, target_node)
+    if shortest_path:
+        print("Shortest path:", shortest_path)
+
+    return shortest_path
+    
 def Lowerlevel_network():
     image_path = "construction_site_bk.jpg"
-    
     # Define start and goal points based on your BIM_mockup nodes
-    start = BIM.nodes[20]  # Point A
-    goal = BIM.nodes[13]    # Point B
+       
+    start = start_node
+    goal = target_node
 
     # Create an instance of the RRTStar class
     rrt_star_instance = LN.RRTStar(image_path, start, goal)
@@ -52,4 +67,5 @@ def Lowerlevel_network():
 
     # Plot the results
     rrt_star_instance.plot_results(smoothed_path)
+
 
