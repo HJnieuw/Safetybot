@@ -36,6 +36,6 @@ plt.show()
 
 # Define the source and target nodes
 source_node = 10  
-target_node = 0  
+target_node = 0  ##bandit
 shortest_path = nx.shortest_path(G, source=source_node, target=target_node, weight='weight')
 print(shortest_path)
