@@ -65,6 +65,8 @@ class CustomBanditzones(BanditEnv):
         # Load the zone_id data and store it as an instance variable
         with open("zone_ID.json", "r") as file:
             self.zone_id = json.load(file)  # Instance variable
+                
+        self.zone_names = list(self.zone_id.keys())  # Store zone names
 
         # Extract risk_factor values from each zone in the instance variable
         p_dist = [zone["risk_factor"] for zone in self.zone_id.values()]
@@ -76,5 +78,6 @@ class CustomBanditzones(BanditEnv):
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
         # Print the distributions for verification
+        print(self.zone_names)
         print("p_dist:", p_dist)
         print("r_dist:", r_dist)
