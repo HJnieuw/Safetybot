@@ -78,6 +78,6 @@ class CustomBanditzones(BanditEnv):
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
         # Print the distributions for verification
-        print(self.zone_names)
+        print("Zone names:", self.zone_names)
         print("p_dist:", p_dist)
         print("r_dist:", r_dist)

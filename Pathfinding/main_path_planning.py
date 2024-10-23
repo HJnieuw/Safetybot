@@ -20,52 +20,70 @@ def define_epsilon():
     print(f"\nBest epsilon value: {best_epsilon}")
     return best_epsilon
 
-# Get the best epsilon value from define_epsilon
-epsilon = define_epsilon()
-
-
 def calc_schedule(epsilon):
     env = bd.CustomBanditzones()
     epsilon_values = [epsilon]
     calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=20)
     calc_schedule_optimizer.run_simulation()
 
-# Pass the best epsilon value to calc_schedule
-calc_schedule(epsilon)
-
-def Upperlevel_network():    
-    # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup
+def run_Upperlevel_network():    
+    # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup  
     analyzer = UN.GraphAnalyzer(BIM.nodes, BIM.connections_list)
 
-    # Define source and target nodes
-    source_node = BIM.nodes[1]  
-    target_node = BIM.nodes[5]
+    # Define a dictionary of nodes with their positions (coordinates)
+    nodes = BIM.nodes
+
+    # Initialize the NodeLocator with the nodes
+    locator = UN.NodeLocator(nodes)
+
+    # Define source and target locations (coordinates)
+    source_location = (600, 800)
+    target_location = (2600, 1500)
+
+    # Find the closest nodes to the source and target locations
+    closest_to_source = locator.find_closest_node(source_location)
+    closest_to_target = locator.find_closest_node(target_location)
+
+    # Print the results
+    print(f"Closest node to current location {source_location} is node: {closest_to_source[0]} at {closest_to_source[1]}")
+    print(f"Closest node to target location {target_location} is node: {closest_to_target[0]} at {closest_to_target[1]}")
 
     # Find the shortest path
-    shortest_path = analyzer.find_shortest_path(source_node, target_node)
+    shortest_path = analyzer.find_shortest_path(closest_to_source[0], closest_to_target[0])
     if shortest_path:
         print("Shortest path:", shortest_path)
 
     return shortest_path
     
-def Lowerlevel_network():
+def run_Lowerlevel_network(shortest_path):
     image_path = "construction_site_bk.jpg"
-    # Define start and goal points based on your BIM_mockup nodes
-       
-    start = start_node
-    goal = target_node
+    all_paths = []
+    
+    for i in range(len(shortest_path)-1):
+        start = BIM.nodes[shortest_path[i]]
+        goal = BIM.nodes[shortest_path[i+1]]
+        rrt_star_planner = LN.RRTStar(image_path, start, goal)
+        
+        # Get the smoothed path from RRT*
+        smoothed_path = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
+        #rrt_star_planner.plot_result(smoothed_path)
+        #print(smoothed_path)
+        # Append smoothed path to all_paths, joining segments
+        if len(all_paths) == 0:
+            all_paths += smoothed_path  # If first segment, add all points
+        else:
+            # Append the new path, excluding the first point of the new segment 
+            # (to avoid duplicate points at the junction)
+            all_paths += smoothed_path[1:]
 
-    # Create an instance of the RRTStar class
-    rrt_star_instance = LN.RRTStar(image_path, start, goal)
-
-    # Run the RRT* algorithm with smoothing enabled
-    tree, smoothed_path = rrt_star_instance.rrt_star_with_smoothing(smooth=True)
-
+    # Plot the result
+    rrt_star_planner.plot_result(all_paths)
+    print(all_paths)
+    
     # Calculate the length of the smoothed path
-    length_of_smooth_path = rrt_star_instance.calculate_path_length(smoothed_path)
-    print(f"Length of the smoothed path: {length_of_smooth_path}")
+    length_of_all_paths = rrt_star_planner.calculate_path_length(all_paths)
+    print("Length of the smoothed path:", length_of_all_paths)
 
-    # Plot the results
-    rrt_star_instance.plot_results(smoothed_path)
-
-
+if __name__ == "__main__":
+    shortest_path = run_Upperlevel_network()
+    Detailedroute = run_Lowerlevel_network(shortest_path)

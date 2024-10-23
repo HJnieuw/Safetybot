@@ -1,6 +1,31 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import BIM_mockup as BIM_mockup
+import math
+import BIM_mockup as BIM
+
+class NodeLocator:
+    def __init__(self, nodes):
+        """Initialize the locator with a dictionary of nodes."""
+        self.nodes = nodes
+
+    def calculate_distance(self, location, node):
+        """Calculate the Euclidean distance between the given location and a node."""
+        x1, y1 = location
+        x2, y2 = self.nodes[node]
+        return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+    def find_closest_node(self, location):
+        """Find the closest node to the given location."""
+        closest_node = None
+        min_distance = float('inf')
+
+        for node in self.nodes:
+            distance = self.calculate_distance(location, node)
+            if distance < min_distance:
+                min_distance = distance
+                closest_node = node
+
+        return closest_node, self.nodes[closest_node], min_distance
 
 class GraphAnalyzer:
     def __init__(self, nodes, connections):
@@ -10,9 +35,9 @@ class GraphAnalyzer:
         self.add_connections(connections)
 
     def add_nodes(self, nodes):
-        """Add nodes to the graph."""
-        for node_id in nodes:
-            self.G.add_node(node_id)
+        """Add nodes with coordinates to the graph."""
+        for node_id, coord in nodes.items():
+            self.G.add_node(node_id, coord=coord)  # Store node with its coordinates
 
     def add_connections(self, connections):
         """Add connections (edges) to the graph."""
@@ -30,33 +55,17 @@ class GraphAnalyzer:
         else:
             return None
 
-    def visualize_graph(self):
-        """Visualize the graph using matplotlib."""
-        pos = nx.spring_layout(self.G)  # positions for all nodes
-        nx.draw(self.G, pos, with_labels=True, node_color='lightblue', node_size=700, font_size=10, font_color='black')
-
-        # Draw edge labels
-        edge_labels = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx_edge_labels(self.G, pos, edge_labels=edge_labels)
-
-        plt.title("Graph Visualization")
-        plt.show()
-
-# Example usage (this would be in a separate script)
 if __name__ == "__main__":
-    # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup
-    analyzer = GraphAnalyzer(BIM_mockup.nodes, BIM_mockup.connections_list)
+    # Initialize the graph with nodes and connections from the mockup
+    graph_analyzer = GraphAnalyzer(BIM.nodes, BIM.connections_list)
 
     # Define source and target nodes
-    source_node = 1  
-    target_node = 5
+    source = 0  # Starting node
+    target = 19  # Target node
 
     # Find the shortest path
-    shortest_path = analyzer.find_shortest_path(source_node, target_node)
+    shortest_path = graph_analyzer.find_shortest_path(source, target)
     if shortest_path:
-        print("Shortest path:", shortest_path)
+        print(f"The shortest path from node {source} to node {target} is: {shortest_path}")
     else:
-        print(f"No path exists between {source_node} and {target_node}.")
-
-    # Visualize the graph
-    analyzer.visualize_graph()
+        print(f"No path exists between node {source} and node {target}.")
