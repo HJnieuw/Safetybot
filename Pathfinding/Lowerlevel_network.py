@@ -147,16 +147,16 @@ class RRTStar:
     def plot_result(self, smoothed_path):
         plt.figure(figsize=(10, 10))
         plt.imshow(self.binary_map, cmap='gray_r')
-        for node in self.tree:
-            if node.parent:
-                plt.plot([node.point[0], node.parent.point[0]], 
-                         [node.point[1], node.parent.point[1]], 'b-', linewidth=0.5)
 
         # Plot the smoothed path
-        plt.plot([p[0] for p in smoothed_path], [p[1] for p in smoothed_path], 
+        plt.plot([p[0] for p in smoothed_path], [p[-1] for p in smoothed_path], 
                  'g-', linewidth=2, label="Smoothed Path")
-        plt.scatter(self.start_node.point[0], self.start_node.point[1], color='green', label="Start", s=50)
-        plt.scatter(self.goal_node.point[0], self.goal_node.point[1], color='red', label="Goal", s=50)
+        
+        start_point = smoothed_path[0]
+        end_point = smoothed_path[-1]
+        
+        plt.scatter(start_point[0], start_point[1], color='green', label="Start", s=50)
+        plt.scatter(end_point[0], end_point[1], color='red', label="Goal", s=50)
         plt.legend()
         plt.title("RRT* Path Planning with Smoothed Path (Inverted Colors)")
         plt.show()

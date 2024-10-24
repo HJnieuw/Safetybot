@@ -110,13 +110,13 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
             all_paths += smoothed_path[1:]
 
     # Calculate path from zone location to first node
-    rrt_star_planner = LN.RRTStar(image_path, target_location, BIM.nodes[shortest_path [-1]])
+    rrt_star_planner = LN.RRTStar(image_path, BIM.nodes[shortest_path [-1]], target_location)
     path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
     all_paths += path_to_closest_node
 
     # Plot the result
     rrt_star_planner.plot_result(all_paths)
-    print(all_paths)
+    print(f'The path consist of these cordinates: {all_paths}')
     
     # Calculate the length of the smoothed path
     length_of_all_paths = rrt_star_planner.calculate_path_length(all_paths)
