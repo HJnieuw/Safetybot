@@ -1,8 +1,8 @@
 {
     "Zone 0": {
         "location": [
-            339,
-            1501
+            1588,
+            705
         ],
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Goggles, Mask",
@@ -14,8 +14,8 @@
     },
     "Zone 1": {
         "location": [
-            1265,
-            1592
+            2787,
+            1335
         ],
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Goggles",
@@ -27,8 +27,8 @@
     },
     "Zone 2": {
         "location": [
-            645,
-            796
+            2200,
+            812
         ],
         "zone_activity": "Carpentry",
         "required_PPE": "Mask",
@@ -40,8 +40,8 @@
     },
     "Zone 3": {
         "location": [
-            2150,
-            1136
+            2820,
+            1658
         ],
         "zone_activity": "Brick laying",
         "required_PPE": "Gloves, Helmet, Mask",

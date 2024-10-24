@@ -1,3 +1,4 @@
+import json
 import bandit as bd
 import agent as agent
 import Lowerlevel_network as LN
@@ -22,7 +23,7 @@ def define_epsilon():
 def calc_schedule(epsilon):
     env = bd.CustomBanditzones()
     epsilon_values = [epsilon]
-    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=50)
+    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=5)
     schedule = calc_schedule_optimizer.run_simulation()
 
     # Remove exact duplicates from the schedule
@@ -40,9 +41,15 @@ def calc_schedule(epsilon):
 
     # Clean up the schedule by removing consecutive duplicates
     newschedule = remove_exact_duplicates(schedule)
+    
     return newschedule
 
-def run_Upperlevel_network():    
+def load_cordinates_from_json_or_BIM(file_path):
+    with open(file_path, 'r') as file:
+        coordinates = json.load(file)
+    return coordinates
+
+def run_Upperlevel_network(schedule, coordinates):    
     # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup  
     analyzer = UN.GraphAnalyzer(BIM.nodes, BIM.connections_list)
 
@@ -52,9 +59,13 @@ def run_Upperlevel_network():
     # Initialize the NodeLocator with the nodes
     locator = UN.NodeLocator(nodes)
 
+    # This should itterate for al the locations in the planning
+    source_zone = schedule[0]
+    target_zone = schedule[1]
+
     # Define source and target locations (coordinates)
-    source_location = (600, 800)
-    target_location = (2600, 1500)
+    source_location = list(coordinates.values())[source_zone]['location']
+    target_location = list(coordinates.values())[target_zone]['location']
 
     # Find the closest nodes to the source and target locations
     closest_to_source = locator.find_closest_node(source_location)
@@ -69,12 +80,17 @@ def run_Upperlevel_network():
     if shortest_path:
         print("Shortest path:", shortest_path)
 
-    return shortest_path
+    return shortest_path, source_location, target_location
     
-def run_Lowerlevel_network(shortest_path):
+def run_Lowerlevel_network(shortest_path, source_location, target_location):
     image_path = "construction_site_bk.jpg"
     all_paths = []
-    
+
+    # Calculate path from zone location to first node
+    rrt_star_planner = LN.RRTStar(image_path, source_location, BIM.nodes[shortest_path[0]])
+    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
+    all_paths += path_to_closest_node
+
     for i in range(len(shortest_path)-1):
         start = BIM.nodes[shortest_path[i]]
         goal = BIM.nodes[shortest_path[i+1]]
@@ -84,6 +100,7 @@ def run_Lowerlevel_network(shortest_path):
         smoothed_path = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
         #rrt_star_planner.plot_result(smoothed_path)
         #print(smoothed_path)
+
         # Append smoothed path to all_paths, joining segments
         if len(all_paths) == 0:
             all_paths += smoothed_path  # If first segment, add all points
@@ -91,6 +108,11 @@ def run_Lowerlevel_network(shortest_path):
             # Append the new path, excluding the first point of the new segment 
             # (to avoid duplicate points at the junction)
             all_paths += smoothed_path[1:]
+
+    # Calculate path from zone location to first node
+    rrt_star_planner = LN.RRTStar(image_path, target_location, BIM.nodes[shortest_path [-1]])
+    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
+    all_paths += path_to_closest_node
 
     # Plot the result
     rrt_star_planner.plot_result(all_paths)
@@ -106,5 +128,8 @@ if __name__ == "__main__":
     schedule = calc_schedule(best_epsilon)
     print("New Schedule:", schedule)
     
-    #shortest_path = run_Upperlevel_network()
-    #Detailedroute = run_Lowerlevel_network(shortest_path)
+    coordinates = load_cordinates_from_json_or_BIM("zone_id.json")
+
+    shortest_path, source_location, target_location = run_Upperlevel_network(schedule, coordinates)
+    if shortest_path:
+        run_Lowerlevel_network(shortest_path, source_location, target_location)
