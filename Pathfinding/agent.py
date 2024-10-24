@@ -23,15 +23,14 @@ class EpsilonGreedyBandit:
             for step in range(self.n_steps):
                 if np.random.rand() < epsilon:
                     action = np.random.randint(len(mean_reward))  # Explore
-                    print(f"Step {step + 1}: Epsilon {epsilon} - Exploring: Chose ({self.env.zone_names[action]})")       
+                    #print(f"Step {step + 1}: Epsilon {epsilon} - Exploring: Chose ({self.env.zone_names[action]})")       
                     action_list.append(action)       
                 else:
                     max_reward_estimate = np.max(mean_reward)
                     best_actions = np.where(mean_reward == max_reward_estimate)[0]
                     action = np.random.choice(best_actions)  # Exploit
-                    action_list.append(action)    
-
-                    print(f"Step {step + 1}: Epsilon {epsilon} - Exploiting: Chose ({self.env.zone_names[action]})")   
+                    #print(f"Step {step + 1}: Epsilon {epsilon} - Exploiting: Chose ({self.env.zone_names[action]})")
+                    action_list.append(action)                    
                 
                 # Take a step in the environment
                 observation, reward, done, info = self.env.step(action)
@@ -47,7 +46,7 @@ class EpsilonGreedyBandit:
                 self.step_rewards[epsilon][step] = total_reward
 
             self.final_total_rewards[epsilon] = total_reward
-            print(action_list)
+        return action_list
 
     def get_best_epsilon(self):
         # Calculate the average rewards for each epsilon

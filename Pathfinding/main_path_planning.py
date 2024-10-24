@@ -17,14 +17,30 @@ def define_epsilon():
 
     # Get the best epsilon value
     best_epsilon = optimizer.get_best_epsilon()
-    print(f"\nBest epsilon value: {best_epsilon}")
     return best_epsilon
 
 def calc_schedule(epsilon):
     env = bd.CustomBanditzones()
     epsilon_values = [epsilon]
-    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=20)
-    calc_schedule_optimizer.run_simulation()
+    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=50)
+    schedule = calc_schedule_optimizer.run_simulation()
+
+    # Remove exact duplicates from the schedule
+    def remove_exact_duplicates(lst):
+        if not lst:
+            return []  # Handle empty list case
+        result = [lst[0]]  # Start with the first element
+
+        for i in range(1, len(lst)):
+            # Only append if current element is different from the previous one
+            if lst[i] != lst[i-1]:
+                result.append(lst[i])
+
+        return result
+
+    # Clean up the schedule by removing consecutive duplicates
+    newschedule = remove_exact_duplicates(schedule)
+    return newschedule
 
 def run_Upperlevel_network():    
     # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup  
@@ -85,5 +101,10 @@ def run_Lowerlevel_network(shortest_path):
     print("Length of the smoothed path:", length_of_all_paths)
 
 if __name__ == "__main__":
-    shortest_path = run_Upperlevel_network()
-    Detailedroute = run_Lowerlevel_network(shortest_path)
+    best_epsilon = define_epsilon()
+    print(f"The best epsilon is: {best_epsilon}")
+    schedule = calc_schedule(best_epsilon)
+    print("New Schedule:", schedule)
+    
+    #shortest_path = run_Upperlevel_network()
+    #Detailedroute = run_Lowerlevel_network(shortest_path)
