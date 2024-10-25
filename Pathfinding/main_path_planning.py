@@ -64,8 +64,8 @@ def run_Upperlevel_network(schedule, coordinates):
     target_zone = schedule[1]
 
     # Define source and target locations (coordinates)
-    source_location = list(coordinates.values())[source_zone]['location']
-    target_location = list(coordinates.values())[target_zone]['location']
+    source_location = tuple(coordinates.values())[source_zone]['location']
+    target_location = tuple(coordinates.values())[target_zone]['location']
 
     # Find the closest nodes to the source and target locations
     closest_to_source = locator.find_closest_node(source_location)
@@ -80,7 +80,7 @@ def run_Upperlevel_network(schedule, coordinates):
     if shortest_path:
         print("Shortest path:", shortest_path)
 
-    return shortest_path, source_location, target_location
+    return shortest_path, tuple(source_location), tuple(target_location)
     
 def run_Lowerlevel_network(shortest_path, source_location, target_location):
     image_path = "construction_site_bk.jpg"
@@ -88,7 +88,7 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
 
     # Calculate path from zone location to first node
     rrt_star_planner = LN.RRTStar(image_path, source_location, BIM.nodes[shortest_path[0]])
-    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for initial segment
+    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=False)  # No smoothing for initial segment
     all_paths.extend(path_to_closest_node)
 
     for i in range(len(shortest_path) - 1):
@@ -97,7 +97,7 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
         rrt_star_planner = LN.RRTStar(image_path, start, goal)
 
         # Get the path from RRT* without smoothing
-        path_segment = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
+        path_segment = rrt_star_planner.rrt_star_with_smoothing(smooth=False)
 
         # Append the new path segment, excluding the first point of the new segment (to avoid duplicate points at the junction)
         if len(all_paths) > 0:
@@ -107,16 +107,21 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
 
     # Calculate path from last node to target location
     rrt_star_planner = LN.RRTStar(image_path, BIM.nodes[shortest_path[-1]], target_location)
-    path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for this segment
+    path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=False)  # No smoothing for this segment
     all_paths.extend(path_to_target_node)
 
+    rrt_star_planner = LN.RRTStar(image_path, all_paths[0], all_paths[-1])
+    smoothed_path = rrt_star_planner.smooth_path(all_paths)
+    
     # Plot the result
-    rrt_star_planner.plot_result(all_paths)
-    print(f'The combined path consists of these coordinates: {all_paths}')
+    rrt_star_planner.plot_result(smoothed_path)
+    print(f'The combined path consists of these coordinates: {smoothed_path}')
     
     # Calculate the length of the smoothed path
-    length_of_all_paths = rrt_star_planner.calculate_path_length(all_paths)
+    length_of_all_paths = rrt_star_planner.calculate_path_length(smoothed_path)
     print("Length of the smoothed path:", length_of_all_paths)
+
+    return smoothed_path
 
 if __name__ == "__main__":
     best_epsilon = define_epsilon()
