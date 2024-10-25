@@ -1,19 +1,136 @@
-schedule = [0, 3, 1, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2]
 
-print("Original Schedule:", schedule)
+import cv2
+import matplotlib.pyplot as plt
+import math
 
-def remove_exact_duplicates(lst):
-    if not lst:
-        return []  # Handle empty list case
-    result = [lst[0]]  # Start with the first element
-    
-    for i in range(1, len(lst)):
-        # Only append if current element is different from the previous one
-        if lst[i] != lst[i-1]:
-            result.append(lst[i])
-    
-    return result
+def euclidean_distance(node1, node2):
+    x1, y1 = node1
+    x2, y2 = node2
+    return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
-newschedule = remove_exact_duplicates(schedule)
+def update_connections_with_distances(nodes, connections_list):
+    updated_connections = []
+    for node_id, connections in connections_list:
+        updated_node_connections = []
+        for conn in connections:
+            connected_node_id = conn[0]
+            distance = euclidean_distance(nodes[node_id], nodes[connected_node_id])
+            updated_node_connections.append((connected_node_id, distance))
+        updated_connections.append((node_id, updated_node_connections))
+    return updated_connections
 
-print("New Schedule", newschedule)
+def show_nodes_and_connections(image_path, nodes, connections_list):
+    # Load the image
+    img = cv2.imread(image_path)
+
+    # Define colors and parameters
+    node_color = (0, 0, 255)  # Red color for nodes
+    connection_color = (255, 0, 255)  # Green color for connections
+    node_radius = 10
+    connection_thickness = 2
+
+    # Draw nodes
+    for node_id, (x, y) in nodes.items():
+        cv2.circle(img, (int(x), int(y)), node_radius, node_color, -1)  # Draw filled circle for each node
+        cv2.putText(img, str(node_id), (int(x)-10, int(y)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+    # Draw connections
+    for node_id, connections in connections_list:
+        for conn in connections:
+            connected_node_id = conn[0]
+            x1, y1 = nodes[node_id]
+            x2, y2 = nodes[connected_node_id]
+            cv2.line(img, (int(x1), int(y1)), (int(x2), int(y2)), connection_color, connection_thickness)
+
+    # Convert the image from BGR (OpenCV format) to RGB (Matplotlib format)
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # Display the image with Matplotlib
+    plt.figure(figsize=(10, 10))
+    plt.imshow(img_rgb)
+    plt.axis('off')  # Turn off axis numbers and ticks
+    plt.show()
+
+
+# Example usage
+if __name__ == "__main__":
+    # Nodes and connections_list as you provided earlier
+    nodes = {
+        0: (630.064973, 955.012783),
+        1: (592.017066, 857.289924),
+        2: (592.017066, 828.95015),
+        3: (772.034676, 705.314416),
+        4: (874.371376, 633.788766),
+        5: (1406.389376, 698.344388),
+        6: (1740.951665, 671.714194),
+        7: (2618.685672, 671.714194),
+        8: (2671.329612, 725.853865),
+        9: (2714.886679, 1063.135271),
+        10: (2714.886679, 1156.729613),
+        11: (2714.886679, 1290.81661),
+        12: (2714.886679, 1445.326473),
+        13: (2670.881592, 1492.178841),
+        14: (2578.534189, 1492.178841),
+        15: (2413.074536, 1492.178841),
+        16: (2326.348267, 1492.178841),
+        17: (2104.264175, 1492.178841),
+        18: (2002.137914, 1492.178841),
+        19: (2172.040336, 1390.826147),
+        20: (1573.67052, 1390.826147),
+        21: (1686.843346, 1492.178841),
+        22: (1776.001193, 1492.178841),
+        23: (1457.464522, 1492.178841),
+        24: (1369.927727, 1492.178841),
+        25: (1148.452955, 1492.178841),
+        26: (1134.643783, 1390.826147),
+        27: (1102.331295, 1433.110379),
+        28: (516.847288, 1398.940242),
+        29: (516.847288, 1654.29791),
+        30: (2600, 1450)
+    }
+
+    connections_list = [
+        (0, [(1, 104), (4, 403), (5, 817)]),
+        (1, [(0, 104), (2, 28)]),
+        (2, [(1, 28), (3, 218)]),
+        (3, [(2, 218), (4, 124)]),
+        (4, [(0, 403), (5, 535)]),
+        (5, [(0, 817), (4, 535), (6, 335), (20, 712)]),
+        (6, [(5, 335), (20, 738), (19, 838), (7, 877)]),
+        (7, [(19, 846), (6, 877), (8, 75)]),
+        (8, [(9, 340), (10, 433), (11, 566), (12, 720), (13, 766), (30, 727)]),
+        (9, [(8, 340), (10, 93), (11, 227), (12, 382), (13, 431), (30, 403)]), 
+        (10, [(8, 433), (9, 93), (11, 134), (12, 288), (13, 338), (30, 314)]), 
+        (11, [(8, 566), (9, 227), (10, 134), (12, 154), (13, 206), (30, 196)]),
+        (12, [(8, 720), (9, 382), (10, 288), (11, 154), (13, 64), (30, 114)]), 
+        (13, [(8, 766), (9, 431), (10, 338), (11, 206), (12, 64), (30, 82)]),
+        (14, [(15, 165), (16, 252), (17, 474), (18, 576), (19, 418), (20, 1009), (21, 891), (22, 802), (23, 1121), (24, 1208), (25, 1430), (26, 1447), (27, 1477), (30, 47)]),
+        (15, [(14, 165), (16, 86), (17, 308), (18, 410), (19, 261), (20, 845), (21, 726), (22, 637), (23, 955), (24, 1043), (25, 1264), (26, 1282), (27, 1312), (30, 191)]),
+        (16, [(14, 252), (15, 86), (17, 222), (18, 324), (19, 184), (20, 759), (21, 639), (22, 550), (23, 868), (24, 956), (25, 1177), (26, 1196), (27, 1225), (30, 276)]),
+        (17, [(14, 474), (15, 308), (16, 222), (18, 102), (19, 121), (20, 540), (21, 417), (22, 328), (23, 646), (24, 734), (25, 955), (26, 974), (27, 1003), (30, 497)]),
+        (18, [(14, 576), (15, 410), (16, 324), (17, 102), (19, 197), (20, 440), (21, 315), (22, 226), (23, 544), (24, 632), (25, 853), (26, 873), (27, 901), (30, 599)]),
+        (19, [(14, 418), (15, 261), (16, 184), (17, 121), (18, 197), (20, 598), (21, 495), (22, 408), (23, 721), (24, 808), (25, 1028), (26, 1037), (27, 1070), (30, 432)]),
+        (20, [(14, 1009), (15, 845), (16, 759), (17, 540), (18, 440), (19, 598), (21, 151), (22, 226), (23, 154), (24, 227), (25, 437), (26, 439), (27, 473), (30, 1028)]),
+        (21, [(14, 891), (15, 726), (16, 639), (17, 417), (18, 315), (19, 495), (20, 151), (22, 89), (23, 229), (24, 316), (25, 538), (26, 561), (27, 587), (30, 914)]),
+        (22, [(14, 802), (15, 637), (16, 550), (17, 328), (18, 226), (19, 408), (20, 226), (21, 89), (23, 318), (24, 406), (25, 627), (26, 649), (27, 676), (30, 825)]),
+        (23, [(14, 1121), (15, 955), (16, 868), (17, 646), (18, 544), (19, 721), (20, 154), (21, 229), (22, 318), (24, 87), (25, 309), (26, 338), (27, 360), (30, 1143)]),
+        (24, [(14, 1208), (15, 1043), (16, 956), (17, 734), (18, 632), (19, 808), (20, 227), (21, 316), (22, 406), (23, 87), (25, 221), (26, 256), (27, 274), (30, 1230)]),
+        (25, [(14, 1430), (15, 1264), (16, 1177), (17, 955), (18, 853), (19, 1028), (20, 437), (21, 538), (22, 627), (23, 309), (24, 221), (26, 102), (27, 74), (30, 1452)]),
+        (26, [(14, 1447), (15, 1282), (16, 1196), (17, 974), (18, 873), (19, 1037), (20, 439), (21, 561), (22, 649), (23, 338), (24, 256), (25, 102), (27, 53), (30, 1466)]),
+        (27, [(14, 1477), (15, 1312), (16, 1225), (17, 1003), (18, 901), (19, 1070), (20, 473), (21, 587), (22, 676), (23, 360), (24, 274), (25, 74), (26, 53), (30, 1497), (28, 586), (29, 625)]),
+        (28, [(27, 586)]),
+        (29, [(27, 625)])
+    ]
+
+    # Update the connections list with the calculated distances
+    updated_connections_list = update_connections_with_distances(nodes, connections_list)
+
+    print("updated_connections = [")
+    for node_id, connections in updated_connections_list:
+        connections_str = ", ".join([f"({conn_id}, {int(distance)})" for conn_id, distance in connections])
+        print(f"    ({node_id}, [{connections_str}]),")
+    print("]")
+
+    # Show the nodes and their connections on the image
+    image_path = 'construction_site_bk.jpg'
+    show_nodes_and_connections(image_path, nodes, updated_connections_list)

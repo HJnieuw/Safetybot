@@ -88,35 +88,31 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
 
     # Calculate path from zone location to first node
     rrt_star_planner = LN.RRTStar(image_path, source_location, BIM.nodes[shortest_path[0]])
-    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
-    all_paths += path_to_closest_node
+    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for initial segment
+    all_paths.extend(path_to_closest_node)
 
-    for i in range(len(shortest_path)-1):
+    for i in range(len(shortest_path) - 1):
         start = BIM.nodes[shortest_path[i]]
-        goal = BIM.nodes[shortest_path[i+1]]
+        goal = BIM.nodes[shortest_path[i + 1]]
         rrt_star_planner = LN.RRTStar(image_path, start, goal)
-        
-        # Get the smoothed path from RRT*
-        smoothed_path = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
-        #rrt_star_planner.plot_result(smoothed_path)
-        #print(smoothed_path)
 
-        # Append smoothed path to all_paths, joining segments
-        if len(all_paths) == 0:
-            all_paths += smoothed_path  # If first segment, add all points
+        # Get the path from RRT* without smoothing
+        path_segment = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
+
+        # Append the new path segment, excluding the first point of the new segment (to avoid duplicate points at the junction)
+        if len(all_paths) > 0:
+            all_paths.extend(path_segment[1:])  # Skip the first point to avoid duplication
         else:
-            # Append the new path, excluding the first point of the new segment 
-            # (to avoid duplicate points at the junction)
-            all_paths += smoothed_path[1:]
+            all_paths.extend(path_segment)  # If first segment, add all points
 
-    # Calculate path from zone location to first node
-    rrt_star_planner = LN.RRTStar(image_path, BIM.nodes[shortest_path [-1]], target_location)
-    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
-    all_paths += path_to_closest_node
+    # Calculate path from last node to target location
+    rrt_star_planner = LN.RRTStar(image_path, BIM.nodes[shortest_path[-1]], target_location)
+    path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for this segment
+    all_paths.extend(path_to_target_node)
 
     # Plot the result
     rrt_star_planner.plot_result(all_paths)
-    print(f'The path consist of these cordinates: {all_paths}')
+    print(f'The combined path consists of these coordinates: {all_paths}')
     
     # Calculate the length of the smoothed path
     length_of_all_paths = rrt_star_planner.calculate_path_length(all_paths)

@@ -55,6 +55,7 @@ class GraphAnalyzer:
         else:
             return None
 
+# For local usage
 if __name__ == "__main__":
     # Initialize the graph with nodes and connections from the mockup
     graph_analyzer = GraphAnalyzer(BIM.nodes, BIM.connections_list)

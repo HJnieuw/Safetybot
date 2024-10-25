@@ -12,7 +12,7 @@ class Node:
         self.cost = 0
 
 class RRTStar:
-    def __init__(self, image_path, start, goal, max_iter=20000, goal_radius=20, step_size=10, search_radius=10):
+    def __init__(self, image_path, start, goal, max_iter=10000, goal_radius=20, step_size=10, search_radius=10):
         self.max_iter = max_iter
         self.goal_radius = goal_radius
         self.step_size = step_size
@@ -149,7 +149,7 @@ class RRTStar:
         plt.imshow(self.binary_map, cmap='gray_r')
 
         # Plot the smoothed path
-        plt.plot([p[0] for p in smoothed_path], [p[-1] for p in smoothed_path], 
+        plt.plot([p[0] for p in smoothed_path], [p[1] for p in smoothed_path], 
                  'g-', linewidth=2, label="Smoothed Path")
         
         start_point = smoothed_path[0]
@@ -162,7 +162,7 @@ class RRTStar:
         plt.show()
 
 
-# Example usage
+# For local usage
 if __name__ == "__main__":
     # Define start and goal points
     start = BIM.nodes[2]  # Replace with your start coordinates
