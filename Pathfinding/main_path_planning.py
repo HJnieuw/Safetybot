@@ -60,8 +60,8 @@ def run_Upperlevel_network(schedule, coordinates):
     locator = UN.NodeLocator(nodes)
 
     # This should itterate for al the locations in the planning
-    source_zone = schedule[0]
-    target_zone = schedule[1]
+    source_zone = schedule[1]
+    target_zone = schedule[2]
 
     # Define source and target locations (coordinates)
     source_location = tuple(coordinates.values())[source_zone]['location']
@@ -80,7 +80,7 @@ def run_Upperlevel_network(schedule, coordinates):
     if shortest_path:
         print("Shortest path:", shortest_path)
 
-    return shortest_path, tuple(source_location), tuple(target_location)
+    return shortest_path, source_location, target_location
     
 def run_Lowerlevel_network(shortest_path, source_location, target_location):
     image_path = "construction_site_bk.jpg"
