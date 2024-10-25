@@ -60,8 +60,8 @@ def run_Upperlevel_network(schedule, coordinates):
     locator = UN.NodeLocator(nodes)
 
     # This should itterate for al the locations in the planning
-    source_zone = schedule[1]
-    target_zone = schedule[2]
+    source_zone = schedule[0]
+    target_zone = schedule[1]
 
     # Define source and target locations (coordinates)
     source_location = tuple(coordinates.values())[source_zone]['location']
@@ -125,11 +125,14 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
 if __name__ == "__main__":
     best_epsilon = define_epsilon()
     print(f"The best epsilon is: {best_epsilon}")
-    schedule = calc_schedule(best_epsilon)
-    print("New Schedule:", schedule)
+    listschedule = calc_schedule(best_epsilon)
+    print("New Schedule:", listschedule)
     
     coordinates = load_cordinates_from_json_or_BIM("zone_id.json")
 
-    shortest_path, source_location, target_location = run_Upperlevel_network(schedule, coordinates)
-    if shortest_path:
-        run_Lowerlevel_network(shortest_path, source_location, target_location)
+    for i in range(len(listschedule)):
+        schedule = [listschedule[i], listschedule[i+1]]
+        print(schedule)
+        shortest_path, source_location, target_location = run_Upperlevel_network(schedule, coordinates)
+        if shortest_path:
+            run_Lowerlevel_network(shortest_path, source_location, target_location)
