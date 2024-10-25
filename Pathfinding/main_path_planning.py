@@ -23,7 +23,7 @@ def define_epsilon():
 def calc_schedule(epsilon):
     env = bd.CustomBanditzones()
     epsilon_values = [epsilon]
-    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=10)
+    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=5)
     schedule = calc_schedule_optimizer.run_simulation()
 
     # Remove exact duplicates from the schedule
@@ -110,9 +110,10 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
     path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=False)  # No smoothing for this segment
     all_paths.extend(path_to_target_node)
 
+    # Now smooth the combined path once
     rrt_star_planner = LN.RRTStar(image_path, all_paths[0], all_paths[-1])
-    smoothed_path = rrt_star_planner.smooth_path(all_paths)
-    
+    smoothed_path = rrt_star_planner.smooth_path(all_paths)  # Smooth the entire combined path
+
     # Plot the result
     rrt_star_planner.plot_result(smoothed_path)
     print(f'The combined path consists of these coordinates: {smoothed_path}')
@@ -120,8 +121,6 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
     # Calculate the length of the smoothed path
     length_of_all_paths = rrt_star_planner.calculate_path_length(smoothed_path)
     print("Length of the smoothed path:", length_of_all_paths)
-
-    return smoothed_path
 
 if __name__ == "__main__":
     best_epsilon = define_epsilon()
