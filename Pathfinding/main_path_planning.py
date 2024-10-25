@@ -23,7 +23,7 @@ def define_epsilon():
 def calc_schedule(epsilon):
     env = bd.CustomBanditzones()
     epsilon_values = [epsilon]
-    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=5)
+    calc_schedule_optimizer = agent.EpsilonGreedyBandit(env, epsilon_values, n_steps=20)
     schedule = calc_schedule_optimizer.run_simulation()
 
     # Remove exact duplicates from the schedule
