@@ -85,7 +85,7 @@ class EpsilonGreedyBandit:
         plt.show()
 
 
-# Example usage:
+# For local use
 if __name__ == "__main__":
     # Set up the environment and parameters
     env = bd.CustomBanditzones()
