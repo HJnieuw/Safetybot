@@ -50,5 +50,31 @@
         "floorplan": "construction_site_bk.jpg",
         "amount_of_hazards": 0,
         "hazard_type": []
+    },
+    "Zone 4": {
+        "location": [
+            1257,
+            1600
+        ],
+        "zone_activity": "Brick laying",
+        "required_PPE": "Gloves, Helmet, Mask",
+        "risk_factor": 0.2,
+        "credits": 4,
+        "floorplan": "construction_site_bk.jpg",
+        "amount_of_hazards": 0,
+        "hazard_type": []
+    },
+    "Zone 5": {
+        "location": [
+            363,
+            1542
+        ],
+        "zone_activity": "Carpentry",
+        "required_PPE": "Respirator",
+        "risk_factor": 0.05,
+        "credits": 5,
+        "floorplan": "construction_site_bk.jpg",
+        "amount_of_hazards": 0,
+        "hazard_type": []
     }
 }
