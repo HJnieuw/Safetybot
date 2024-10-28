@@ -1,0 +1,6 @@
+train: /Users/tombo/Documents/CORE/Safetybot/data_helmet_nohelmet/images/train
+val: /Users/tombo/Documents/CORE/Safetybot/data_helmet_nohelmet/images/val
+test: /Users/tombo/Documents/CORE/Safetybot/data_helmet_nohelmet/images/test
+
+nc: 2  # Number of classes
+names: ['helmet', 'no_helmet']  # Class names

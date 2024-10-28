@@ -1,0 +1,48 @@
+{
+    "Zone 1": {
+        "boundary": {
+            "x_min": 50,
+            "x_max": 80,
+            "y_min": 20,
+            "y_max": 80,
+            "z_min": 0,
+            "z_max": 3
+        },
+        "location": [
+            6,
+            5
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Brick laying",
+        "required_PPE": "Helmet",
+        "amount_of_hazards": 4,
+        "hazard_type": [
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-24 10:59:17",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-24 11:01:48",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-24 11:48:52"
+        ]
+    },
+    "Zone 2": {
+        "boundary": {
+            "x_min": 100,
+            "x_max": 150,
+            "y_min": 30,
+            "y_max": 100,
+            "z_min": 0,
+            "z_max": 3
+        },
+        "location": [
+            16,
+            5
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Carpentry",
+        "required_PPE": "Helmet, Safety Shoes",
+        "amount_of_hazards": 3,
+        "hazard_type": [
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-24 11:01:56",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-24 11:48:56",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-25 09:04:14"
+        ]
+    }
+}

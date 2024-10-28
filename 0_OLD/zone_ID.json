@@ -1,0 +1,97 @@
+{
+    "Zone 1": {
+        "location": [
+            1060,
+            356
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Brick laying",
+        "required_PPE": "Helmet",
+        "amount_of_hazards": 11,
+        "hazard_type": [
+            "WARNING: Person without helmet detected, ID: 3, at 2024-10-15 11:24:53",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:24:55",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-15 11:25:01",
+            "WARNING: Person without helmet detected, ID: 7, at 2024-10-15 11:25:03",
+            "WARNING: Person without helmet detected, ID: 9, at 2024-10-15 11:25:18",
+            "WARNING: Person without helmet detected, ID: 3, at 2024-10-15 11:25:46",
+            "WARNING: Person without helmet detected, ID: 6, at 2024-10-15 11:25:57",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:25:57",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:26:24",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-15 11:26:24",
+            "WARNING: Person without helmet detected, ID: 3, at 2024-10-15 11:28:04",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:30:46",
+            "WARNING: Person without helmet detected, ID: 3, at 2024-10-15 11:30:50",
+            "WARNING: Person without helmet detected, ID: 4, at 2024-10-15 11:30:55",
+            "WARNING: Person without helmet detected, ID: 5, at 2024-10-15 11:31:01",
+            "WARNING: Person without helmet detected, ID: 12, at 2024-10-15 11:31:57",
+            "WARNING: Person without helmet detected, ID: 21, at 2024-10-15 11:32:09",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:32:42",
+            "WARNING: Person without helmet detected, ID: 6, at 2024-10-15 11:33:13",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-15 11:36:08",
+            "WARNING: Person without helmet detected, ID: 12, at 2024-10-15 11:36:11",
+            "WARNING: Person without helmet detected, ID: 14, at 2024-10-15 11:36:12",
+            "WARNING: Person without helmet detected, ID: 21, at 2024-10-15 11:36:36",
+            "WARNING: Person without helmet detected, ID: 27, at 2024-10-15 11:37:11",
+            "WARNING: Person without helmet detected, ID: 29, at 2024-10-15 11:37:12",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-16 17:39:45",
+            "WARNING: Person without helmet detected, ID: 6, at 2024-10-16 17:39:54",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-22 15:52:06",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-22 20:55:32",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-23 16:00:40"
+        ]
+    },
+    "Zone 2": {
+        "location": [
+            432,
+            637
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Carpentry",
+        "required_PPE": "Gloves, Helmet, Safety Shoes",
+        "amount_of_hazards": 0,
+        "hazard_type": []
+    },
+    "Zone 3": {
+        "location": [
+            604,
+            421
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Welding",
+        "required_PPE": "Gloves, Goggles, Mask",
+        "amount_of_hazards": 2,
+        "hazard_type": []
+    },
+    "Maquettehal": {
+        "location": [
+            1104,
+            413
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "Brick laying",
+        "required_PPE": "Helmet, Mask, Safety Shoes",
+        "amount_of_hazards": 0,
+        "hazard_type": []
+    },
+    "bouwpub": {
+        "location": [
+            376,
+            320
+        ],
+        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "zone_activity": "bier drinken",
+        "required_PPE": "Gloves, Helmet, Safety Shoes",
+        "amount_of_hazards": 8,
+        "hazard_type": [
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-23 19:35:28",
+            "WARNING: Person without helmet detected, ID: 3, at 2024-10-23 19:35:29",
+            "WARNING: Person without helmet detected, ID: 5, at 2024-10-23 19:35:34",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-23 19:35:34",
+            "WARNING: Person without helmet detected, ID: 10, at 2024-10-23 19:35:37",
+            "WARNING: Person without helmet detected, ID: 11, at 2024-10-23 19:35:39",
+            "WARNING: Person without helmet detected, ID: 13, at 2024-10-23 19:35:43",
+            "WARNING: Person without helmet detected, ID: 14, at 2024-10-23 19:35:45"
+        ]
+    }
+}
