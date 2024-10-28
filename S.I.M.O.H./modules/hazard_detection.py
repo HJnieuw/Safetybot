@@ -2,6 +2,7 @@ import cv2
 from ultralytics import YOLO
 import json
 from datetime import datetime
+from matplotlib.path import Path
 from robot_path import simulate_robot_path
 
 # Constants 
@@ -123,20 +124,20 @@ def get_current_zone(robot_pose, zone_data):
     Returns a tuple: (zone_name, required_PPE)
     """
     # initialize robot position
-    x, y, z = robot_pose
+    x, y = robot_pose
 
     for zone_name, zone_info in zone_data.items():
-        # assume each zone has a boundary field defining its area
+        # assume each zone has a boundary field defining its area i 
         boundary = zone_info.get('boundary') 
 
         if boundary:
-            if (boundary['x_min'] <= x <= boundary['x_max'] and
-                boundary['y_min'] <= y <= boundary['y_max'] and
-                boundary['z_min'] <= z <= boundary['z_max']):
+            # Create a Path object from the boundary points
+            polygon_path = Path(boundary)
 
+            # Check if the robots (x,y) position is inside the boundary of the polygon
+            if polygon_path.contains_point((x,y)):
                 # Get the required PPE as a list (split on commas and delete space)
-                required_PPE = [p.strip() for p in zone_info.get('required_PPE', '').split(',')]
-
+                required_PPE = [p.strip() for p in zone_info.get('required_PPE', '').split('.')]
                 return zone_name, required_PPE
     
     # After checking all the zones       
@@ -145,8 +146,9 @@ def get_current_zone(robot_pose, zone_data):
 def processing_robot_position(robot_pose, zone_data, hazard_detection_active, active_zone, detected_hazards):
     """Process the robot position to determine zone and update the hazard detection status"""
 
-    x, y, z = robot_pose
-    print(f"Robot Position: x={x}, y={y}, z={z}")
+    x, y = robot_pose
+
+    print(f"Robot Position: x={x}, y={y}")
 
     # Step 1: Determine current zone and required PPE
     current_zone, required_PPE = get_current_zone(robot_pose, zone_data)

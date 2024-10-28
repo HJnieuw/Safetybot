@@ -1,6 +1,8 @@
 import json
+import random
 
 # List of coordinates (ultimately from BIM)
+# ROOMS
 coordinates = [
     [[196.061093,1027.862405], [196.061093,630.323684], [507.007221,630.323684], [507.007221,1027.862405]],
     [[526.687355,653.939846], [526.687355,968.822001], [1097.411261,968.822001], [1097.411261,653.939846]],
@@ -23,6 +25,7 @@ coordinates = [
     [[547.61745,1443.675453], [597.534284,1372.255982], [654.026728,1411.739949], [604.109894,1483.159419]]
 ]
 
+
 # Create the JSON structure
 zones = {}
 for i, boundary in enumerate(coordinates):
@@ -38,6 +41,7 @@ for i, boundary in enumerate(coordinates):
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry" if i % 2 == 0 else "Brick laying",  
         "required_PPE": "Helmet, Safety Shoes" if i % 2 == 0 else "Helmet",
+        "risk_factor": round(random.uniform(0.05, 0.20), 2),
         "amount_of_hazards": 0,
         "hazard_type": []
     }
