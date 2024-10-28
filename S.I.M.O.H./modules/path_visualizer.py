@@ -77,7 +77,7 @@ def main():
     image_height = 2339  
 
     # Initialize the plot
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.set_title('Building Site Visualization')
     ax.set_xlabel('x coordinate')
     ax.set_ylabel('y coordinate')

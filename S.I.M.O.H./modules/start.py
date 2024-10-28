@@ -23,3 +23,4 @@ if __name__ == "__main__":
     # Wait for both processes to complete
     hazard_process.join()
     path_process.join()
+

@@ -176,9 +176,10 @@
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
         "risk_factor": 0.09,
-        "amount_of_hazards": 1,
+        "amount_of_hazards": 2,
         "hazard_type": [
-            "WARNING: Person without helmet detected, ID: 1, at 2024-10-28 16:06:22"
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-28 16:06:22",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-28 17:28:20"
         ]
     },
     "BG.Oost.7": {
@@ -478,9 +479,13 @@
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
         "risk_factor": 0.1,
-        "amount_of_hazards": 1,
+        "amount_of_hazards": 5,
         "hazard_type": [
-            "WARNING: Person without helmet detected, ID: 2, at 2024-10-28 16:49:59"
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-28 16:49:59",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-28 16:59:59",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-28 17:00:03",
+            "WARNING: Person without helmet detected, ID: 1, at 2024-10-28 17:00:16",
+            "WARNING: Person without helmet detected, ID: 2, at 2024-10-28 17:00:16"
         ]
     },
     "BG.Oost.17": {

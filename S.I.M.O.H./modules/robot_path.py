@@ -1,6 +1,6 @@
 import numpy as np
 
-def simulate_robot_path(step=2):
+def simulate_robot_path(step=5):
     """Simulate a robot moving through zones, yielding [x, y, z] coordinates.
     Input: step (int): Step size for interpolation.
     Output: list: The next point on the path [x, y, z]"""

@@ -3,6 +3,7 @@ from ultralytics import YOLO
 import json
 from datetime import datetime
 from matplotlib.path import Path
+from screeninfo import get_monitors
 from robot_path import simulate_robot_path
 
 # Constants 
@@ -10,6 +11,9 @@ ZONE_ID_FILE = 'S.I.M.O.H./assets/BIM.json'
 
 # Load trained YOLO model
 model = YOLO('S.I.M.O.H./assets/best_helmet.pt')  # Path to the trained model
+
+# Window name
+WINDOW_NAME = "Hazard Detection S.I.M.O.H."
 
 # Functions
 def load_json(path):
@@ -178,6 +182,41 @@ def processing_robot_position(robot_pose, zone_data, hazard_detection_active, ac
     # Return updated variables
     return hazard_detection_active, active_zone, detected_hazards
 
+def get_screen_dimensions():
+    """Get the dimensions of the primary screen."""
+    monitor = get_monitors()[0]
+    return monitor.width, monitor.height
+
+def setup_window(frame):
+    """Resize the frame to fit the right side of the screen and display the OpenCV window."""
+
+    # Get screen dimensions
+    screen_width, screen_height = get_screen_dimensions()
+
+    # Calculate available space for the window on the right half of the screen
+    window_width = screen_width // 2
+    window_height = screen_height
+
+    # Calculate the scaling factors for width and height to fit the frame
+    scale_x = window_width / frame.shape[1]
+    scale_y = window_height / frame.shape[0]
+    scale_factor = min(scale_x, scale_y)  # Choose the smaller scale to fit within the available space
+
+    # Resize the frame based on the calculated scale factor
+    resized_frame = cv2.resize(frame, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
+
+    # Calculate position to place the window on the right side of the screen
+    x_position = screen_width - resized_frame.shape[1]
+    y_position = 0  # Position at the top of the screen
+
+    # Set up and display the window
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(WINDOW_NAME, resized_frame.shape[1], resized_frame.shape[0])
+    cv2.moveWindow(WINDOW_NAME, x_position, y_position)
+
+    # Show the resized frame in the positioned window
+    cv2.imshow(WINDOW_NAME, resized_frame)
+
 # MAIN LOOP
 def main():
     """Main loop to perform hazard detection based on simulated robot position."""
@@ -219,7 +258,7 @@ def main():
             print("Stopping camera for hazard detection")
             print()
             if window_open:
-                cv2.destroyWindow('Hazard Detection SAFETYBOT')
+                cv2.destroyWindow('Hazard Detection S.I.M.O.H.')
                 window_open = False
 
         # If hazard detection is active, perform hazard tracking
@@ -229,6 +268,9 @@ def main():
             if not ret:
                 print("Error: failed to grab frame")
                 break
+
+            # Pass frame to setup_window() function for resizing and correct display
+            setup_window(frame)
 
             # Perform hezard detection
             hazards, results = detect_hazards(frame, model, detected_hazards)
@@ -243,18 +285,15 @@ def main():
             # Get the annotated image
             if results:
                 annotated_image = results[0].plot()
-            else:
-                annotated_image = frame     # Use original frame if no detection
+                setup_window(annotated_image)
 
-            # Display the annotated image
-            cv2.imshow('Hazard Detection SAFETYBOT', annotated_image)
             # Add a small waiting time for less lag
-            cv2.waitKey(1)
+            cv2.waitKey(2)
 
         else:
             # If the window is open but hazard detection is not active, destroy the window
             if window_open:
-                cv2.destroyWindow('Hazard Detection SAFETYBOT')
+                cv2.destroyWindow(WINDOW_NAME)
                 window_open = False
         
         # Exit the loop if 'q' is pressed
