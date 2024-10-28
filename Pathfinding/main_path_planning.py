@@ -130,7 +130,7 @@ if __name__ == "__main__":
     
     coordinates = load_cordinates_from_json_or_BIM("zone_id.json")
 
-    for i in range(len(listschedule)):
+    for i in range(len(listschedule)-1):
         schedule = [listschedule[i], listschedule[i+1]]
         print(schedule)
         shortest_path, source_location, target_location = run_Upperlevel_network(schedule, coordinates)

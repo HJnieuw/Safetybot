@@ -66,10 +66,12 @@ class RRTStar:
 
     def rrt_star(self):
         for i in range(self.max_iter):
+            # Generate a random point
             rand_point = self.random_point(self.binary_map.shape)
-            if random.random() < 0.15: ### Exploring bias
+            if random.random() < 0.15:  # Exploring bias
                 rand_point = self.goal_node.point
 
+            # Find the nearest node to the random point
             nearest_node = self.nearest(rand_point)
             
             # Move towards the random point
@@ -79,14 +81,15 @@ class RRTStar:
             if norm < 1e-6:
                 continue
 
-            direction = direction / norm # Normalize direction
-            new_point = tuple(np.round(nearest_node.point + direction * self.step_size).astype(int))
+            direction = direction / norm  # Normalize direction
+            new_point = list(np.round(nearest_node.point + direction * self.step_size).astype(int))
 
             # Check bounds and collisions
             if (0 <= new_point[0] < self.binary_map.shape[1] and
                 0 <= new_point[1] < self.binary_map.shape[0] and
                 self.is_collision_free(nearest_node.point, new_point)):
                 
+                # Create a new node at new_point, using lists for points
                 new_node = Node(new_point)
                 new_node.parent = nearest_node
                 new_node.cost = nearest_node.cost + self.distance(nearest_node.point, new_point)
