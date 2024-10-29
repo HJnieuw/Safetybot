@@ -75,15 +75,18 @@ class RRTStar:
 
             # Find the nearest node to the random point
             nearest_node = self.nearest(rand_point)
+
+            # Calculate direction to the random point
+            direction = [rand_point[0] - nearest_node.point[0], rand_point[1] - nearest_node.point[1]]
+            norm = (direction[0]**2 + direction[1]**2) ** 0.5
             
-            # Move towards the random point
-            direction = np.array(rand_point) - np.array(nearest_node.point)
-            norm = np.linalg.norm(direction)
             if norm < 1e-6:
                 continue
 
-            direction = direction / norm  # Normalize direction
-            new_point = (np.round(nearest_node.point + direction * self.step_size).astype(int))
+            # Normalize direction
+            direction = [direction[0] / norm, direction[1] / norm]
+            new_point = [int(round(nearest_node.point[0] + direction[0] * self.step_size)),
+                        int(round(nearest_node.point[1] + direction[1] * self.step_size))]
 
             # Check bounds and collisions
             if (self.boundary[0] <= new_point[0] <= self.boundary[1] and
