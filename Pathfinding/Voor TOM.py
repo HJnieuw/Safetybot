@@ -1,4 +1,4 @@
-from Pathfinding.main_path_planning import NetworkPlanner
+from main_path_planning import NetworkPlanner
 
 # Create an instance of NetworkPlanner
 planner = NetworkPlanner('assets/BIM.json')
