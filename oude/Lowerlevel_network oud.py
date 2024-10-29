@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2
 import random
 import math
 import BIM_mockup as BIM
-from matplotlib.patches import Polygon
 
 class Node:
     def __init__(self, point):
@@ -12,15 +12,14 @@ class Node:
         self.cost = 0
 
 class RRTStar:
-    def __init__(self, start, goal, obstacle, boundary, max_iter=10000, goal_radius=20, step_size=10, search_radius=10):
+    def __init__(self, image_path, start, goal, max_iter=10000, goal_radius=20, step_size=10, search_radius=10):
         self.max_iter = max_iter
         self.goal_radius = goal_radius
         self.step_size = step_size
         self.search_radius = search_radius
-        
-        # Define the graph's boundary and obstacles
-        self.boundary = boundary  # boundary = (x_min, x_max, y_min, y_max)
-        self.obstacle = obstacle  # List of obstacle coordinates or areas
+
+        # Read and preprocess the image
+        self.binary_map = self.load_and_process_map(image_path)
         
         # Initialize start and goal nodes
         self.start_node = Node(start)
@@ -28,30 +27,31 @@ class RRTStar:
         self.tree = [self.start_node]
 
     @staticmethod
+    def load_and_process_map(image_path):
+        floor_plan = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        _, binary_map = cv2.threshold(floor_plan, 200, 255, cv2.THRESH_BINARY_INV)
+        return binary_map // 255  # Convert to binary (1 for obstacles, 0 for free space)
+
+    @staticmethod
     def distance(p1, p2):
         return math.hypot(p1[0] - p2[0], p1[1] - p2[1])
 
-    def random_point(self):
-        x_min, x_max, y_min, y_max = self.boundary
-        ptrand = (random.randint(x_min, x_max), random.randint(y_min, y_max))
+    @staticmethod
+    def random_point(image_shape):
+        ptrand = random.randint(0, image_shape[1] - 1), random.randint(0, image_shape[0] - 1)
+        print(ptrand)
         return ptrand
 
     def nearest(self, point):
         return min(self.tree, key=lambda node: self.distance(node.point, point))
 
-    def set_obstacles(self, polygon_points):
-        self.obstacle = []
-        for points in polygon_points:
-            polygon = Polygon(points, closed=True, fill=None, edgecolor='black')
-            self.obstacle.append(polygon)
-
     def is_collision_free(self, p1, p2):
-        num_points = int(self.distance(p1, p2) / 2)  # Increase for less detail
+        num_points = int(self.distance(p1, p2) / 2) #increase for less detail
         for i in range(num_points):
             u = i / num_points
             x = int(p1[0] * (1 - u) + p2[0] * u)
             y = int(p1[1] * (1 - u) + p2[1] * u)
-            if any(polygon.contains_point((x, y)) for polygon in self.obstacle):  # Check if (x, y) is in obstacles
+            if self.binary_map[y, x] == 1:  # 1 indicates an obstacle
                 return False
         return True
 
@@ -69,8 +69,8 @@ class RRTStar:
     def rrt_star(self):
         for i in range(self.max_iter):
             # Generate a random point
-            rand_point = self.random_point()
-            if random.random() < 0.15:  # Goal bias
+            rand_point = self.random_point(self.binary_map.shape)
+            if random.random() < 0.15:  # Exploring bias
                 rand_point = self.goal_node.point
 
             # Find the nearest node to the random point
@@ -78,19 +78,20 @@ class RRTStar:
             
             # Move towards the random point
             direction = np.array(rand_point) - np.array(nearest_node.point)
+            
             norm = np.linalg.norm(direction)
             if norm < 1e-6:
                 continue
 
             direction = direction / norm  # Normalize direction
-            new_point = (np.round(nearest_node.point + direction * self.step_size).astype(int))
+            new_point = list(np.round(nearest_node.point + direction * self.step_size).astype(int))
 
             # Check bounds and collisions
-            if (self.boundary[0] <= new_point[0] <= self.boundary[1] and
-                self.boundary[2] <= new_point[1] <= self.boundary[3] and
+            if (0 <= new_point[0] < self.binary_map.shape[1] and
+                0 <= new_point[1] < self.binary_map.shape[0] and
                 self.is_collision_free(nearest_node.point, new_point)):
                 
-                # Create a new node at new_point
+                # Create a new node at new_point, using lists for points
                 new_node = Node(new_point)
                 new_node.parent = nearest_node
                 new_node.cost = nearest_node.cost + self.distance(nearest_node.point, new_point)
@@ -150,41 +151,30 @@ class RRTStar:
 
     def plot_result(self, smoothed_path):
         plt.figure(figsize=(10, 10))
-        
+        plt.imshow(self.binary_map, cmap='gray_r')
+
         # Plot the smoothed path
         plt.plot([p[0] for p in smoothed_path], [p[1] for p in smoothed_path], 
-                'g-', linewidth=2, label="Smoothed Path")
+                 'g-', linewidth=2, label="Smoothed Path")
         
         start_point = smoothed_path[0]
         end_point = smoothed_path[-1]
         
         plt.scatter(start_point[0], start_point[1], color='green', label="Start", s=50)
         plt.scatter(end_point[0], end_point[1], color='red', label="Goal", s=50)
-        
-        # Plot obstacles
-        for polygon in self.obstacle:
-            # Extract the x and y coordinates of the polygon vertices
-            x, y = polygon.get_xy().T  # get_xy returns the vertices as an array
-            plt.fill(x, y, color='black', alpha=0.5)  # Fill the polygon to represent an obstacle
-        
         plt.legend()
-        plt.title("RRT* Path Planning with Smoothed Path")
-        plt.xlim(self.boundary[0], self.boundary[1])
-        plt.ylim(self.boundary[2], self.boundary[3])
-        plt.axis('equal')
+        plt.title("RRT* Path Planning with Smoothed Path (Inverted Colors)")
         plt.show()
+
 
 # For local usage
 if __name__ == "__main__":
     # Define start and goal points
     start = BIM.nodeALT[2]  # Replace with your start coordinates
     goal = BIM.nodeALT[3]  # Replace with your goal coordinates
-    boundary = (0, 3000, 0, 2000)
+    image_path = "construction_site_bk.jpg"
 
-    obstacle = BIM.plan
-
-    rrt_star_planner = RRTStar(start, goal, [], boundary)
-    rrt_star_planner.set_obstacles(obstacle)
+    rrt_star_planner = RRTStar(image_path, start, goal)
     smoothed_path = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
     
     # Calculate the length of the smoothed path

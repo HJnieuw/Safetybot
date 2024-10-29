@@ -51,10 +51,10 @@ def load_cordinates_from_json_or_BIM(file_path):
 
 def run_Upperlevel_network(schedule, coordinates):    
     # Initialize the GraphAnalyzer with nodes and connections from BIM_mockup  
-    analyzer = UN.GraphAnalyzer(BIM.nodes, BIM.connections_list)
+    analyzer = UN.GraphAnalyzer(BIM.nodeALT, BIM.connections_list)
 
     # Define a dictionary of nodes with their positions (coordinates)
-    nodes = BIM.nodes
+    nodes = BIM.nodeALT
 
     # Initialize the NodeLocator with the nodes
     locator = UN.NodeLocator(nodes)
@@ -83,35 +83,42 @@ def run_Upperlevel_network(schedule, coordinates):
     return shortest_path, source_location, target_location
     
 def run_Lowerlevel_network(shortest_path, source_location, target_location):
-    image_path = "construction_site_bk.jpg"
+    boundary = (0, 3000, 0, 2000)
+    obstacle = BIM.plan
     all_paths = []
 
     # Calculate path from zone location to first node
-    rrt_star_planner = LN.RRTStar(image_path, source_location, BIM.nodes[shortest_path[0]])
-    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=False)  # No smoothing for initial segment
+    rrt_star_planner = LN.RRTStar(source_location, BIM.nodeALT[shortest_path[0]], [], boundary)
+    rrt_star_planner.set_obstacles(obstacle)
+    path_to_closest_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for initial segment
     all_paths.extend(path_to_closest_node)
+    print(all_paths)
 
     for i in range(len(shortest_path) - 1):
-        start = BIM.nodes[shortest_path[i]]
-        goal = BIM.nodes[shortest_path[i + 1]]
-        rrt_star_planner = LN.RRTStar(image_path, start, goal)
+        start = BIM.nodeALT[shortest_path[i]]
+        goal = BIM.nodeALT[shortest_path[i + 1]]
+        rrt_star_planner = LN.RRTStar(start, goal, [], boundary)
+        rrt_star_planner.set_obstacles(obstacle)
 
         # Get the path from RRT* without smoothing
-        path_segment = rrt_star_planner.rrt_star_with_smoothing(smooth=False)
+        path_segment = rrt_star_planner.rrt_star_with_smoothing(smooth=True)
 
         # Append the new path segment, excluding the first point of the new segment (to avoid duplicate points at the junction)
         if len(all_paths) > 0:
             all_paths.extend(path_segment[1:])  # Skip the first point to avoid duplication
+            print(all_paths)
         else:
             all_paths.extend(path_segment)  # If first segment, add all points
 
     # Calculate path from last node to target location
-    rrt_star_planner = LN.RRTStar(image_path, BIM.nodes[shortest_path[-1]], target_location)
-    path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=False)  # No smoothing for this segment
+    rrt_star_planner = LN.RRTStar(BIM.nodeALT[shortest_path[-1]], target_location, [], boundary)
+    rrt_star_planner.set_obstacles(obstacle)
+    path_to_target_node = rrt_star_planner.rrt_star_with_smoothing(smooth=True)  # No smoothing for this segment
     all_paths.extend(path_to_target_node)
 
     # Now smooth the combined path once
-    rrt_star_planner = LN.RRTStar(image_path, all_paths[0], all_paths[-1])
+    rrt_star_planner = LN.RRTStar(all_paths[0], all_paths[-1], [], boundary)
+    rrt_star_planner.set_obstacles(obstacle)
     smoothed_path = rrt_star_planner.smooth_path(all_paths)  # Smooth the entire combined path
 
     # Plot the result
@@ -122,14 +129,16 @@ def run_Lowerlevel_network(shortest_path, source_location, target_location):
     length_of_all_paths = rrt_star_planner.calculate_path_length(smoothed_path)
     print("Length of the smoothed path:", length_of_all_paths)
 
+    return smoothed_path
+
 if __name__ == "__main__":
     best_epsilon = define_epsilon()
     print(f"The best epsilon is: {best_epsilon}")
     listschedule = calc_schedule(best_epsilon)
     print("New Schedule:", listschedule)
+        
+    coordinates = load_cordinates_from_json_or_BIM("assets/BIM.json")
     
-    coordinates = load_cordinates_from_json_or_BIM("zone_id.json")
-
     for i in range(len(listschedule)-1):
         schedule = [listschedule[i], listschedule[i+1]]
         print(schedule)

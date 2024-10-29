@@ -25,6 +25,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.11,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -54,6 +55,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.19,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -83,6 +85,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.07,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -112,6 +115,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.17,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -141,6 +145,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.07,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -170,6 +175,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.09,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -199,6 +205,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.19,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -228,6 +235,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.09,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -257,6 +265,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.14,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -286,6 +295,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.15,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -315,6 +325,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.16,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -344,6 +355,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.09,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -373,6 +385,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.18,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -402,6 +415,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.19,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -431,6 +445,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.16,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -460,6 +475,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.1,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -489,6 +505,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.11,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -518,6 +535,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Brick laying",
         "required_PPE": "Helmet",
+        "risk_factor": 0.14,
         "amount_of_hazards": 0,
         "hazard_type": []
     },
@@ -547,6 +565,7 @@
         "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
         "zone_activity": "Carpentry",
         "required_PPE": "Helmet, Safety Shoes",
+        "risk_factor": 0.18,
         "amount_of_hazards": 0,
         "hazard_type": []
     }
