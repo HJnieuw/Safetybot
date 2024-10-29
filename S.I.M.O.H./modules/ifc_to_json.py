@@ -25,7 +25,6 @@ coordinates = [
     [[547.61745,1443.675453], [597.534284,1372.255982], [654.026728,1411.739949], [604.109894,1483.159419]]
 ]
 
-
 # Create the JSON structure
 zones = {}
 for i, boundary in enumerate(coordinates):
@@ -38,7 +37,7 @@ for i, boundary in enumerate(coordinates):
     zones[zone_name] = {
         "boundary": boundary,
         "location": [x_center, y_center],  # Set the location to the middle of the bounding box
-        "floorplan": "/Users/tombo/Documents/CORE/Safetybot/construction_plan.jpeg",
+        "floorplan": "S.I.M.O.H./assets/construction_site_bk.jpg",
         "zone_activity": "Carpentry" if i % 2 == 0 else "Brick laying",  
         "required_PPE": "Helmet, Safety Shoes" if i % 2 == 0 else "Helmet",
         "risk_factor": round(random.uniform(0.05, 0.20), 2),

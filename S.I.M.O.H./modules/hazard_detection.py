@@ -4,10 +4,11 @@ import json
 from datetime import datetime
 from matplotlib.path import Path
 from screeninfo import get_monitors
+# Import from other scripts
 from robot_path import simulate_robot_path
 
 # Constants 
-ZONE_ID_FILE = 'S.I.M.O.H./assets/BIM.json' 
+BIM_FILE = 'S.I.M.O.H./assets/BIM.json' 
 
 # Load trained YOLO model
 model = YOLO('S.I.M.O.H./assets/best_helmet.pt')  # Path to the trained model
@@ -228,7 +229,7 @@ def main():
         return
 
     # Load the zone data from JSON
-    zone_data = load_json(ZONE_ID_FILE)
+    zone_data = load_json(BIM_FILE)
 
     # Initialize variables
     hazard_detection_active = False
@@ -280,7 +281,7 @@ def main():
 
             # Save the JSON data only if there were updates
             if data_updated:
-                save_json(ZONE_ID_FILE, zone_data)
+                save_json(BIM_FILE, zone_data)
 
             # Get the annotated image
             if results:

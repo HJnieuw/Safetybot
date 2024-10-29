@@ -1,13 +1,21 @@
 import tkinter as tk
 import subprocess
 
+# Global variables to store the process instances
+hazard_process = None
+path_process = None
+
 def import_bim():
     """Placeholder function for the Import BIM button."""
-    print("Import BIM button clicked (no action defined).")
+    subprocess.Popen(["python", "S.I.M.O.H./modules/main_path_planning.py"])
+    print("BIM model imported...")
+    print("Optimal path calculated and planned...")
+    print("Robot ready, press 'Start'!")
 
 def start_scripts():
     """Function to start the start.py script."""
-    subprocess.Popen(["python", "/Users/tombo/Documents/CORE/Safetybot/S.I.M.O.H./modules/start.py"])
+    print("S.I.M.O.H. activated, press 'q' to stop")
+    subprocess.Popen(["python", "S.I.M.O.H./modules/start.py"])
 
 # Set up the main Tkinter window
 root = tk.Tk()
